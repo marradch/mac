@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#19070c"/>
+      <stop offset="0.52" stop-color="#8b0018"/>
+      <stop offset="1" stop-color="#ff2e55"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd6dd" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#ffd6dd" stop-opacity="0.08"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+
+  <text x="130" y="240" fill="#ffd6dd" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="64" font-weight="800">
+    >41>@ ?0@K
+  </text>
+  <text x="130" y="315" fill="#ffe8ec" opacity="0.85" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="32">
+    / A59G0A + 'B> ?><>65B
+  </text>
+
+  <g transform="translate(740,290)">
+    <rect x="0" y="0" width="200" height="280" rx="26" fill="url(#card)"/>
+    <rect x="230" y="0" width="200" height="280" rx="26" fill="url(#card)"/>
+    <path d="M200 140 C 240 95, 270 95, 310 140 C 270 185, 240 185, 200 140Z" fill="#ffd6dd" opacity="0.55"/>
+  </g>
+
+  <g opacity="0.18" stroke="#ffd6dd" stroke-width="10" fill="none">
+    <path d="M120 620 C 280 520, 430 520, 560 620 S 900 740, 1080 600"/>
+  </g>
+</svg>
+

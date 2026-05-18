@@ -1,0 +1,29 @@
+{
+  "header": {
+    "exercises": "Exercises",
+    "decks": "Decks",
+    "about": "About",
+    "contacts": "Contacts",
+    "login": "Login"
+  },
+  "seo": {
+    "title": "Metaphorical Cards Exercises — Techniques & Practices (MAC)",
+    "description": "Explore exercises with metaphorical associative cards (MAC): practices for self-discovery, psychology, and coaching.",
+    "h1": "Discover Yourself Through Metaphorical Cards",
+    "main_seo_text": "Metaphorical cards are a language of images that helps you hear yourself more deeply than words.\nWelcome to a space where symbols become clues, and a random card can reveal an important meaning.\n\nThis site is created for those who seek answers within, who want to better understand their feelings, relationships, and life situations through metaphors and imagery."
+  },
+  "query_placeholder": "Enter your query, it will be used for intelligent suggestions",
+  "exercise_hint": {
+    "description": "This exercise is not intended to provide answers to complex or life-defining questions.",
+    "examples": "Example prompts: \"What quality should I develop today?\", \"What can help improve my mood?\"",
+    "hint": "The exercise includes a button for an intelligent hint. You will receive guiding questions and affirmations."
+  },
+  "cards-number-per-time-period": "Cards number per time period",
+  "past": "Past",
+  "present": "Present",
+  "future": "Future",
+  "intelligent_hint": "Intelligent hint",
+  "intelligent_hint_validation": "To get an intelligent hint, you need to select a card and enter a query",
+  "helpful_questions": "Helpful questions",
+  "affirmations": "Affirmations"
+}

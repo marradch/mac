@@ -1,0 +1,135 @@
+<template>
+  <div class="mx-auto py-6 text-center">
+    <h1 class="text-3xl font-bold mb-3 text-primary">
+      {{ exercise?.title }}
+    </h1>
+    <p class="text-md text-gray-600">
+      {{ exercise?.description }}
+    </p>
+  </div>
+  <div class="flex flex-1 flex-col lg:flex-row gap-[20px] items-start">
+    <TurnCard :deck="deck" class="order-2 lg:order-1 mb-[20px]" v-model="selectedCard"/>
+    <div class="flex-1 order-1 lg:order-2 flex flex-col gap-[20px]">
+      <textarea
+          v-model="query"
+          :placeholder="$t('query_placeholder')"
+          rows="1"
+          class="order-2 lg:order-2 w-full min-h-[3cm] lg:min-h-[2cm] max-h-40 overflow-y-auto px-4 py-2 border rounded-lg resize-none shadow-sm"
+      />
+      <div class="order-1 lg:order-3 grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <div class="bg-white border border-gray-200 p-3 shadow-md rounded-md flex items-center text-gray-600">
+          {{$t("exercise_hint.description")}}
+        </div>
+        <div class="bg-white border border-gray-200 p-3 shadow-md rounded-md flex items-center text-gray-600">
+          {{ $t("exercise_hint.examples") }}
+        </div>
+        <div class="bg-white border border-gray-200 p-3 shadow-md rounded-md flex items-center text-gray-600">
+          {{ $t("exercise_hint.hint") }}
+        </div>
+      </div>
+      <button
+          class="order-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white font-medium shadow-md w-full md:w-fit"
+          @click="getIntelligentHint"
+      >
+        <span class="animate-pulse">✨</span>
+        {{$t('intelligent_hint')}}
+      </button>
+      <p v-if="showIntelligentHintValidation" class="order-5 font-bold mb-3 text-primary">
+        {{ $t('intelligent_hint_validation') }}
+      </p>
+      <template v-if="intelligentHint?.is_query_valid">
+        <div class="order-5">
+          <div class="bg-white border border-gray-200 p-3 shadow-md rounded-md flex items-center text-gray-600 mb-3">
+            {{intelligentHint.interpretation}}
+          </div>
+          <div class="bg-white border border-gray-200 p-3 shadow-md rounded-md flex items-center text-gray-600">
+            {{ intelligentHint.reflection_through_card }}
+          </div>
+          <h2 class="text-xl text-gray-600 py-3">{{$t('helpful_questions')}}</h2>
+          <ul class="space-y-2 text-gray-600">
+            <li
+                v-for="(question, i) in intelligentHint.clarifying_questions"
+                :key="i"
+                class="flex items-start gap-2"
+            >
+              <span class="mt-2 h-2 w-2 rounded-full bg-primary shrink-0"></span>
+              <span>{{ question }}</span>
+            </li>
+          </ul>
+
+          <h2 class="text-xl text-gray-600 py-3">{{$t('affirmations')}}</h2>
+          <ul class="space-y-2 text-gray-600 mb-3">
+            <li
+                v-for="(question, i) in intelligentHint.affirmations"
+                :key="i"
+                class="flex items-start gap-2"
+            >
+              <span class="mt-2 h-2 w-2 rounded-full bg-primary shrink-0"></span>
+              <span>{{ question }}</span>
+            </li>
+          </ul>
+        </div>
+      </template>
+      <template v-if="intelligentHint?.is_query_valid === false">
+        <div class="order-5">
+          <p class="font-bold mb-3 text-primary">
+            {{ intelligentHint.query_feedback }}
+          </p>
+          <ul class="space-y-2 text-gray-600">
+            <li
+                v-for="(question, i) in intelligentHint.clarifying_questions"
+                :key="i"
+                class="flex items-start gap-2"
+            >
+              <span class="mt-2 h-2 w-2 rounded-full bg-primary shrink-0"></span>
+              <span>{{ question }}</span>
+            </li>
+          </ul>
+        </div>
+      </template>
+      <ChooseDeck class="lg:order-1" v-model="deck"/>
+    </div>
+  </div>
+</template>
+
+<script setup>
+const { t, locale } = useI18n()
+const { exercise } = useExercise('question-to-card')
+const config = useRuntimeConfig()
+
+const query = ref('')
+const selectedCard = ref('')
+const showIntelligentHintValidation = ref(false)
+const deck = ref('nature-reflections')
+
+const pageTitle = computed(() => exercise.value?.seo_title ?? '')
+const intelligentHint = ref({});
+
+async function getIntelligentHint() {
+  showIntelligentHintValidation.value = false;
+  if (!query.value && !selectedCard.value) {
+    showIntelligentHintValidation.value = true;
+    return
+  }
+  intelligentHint.value = await $fetch(`/question/${locale.value}`, {
+    baseURL: config.public.apiBase,
+    method: 'POST',
+    body: {
+      query: query.value,
+      cardUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBkJigufyq00dk5hZq_acK0ix6Gq5LMj59Kg&s'
+      //cardUrl: useRequestURL().origin + selectedCard.value
+    },
+  })
+}
+
+useHead({
+  title: pageTitle,
+  meta: [
+    { name: 'description', content: exercise.value?.seo_description },
+
+    { property: 'og:title', content: exercise.value?.seo_title},
+    { property: 'og:description', content: exercise.value?.seo_description},
+    { property: 'og:type', content: 'website' }
+  ]
+})
+</script>
