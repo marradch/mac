@@ -28,11 +28,19 @@
         </div>
       </div>
       <button
-          class="order-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white font-medium shadow-md w-full md:w-fit"
           @click="getIntelligentHint"
+          :disabled="loading"
+          class="order-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white font-medium shadow-md w-full md:w-fit"
       >
-        <span class="animate-pulse">✨</span>
-        {{$t('intelligent_hint')}}
+        <span v-if="!loading">
+          <span class="animate-pulse">✨</span>
+          {{$t('intelligent_hint')}}
+        </span>
+        <span v-else class="flex items-center gap-2">
+          <Icon class="animate-spin w-4 h-4"/>
+
+          {{ loadingMessage }}
+        </span>
       </button>
       <p v-if="showIntelligentHintValidation" class="order-5 font-bold mb-3 text-primary">
         {{ $t('intelligent_hint_validation') }}
@@ -45,17 +53,19 @@
           <div class="bg-white border border-gray-200 p-3 shadow-md rounded-md flex items-center text-gray-600">
             {{ intelligentHint.reflection_through_card }}
           </div>
-          <h2 class="text-xl text-gray-600 py-3">{{$t('helpful_questions')}}</h2>
-          <ul class="space-y-2 text-gray-600">
-            <li
-                v-for="(question, i) in intelligentHint.clarifying_questions"
-                :key="i"
-                class="flex items-start gap-2"
-            >
-              <span class="mt-2 h-2 w-2 rounded-full bg-primary shrink-0"></span>
-              <span>{{ question }}</span>
-            </li>
-          </ul>
+          <template v-if="intelligentHint.clarifying_questions.length">
+            <h2 class="text-xl text-gray-600 py-3">{{$t('helpful_questions')}}</h2>
+            <ul class="space-y-2 text-gray-600">
+              <li
+                  v-for="(question, i) in intelligentHint.clarifying_questions"
+                  :key="i"
+                  class="flex items-start gap-2"
+              >
+                <span class="mt-2 h-2 w-2 rounded-full bg-primary shrink-0"></span>
+                <span>{{ question }}</span>
+              </li>
+            </ul>
+          </template>
 
           <h2 class="text-xl text-gray-600 py-3">{{$t('affirmations')}}</h2>
           <ul class="space-y-2 text-gray-600 mb-3">
@@ -93,6 +103,7 @@
 </template>
 
 <script setup>
+import Icon from '~/assets/icons/icon.svg'
 const { t, locale } = useI18n()
 const { exercise } = useExercise('question-to-card')
 const config = useRuntimeConfig()
@@ -105,21 +116,66 @@ const deck = ref('nature-reflections')
 const pageTitle = computed(() => exercise.value?.seo_title ?? '')
 const intelligentHint = ref({});
 
+const loading = ref(false)
+
+const loadingMessage = ref(t('intelligent_hint_loader.analyzing'))
+
+const loadingMessages = [
+  t('intelligent_hint_loader.analyzing'),
+  t('intelligent_hint_loader.reading_symbols'),
+  t('intelligent_hint_loader.finding_associations'),
+  t('intelligent_hint_loader.forming_hint')
+]
+
+let interval = null
+
+const startLoadingAnimation = () => {
+  let index = 0
+
+  loading.value = true
+  loadingMessage.value = loadingMessages[0]
+
+  interval = setInterval(() => {
+    index = (index + 1) % loadingMessages.length
+    loadingMessage.value = loadingMessages[index]
+  }, 2000)
+}
+
+const stopLoadingAnimation = () => {
+  clearInterval(interval)
+  loading.value = false
+}
+
 async function getIntelligentHint() {
-  showIntelligentHintValidation.value = false;
+  showIntelligentHintValidation.value = false
+
   if (!query.value && !selectedCard.value) {
-    showIntelligentHintValidation.value = true;
+    showIntelligentHintValidation.value = true
     return
   }
-  intelligentHint.value = await $fetch(`/question/${locale.value}`, {
-    baseURL: config.public.apiBase,
-    method: 'POST',
-    body: {
-      query: query.value,
-      cardUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBkJigufyq00dk5hZq_acK0ix6Gq5LMj59Kg&s'
-      //cardUrl: useRequestURL().origin + selectedCard.value
-    },
-  })
+
+  try {
+    startLoadingAnimation()
+
+    intelligentHint.value = await $fetch(`/question/${locale.value}`, {
+      baseURL: config.public.apiBase,
+      method: 'POST',
+      body: {
+        query: query.value,
+        cardUrl: useRequestURL().origin + selectedCard.value
+      }
+    })
+
+  } catch (error) {
+    console.error(error)
+
+    intelligentHint.value = {
+      error: 'Не удалось получить подсказку. Попробуйте ещё раз.'
+    }
+
+  } finally {
+    stopLoadingAnimation()
+  }
 }
 
 useHead({

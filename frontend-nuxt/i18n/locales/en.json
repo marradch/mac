@@ -25,5 +25,11 @@
   "intelligent_hint": "Intelligent hint",
   "intelligent_hint_validation": "To get an intelligent hint, you need to select a card and enter a query",
   "helpful_questions": "Helpful questions",
-  "affirmations": "Affirmations"
+  "affirmations": "Affirmations",
+  "intelligent_hint_loader": {
+    "analyzing": "Analyzing the card...",
+    "reading_symbols": "Reading symbols...",
+    "finding_associations": "Finding associations...",
+    "forming_hint": "Generating insight..."
+  }
 }

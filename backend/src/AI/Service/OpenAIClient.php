@@ -41,8 +41,9 @@ class OpenAIClient
         if (json_last_error() !== JSON_ERROR_NONE) {
             die(json_last_error_msg());
         }*/
+        sleep(8);
 
-        $pos = [
+        $data = [
             'is_query_valid' => true,
             'query_feedback' => '',
             'clarifying_questions' => [
@@ -71,6 +72,6 @@ class OpenAIClient
             'affirmations' => [],
         ];*/
 
-        return $pos;
+        return $data;
     }
 }

@@ -25,5 +25,11 @@
   "intelligent_hint": "Інтелектуальна підказка",
   "intelligent_hint_validation": "Для отримання інтелектуальної підказки необхідно обрати карту та ввести запит",
   "helpful_questions": "Допоміжні питання",
-  "affirmations": "Афірмації"
+  "affirmations": "Афірмації",
+  "intelligent_hint_loader": {
+    "analyzing": "Аналізуємо карту...",
+    "reading_symbols": "Зчитуємо символи...",
+    "finding_associations": "Шукаємо асоціації...",
+    "forming_hint": "Формуємо підказку..."
+  }
 }

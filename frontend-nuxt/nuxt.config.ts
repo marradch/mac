@@ -1,4 +1,12 @@
+import svgLoader from 'vite-svg-loader'
+
 export default defineNuxtConfig({
+  vite: {
+    server: {
+      allowedHosts: ['56c2-193-33-39-62.ngrok-free.app']
+    },
+    plugins: [svgLoader()]
+  },
   runtimeConfig: {
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE
