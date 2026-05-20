@@ -21,7 +21,7 @@
         </div>
       </div>
       <ExerciseLoadingHintButton
-          :loading="loading" class="order-4" @click="getIntelligentHint"
+          :loading="loading" class="order-4 mx-auto" @click="getIntelligentHint"
       />
       <p v-if="showIntelligentHintValidation" class="order-5 font-bold mb-3 text-primary">
         {{ $t('intelligent_hint_validation') }}

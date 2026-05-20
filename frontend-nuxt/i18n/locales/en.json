@@ -31,5 +31,6 @@
     "reading_symbols": "Reading symbols...",
     "finding_associations": "Finding associations...",
     "forming_hint": "Generating insight..."
-  }
+  },
+  "intelligent_hint_validation_all": "To get an intelligent hint, you need to select all cards and enter a query"
 }
