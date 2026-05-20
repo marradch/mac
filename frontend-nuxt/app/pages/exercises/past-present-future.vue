@@ -1,12 +1,5 @@
 <template>
-  <div class="mx-auto py-6 text-center">
-    <h1 class="text-3xl font-bold mb-3 text-primary">
-      {{ exercise?.title }}
-    </h1>
-    <p class="text-md text-gray-600">
-      {{ exercise?.description }}
-    </p>
-  </div>
+  <ExerciseHeader :exercise="exercise" />
   <div class="flex flex-1 flex-col lg:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px]">
       <ChooseDeck v-model="deck"/>
@@ -57,19 +50,6 @@ const cards = ref({
   past: [''],
   present: [''],
   future: ['']
-})
-
-const pageTitle = computed(() => exercise.value?.seo_title ?? '')
-
-useHead({
-  title: pageTitle,
-  meta: [
-    { name: 'description', content: exercise.value?.seo_description },
-
-    { property: 'og:title', content: exercise.value?.seo_title},
-    { property: 'og:description', content: exercise.value?.seo_description},
-    { property: 'og:type', content: 'website' }
-  ]
 })
 
 watch(numberOfCards, (val) => {
