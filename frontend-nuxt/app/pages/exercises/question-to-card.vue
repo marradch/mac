@@ -8,8 +8,8 @@
     </p>
   </div>
   <div class="flex flex-1 flex-col lg:flex-row gap-[20px] items-start">
-    <TurnCard :deck="deck" class="order-2 lg:order-1 mb-[20px]" v-model="selectedCard"/>
-    <div class="flex-1 order-1 lg:order-2 flex flex-col gap-[20px]">
+    <TurnCard :deck="deck" class="order-2 lg:order-1 mb-[20px] mx-auto lg:mx-0" v-model="selectedCard"/>
+    <div class="flex-1 w-full order-1 lg:order-2 flex flex-col gap-[20px]">
       <textarea
           v-model="query"
           :placeholder="$t('query_placeholder')"
@@ -30,7 +30,7 @@
       <button
           @click="getIntelligentHint"
           :disabled="loading"
-          class="order-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white font-medium shadow-md w-full md:w-fit"
+          class="mx-auto order-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white font-medium shadow-md w-full md:w-fit justify-center"
       >
         <span v-if="!loading">
           <span class="animate-pulse">✨</span>
@@ -103,7 +103,7 @@
 </template>
 
 <script setup>
-import Icon from '~/assets/icons/icon.svg'
+import Icon from '../../assets/icons/circle.svg'
 const { t, locale } = useI18n()
 const { exercise } = useExercise('question-to-card')
 const config = useRuntimeConfig()
