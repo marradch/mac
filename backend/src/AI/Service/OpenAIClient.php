@@ -80,7 +80,7 @@ class OpenAIClient
             ],
         ];*/
 
-        /*$pos = [
+        /*$data = [
             'is_query_valid' => false,
             'query_feedback' => 'Ваш вопрос является техническим и не содержит эмоционального или личного контекста.',
             'clarifying_questions' => [

@@ -60,11 +60,9 @@
               @click="getIntelligentHint"
           />
         </div>
-
-        <ExerciseLoadingHintButton
-            :loading="loading"
-            @click="getIntelligentHint"
-        />
+      </div>
+      <div ref="hintContentRef">
+        <TimeSpreadHintResults :hint="intelligentHint" />
       </div>
     </div>
   </div>
@@ -86,6 +84,7 @@ const cards = ref({
 })
 const showIntelligentHintValidation = ref(false)
 const intelligentHint = ref({});
+const hintContentRef = ref(null);
 
 function hasEmptyCards() {
   return ['past', 'present', 'future'].some((period) => {
@@ -121,6 +120,11 @@ async function getIntelligentHint() {
           'imageUrl': origin + card
         })),
       }
+    })
+
+    hintContentRef.value?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
     })
 
   } catch (error) {
