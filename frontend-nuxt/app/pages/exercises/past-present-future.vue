@@ -18,21 +18,25 @@
           </select>
         </div>
       </div>
-      <div class="flex flex-col gap-3" :class="
-        numberOfCards > 1
-          ? ''
-          : 'lg:flex-row'
-      ">
-        <div class="time-period-container flex-1" v-for="period in ['past', 'present', 'future']"
+      <div class="grid grid-cols-1" :class="{
+        'grid-cols-1': numberOfCards !== 1,
+        'grid-cols-1 sm:grid-cols-3': numberOfCards === 1
+      }">
+        <div class="time-period-container" v-for="period in ['past', 'present', 'future']"
              :key="period">
           <h2 class="text-3xl font-bold mb-3 text-primary text-center">{{$t(period)}}</h2>
-          <div class="card-container" :class="
-            numberOfCards > 1
-              ? 'grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-3'
-              : 'flex justify-center'
-          ">
-            <TurnCard :deck="deck" class="" v-model="cards[period][index]" :key="index" v-for="(n, index) in numberOfCards"/>
-          </div>
+          <template v-if="numberOfCards === 1">
+            <div class="card-container flex justify-center">
+                <TurnCard :deck="deck" class="" v-model="cards[period][0]"/>
+            </div>
+          </template>
+          <template v-if="numberOfCards === 3">
+            <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3">
+              <div class="card-container flex justify-center" :key="index" v-for="(n, index) in numberOfCards">
+                <TurnCard :deck="deck" class="" v-model="cards[period][index]"/>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
       <div class="fixed bottom-0 left-0 right-0 z-50 p-4 flex justify-end">
@@ -122,6 +126,8 @@ async function getIntelligentHint() {
       }
     })
 
+    await nextTick()
+
     hintContentRef.value?.scrollIntoView({
       behavior: 'smooth',
       block: 'start'
@@ -133,14 +139,14 @@ async function getIntelligentHint() {
   } finally {
     loading.value = false;
   }
-}
 
-watch(numberOfCards, (val) => {
-  ['past', 'present', 'future'].forEach((period) => {
-    cards.value[period] = Array.from(
-        { length: val },
-        (_, i) => cards.value[period]?.[i] ?? ''
-    )
-  })
-})
+  watch(
+      () => intelligentHint.value,
+      async (val) => {
+        if (!val || !Object.keys(val).length) return
+
+
+      }
+  )
+}
 </script>
