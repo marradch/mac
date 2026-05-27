@@ -4,7 +4,7 @@ namespace App\DTO\Input;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class QuestionDTO
+readonly class QuestionDTO implements InterpretDTOInterface
 {
     public function __construct(
         #[Assert\NotBlank(message: 'Query is required')]

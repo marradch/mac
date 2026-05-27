@@ -27,12 +27,9 @@ final class QuestionController extends AbstractController {
             ]);
         }
 
-        $card = new MetaphoricalCard($questionDTO->cardUrl);
-
         $result = $this->questionToCardService->interpret(
             $locale,
-            $questionDTO->query,
-            $card
+            $questionDTO,
         );
 
         return new JsonResponse($result);

@@ -2,7 +2,6 @@
 
 namespace App\Controller\Api;
 
-use App\AI\Service\QuestionToCardService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -15,16 +14,13 @@ use App\DTO\Input\TimeSpreadDTO;
 final class TimeSpreadController extends AbstractController
 {
     public function __construct(
-        private TimeSpreadService $service,
-        private TimeSpreadCardsFactory $factory
+        private TimeSpreadService $service
     ) {}
 
     #[Route('/api/time-spread/{locale}', 'time_spread', methods: ['POST', 'OPTIONS'])]
-    public function interpret(string $locale, #[MapRequestPayload] TimeSpreadDTO $timeSpreadDTO, Request $request)
+    public function interpret(string $locale, #[MapRequestPayload] TimeSpreadDTO $timeSpreadDTO, Request $request): JsonResponse
     {
-        $cards = $this->factory->makeTimeSpreadCardsArray($timeSpreadDTO);
-
-        $result = $this->service->interpret($locale, $timeSpreadDTO->query, $cards);
+        $result = $this->service->interpret($locale, $timeSpreadDTO);
 
         return new JsonResponse($result);
     }

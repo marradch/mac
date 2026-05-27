@@ -13,7 +13,7 @@ class OpenAIClient
 
     public function ask(array $messages): array
     {
-        /*$response = $this->httpClient->request('POST',
+        $response = $this->httpClient->request('POST',
             'https://api.openai.com/v1/chat/completions',
             [
                 'http_version' => '1.1',
@@ -44,9 +44,9 @@ class OpenAIClient
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             die(json_last_error_msg());
-        }*/
+        }
 
-        sleep(8);
+        /*sleep(8);
         $data = [
             "is_query_valid" => true,
             "query_feedback" => "",
@@ -61,7 +61,8 @@ class OpenAIClient
                 "Я принимаю всё, что жизнь предлагает, с открытым сердцем.",
                 "Я силен(сильна) и способен(способна) справляться с любыми вызовами на своём пути."
             ]
-        ];
+        ];*/
+
         /*sleep(8);
 
         $data = [

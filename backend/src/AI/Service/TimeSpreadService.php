@@ -4,28 +4,24 @@ namespace App\AI\Service;
 
 use App\AI\MessagesBuilder\TimeSpreadMessagesBuilder;
 use App\AI\Service\OpenAIClient;
+use App\Factory\TimeSpreadCardsFactory;
+use App\DTO\Input\InterpretDTOInterface;
 
-class TimeSpreadService
+class TimeSpreadService implements InterpreterInterface
 {
     public function __construct(
         private TimeSpreadMessagesBuilder $messageBuilder,
-        private OpenAIClient $openAIClient
+        private OpenAIClient $openAIClient,
+        private TimeSpreadCardsFactory $cardsFactory
     ) {}
 
-    /**
-     * @param string $locale
-     * @param string $query
-     * @param array{
-     *     past: array,
-     *     present: array,
-     *     future: array
-     * } $cards
-     */
-    public function interpret(string $locale, string $query, array $cards): array
+    public function interpret(string $locale, InterpretDTOInterface $dto): array
     {
+        $cards = $this->cardsFactory->makeTimeSpreadCardsArray($dto);
+
         $messages = $this->messageBuilder->buildMessages(
             $locale,
-            $query,
+            $dto->query,
             $cards
         );
 
