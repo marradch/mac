@@ -47,7 +47,7 @@ class ChoiceMessagesBuilder
 
             $this->buildCardsBlock('OPTION 2 CARDS', $dto->option2Cards),
 
-            isset($data['selected_option'])
+            !empty($dto->selectedOption)
                 ? [[
                 'type' => 'text',
                 'text' => "SELECTED OPTION: " . $dto->selectedOption,
