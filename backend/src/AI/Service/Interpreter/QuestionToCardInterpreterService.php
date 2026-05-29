@@ -1,13 +1,13 @@
 <?php
 
-namespace App\AI\Service;
+namespace App\AI\Service\Interpreter;
 
 use App\AI\DTO\MetaphoricalCard;
 use App\AI\MessagesBuilder\QuestionToCardMessagesBuilder;
 use App\AI\Service\OpenAIClient;
 use App\DTO\Input\InterpretDTOInterface;
 
-class QuestionToCardService implements InterpreterInterface
+class QuestionToCardInterpreterService implements InterpreterInterface
 {
     public function __construct(
         private QuestionToCardMessagesBuilder $messageBuilder,

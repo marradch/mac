@@ -1,6 +1,6 @@
 <?php
 
-namespace App\AI\Service;
+namespace App\AI\Service\Interpreter;
 
 use App\DTO\Input\InterpretDTOInterface;
 

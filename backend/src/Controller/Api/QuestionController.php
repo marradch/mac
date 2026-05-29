@@ -3,7 +3,7 @@
 namespace App\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\AI\Service\QuestionToCardService;
+use App\AI\Service\Interpreter\QuestionToCardInterpreterService;
 use App\AI\DTO\MetaphoricalCard;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 
 final class QuestionController extends AbstractController {
     public function __construct(
-        private QuestionToCardService $questionToCardService,
+        private QuestionToCardInterpreterService $questionToCardService,
     ) {}
 
     #[Route('/api/question/{locale}', 'question_to_card', methods: ['POST', 'OPTIONS'])]

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\AI\Service;
+namespace App\AI\Service\Interpreter;
 
 use App\AI\MessagesBuilder\TimeSpreadMessagesBuilder;
 use App\AI\Service\OpenAIClient;
 use App\Factory\TimeSpreadCardsFactory;
 use App\DTO\Input\InterpretDTOInterface;
 
-class TimeSpreadService implements InterpreterInterface
+class TimeSpreadInterpreterService implements InterpreterInterface
 {
     public function __construct(
         private TimeSpreadMessagesBuilder $messageBuilder,

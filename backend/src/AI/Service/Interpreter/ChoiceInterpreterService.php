@@ -1,13 +1,13 @@
 <?php
 
-namespace App\AI\Service;
+namespace App\AI\Service\Interpreter;
 
 use App\AI\DTO\MetaphoricalCard;
 use App\AI\MessagesBuilder\ChoiceMessagesBuilder;
 use App\AI\Service\OpenAIClient;
 use App\DTO\Input\InterpretDTOInterface;
 
-class ChoiceService implements InterpreterInterface
+class ChoiceInterpreterService implements InterpreterInterface
 {
     public function __construct(
         private ChoiceMessagesBuilder $messageBuilder,
