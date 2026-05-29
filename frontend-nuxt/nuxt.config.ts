@@ -3,7 +3,7 @@ import svgLoader from 'vite-svg-loader'
 export default defineNuxtConfig({
   vite: {
     server: {
-      allowedHosts: ['56c2-193-33-39-62.ngrok-free.app']
+      allowedHosts: ['3c99-193-33-39-62.ngrok-free.app']
     },
     plugins: [svgLoader()]
   },

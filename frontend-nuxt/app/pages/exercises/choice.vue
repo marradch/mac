@@ -43,7 +43,7 @@
             </div>
           </template>
           <template v-if="numberOfCards === 3">
-            <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3">
+            <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div class="card-container flex justify-center" :key="index" v-for="(n, index) in numberOfCards">
                 <TurnCard :deck="deck" class="" v-model="cards[`option_${i}`][index]"/>
               </div>
@@ -78,7 +78,7 @@
         </div>
       </div>
       <div ref="hintContentRef">
-        <TimeSpreadHintResults :hint="intelligentHint" />
+        <ChoiceHintResults :hint="intelligentHint" />
       </div>
     </div>
   </div>
@@ -104,15 +104,15 @@ const intelligentHint = ref({});
 const hintContentRef = ref(null);
 
 function hasEmptyCards() {
-  return ['past', 'present', 'future'].some((period) => {
-    return cards.value[period].some((card) => !card)
+  return ['option_1', 'option_2'].some((option) => {
+    return cards.value[option].some((card) => !card)
   })
 }
 
 async function getIntelligentHint() {
   showIntelligentHintValidation.value = false
 
-  if (!query.value || hasEmptyCards()) {
+  if (!query.value || !option1Text.value || !option2Text.value || hasEmptyCards()) {
     showIntelligentHintValidation.value = true
     return
   }
@@ -122,18 +122,17 @@ async function getIntelligentHint() {
 
     const origin = useRequestURL().origin
 
-    intelligentHint.value = await $fetch(`/time-spread/${locale.value}`, {
+    intelligentHint.value = await $fetch(`/choice/${locale.value}`, {
       baseURL: config.public.apiBase,
       method: 'POST',
       body: {
         query: query.value,
-        past: cards.value.past.map(card => ({
+        option1Text: option1Text.value,
+        option2Text: option2Text.value,
+        option1Cards: cards.value.option_1.map(card => ({
           'imageUrl': origin + card
         })),
-        present: cards.value.past.map(card => ({
-          'imageUrl': origin + card
-        })),
-        future: cards.value.past.map(card => ({
+        option2Cards: cards.value.option_2.map(card => ({
           'imageUrl': origin + card
         })),
       }
@@ -153,4 +152,13 @@ async function getIntelligentHint() {
     loading.value = false;
   }
 }
+
+watch(numberOfCards, (val) => {
+  ['option_1', 'option_2'].forEach((period) => {
+    cards.value[period] = Array.from(
+        { length: val },
+        (_, i) => cards.value[period]?.[i] ?? ''
+    )
+  })
+})
 </script>

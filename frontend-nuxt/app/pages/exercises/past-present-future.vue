@@ -20,7 +20,7 @@
       </div>
       <div class="grid grid-cols-1" :class="{
         'grid-cols-1': numberOfCards !== 1,
-        'grid-cols-1 sm:grid-cols-3': numberOfCards === 1
+        'grid-cols-1 sm:grid-cols-3 gap-3': numberOfCards === 1
       }">
         <div class="time-period-container" v-for="period in ['past', 'present', 'future']"
              :key="period">
@@ -31,7 +31,7 @@
             </div>
           </template>
           <template v-if="numberOfCards === 3">
-            <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3">
+            <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div class="card-container flex justify-center" :key="index" v-for="(n, index) in numberOfCards">
                 <TurnCard :deck="deck" class="" v-model="cards[period][index]"/>
               </div>
@@ -140,4 +140,13 @@ async function getIntelligentHint() {
     loading.value = false;
   }
 }
+
+watch(numberOfCards, (val) => {
+  ['past', 'present', 'future'].forEach((period) => {
+    cards.value[period] = Array.from(
+        { length: val },
+        (_, i) => cards.value[period]?.[i] ?? ''
+    )
+  })
+})
 </script>
