@@ -32,5 +32,9 @@
     "finding_associations": "Finding associations...",
     "forming_hint": "Generating insight..."
   },
-  "intelligent_hint_validation_all": "To get an intelligent hint, you need to select all cards and enter a query"
+  "intelligent_hint_validation_all": "To get an intelligent hint, you need to select all cards and enter a query",
+  "variant_1_placeholder": "Enter first variant description",
+  "variant_2_placeholder": "Enter second variant description",
+  "cards-number-per-option": "Cards number per option",
+  "variant": "Variant"
 }
