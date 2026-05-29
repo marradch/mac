@@ -94,7 +94,7 @@ const query = ref('')
 const option1Text = ref('')
 const option2Text = ref('')
 const numberOfCards = ref(1)
-const deck = ref('nature-reflections')
+const deck = ref(config.public.defaultDeckSlug)
 const cards = ref({
   option_1: [''],
   option_2: [''],

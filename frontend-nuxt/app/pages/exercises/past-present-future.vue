@@ -80,7 +80,7 @@ const config = useRuntimeConfig()
 const loading = ref(false)
 const query = ref('')
 const numberOfCards = ref(1)
-const deck = ref('nature-reflections')
+const deck = ref(config.public.defaultDeckSlug)
 const cards = ref({
   past: [''],
   present: [''],

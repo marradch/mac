@@ -41,7 +41,7 @@ const { exercise } = useExercise('question-to-card')
 const query = ref('')
 const selectedCard = ref('')
 const showIntelligentHintValidation = ref(false)
-const deck = ref('nature-reflections')
+const deck = ref(config.public.defaultDeckSlug)
 const intelligentHint = ref({});
 const loading = ref(false)
 
