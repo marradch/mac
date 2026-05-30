@@ -3,6 +3,7 @@
 namespace App\AI\Service;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use App\Exception\RetryableException;
 
 class OpenAIClient
 {
@@ -13,40 +14,78 @@ class OpenAIClient
 
     public function ask(array $messages): array
     {
-        $response = $this->httpClient->request('POST',
-            'https://api.openai.com/v1/chat/completions',
-            [
-                'http_version' => '1.1',
-                'timeout' => 60,
+        $maxRetries = 3;
 
-                'headers' => [
-                    'Authorization' => 'Bearer '.$this->apiKey,
-                    'Content-Type' => 'application/json',
-                ],
+        for ($i = 0; $i < $maxRetries; $i++) {
+            try {
+                $response = $this->httpClient->request('POST',
+                    'https://api.openai.com/v1/chat/completions',
+                    [
+                        'http_version' => '1.1',
+                        'timeout' => 60,
 
-                'json' => [
-                    'model' => 'gpt-4o-mini',
-                    'messages' => $messages,
-                ],
-            ]
-        );
+                        'headers' => [
+                            'Authorization' => 'Bearer '.$this->apiKey,
+                            'Content-Type' => 'application/json',
+                        ],
 
+                        'json' => [
+                            'model' => 'gpt-4o-mini',
+                            'messages' => $messages,
+                        ],
+                    ]
+                );
 
+                $raw = $response->toArray()['choices'][0]['message']['content'];
 
-        $raw = $response->toArray()['choices'][0]['message']['content'];
+                $clean = preg_replace('/^```json|```$/m', '', $raw);
+                $clean = trim($clean);
 
-        // 1. убрать markdown ```json ```
-        $clean = preg_replace('/^```json|```$/m', '', $raw);
-        $clean = trim($clean);
+                $data = json_decode($clean, true);
 
-        // 2. decode JSON
-        $data = json_decode($clean, true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    throw new \RuntimeException(json_last_error_msg());
+                }
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            die(json_last_error_msg());
+                return $data;
+
+            } catch (\Throwable $e) {
+
+                $message = $e->getMessage();
+
+                $retryable =
+                    str_contains($message, 'Connection reset') ||
+                    str_contains($message, 'timeout') ||
+                    str_contains($message, 'cURL error') ||
+                    str_contains($message, '503') ||
+                    str_contains($message, '502') ||
+                    str_contains($message, '429');
+
+                if (!$retryable) {
+                    throw $e;
+                }
+
+                if ($i === $maxRetries - 1) {
+                    throw new RetryableException(
+                        message: 'OpenAI temporary failure',
+                        statusCode: 503,
+                        retryAfterSeconds: 2,
+                        context: [
+                            'model' => 'gpt-4o-mini',
+                        ]
+                    );
+                }
+
+                usleep(500000 * ($i + 1));
+            }
         }
 
-        /*sleep(8);
+        throw new \RuntimeException('OpenAI request failed after retries');
+    }
+
+    public function ask1(array $messages): array
+    {
+        sleep(8);
         $data = [
             "is_query_valid" => true,
             "query_feedback" => "",
@@ -61,7 +100,7 @@ class OpenAIClient
                 "Я принимаю всё, что жизнь предлагает, с открытым сердцем.",
                 "Я силен(сильна) и способен(способна) справляться с любыми вызовами на своём пути."
             ]
-        ];*/
+        ];
 
         /*sleep(8);
 
