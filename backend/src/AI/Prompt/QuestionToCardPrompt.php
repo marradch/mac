@@ -17,11 +17,12 @@ class QuestionToCardPrompt {
             A query is VALID if it contains emotional, personal, or reflective meaning, including:
 
             - emotions or emotional states
-            - relationships (love, attraction, dating, conflicts)
-            - self-reflection or self-discovery
-            - personality traits or inner qualities
-            - decision-making or uncertainty
-            - personal growth or life questions
+            - relationships with other people (family, love, friendship, acquaintances, conflicts)
+            - self-reflection and self-discovery
+            - personality traits and inner qualities
+            - decision-making and uncertainty
+            - questions about life and personal growth
+            - a desire to express feelings, care, attention, gratitude, or support toward another person
 
             A query is STILL VALID even if it is vague or general.
 
@@ -77,11 +78,12 @@ TEXT,
             Запит є ВАЛІДНИМ, якщо він містить емоційний або особистий зміст, зокрема:
 
             - емоції або емоційні стани
-            - стосунки (кохання, симпатія, знайомства, конфлікти)
-            - саморефлексію та самопізнання
+            - стосунки з іншими людьми (сім’я, кохання, дружба, знайомства, конфлікти)
+            - саморефлексія та самопізнання
             - риси характеру та внутрішні якості
-            - прийняття рішень та невизначеність
+            - прийняття рішень і невизначеність
             - питання про життя та особистий розвиток
+            - бажання висловити ставлення, турботу, увагу, вдячність або підтримку іншій людині
 
             Запит залишається ВАЛІДНИМ навіть якщо він загальний або нечіткий.
 
@@ -133,14 +135,15 @@ TEXT,
 
             1. СНАЧАЛА оценить запрос:
 
-            Запрос считается ВАЛИДНЫМ, если он содержит эмоциональный или личный смысл, включая:
+            Запрос считается ВАЛИДНЫМ, если содержит хотя бы одно из следующего:
 
             - эмоции или эмоциональные состояния
-            - отношения (любовь, симпатия, знакомства, конфликты)
+            - отношения с другими людьми (семья, любовь, дружба, знакомства, конфликты)
             - саморефлексию и самопознание
             - черты характера и внутренние качества
             - принятие решений и неопределённость
             - вопросы о жизни и личном развитии
+            - желание выразить отношение, заботу, внимание, благодарность или поддержку другому человеку
 
             Запрос остаётся ВАЛИДНЫМ даже если он общий или расплывчатый.
 
