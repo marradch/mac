@@ -36,5 +36,7 @@
   "variant_1_placeholder": "Enter first variant description",
   "variant_2_placeholder": "Enter second variant description",
   "cards-number-per-option": "Cards number per option",
-  "variant": "Variant"
+  "variant": "Variant",
+  "Something went wrong. Please, try again": "Something went wrong. Please, try again",
+  "Something went wrong": "Something went wrong"
 }

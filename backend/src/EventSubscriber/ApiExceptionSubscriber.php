@@ -47,7 +47,7 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
                     'message' => $exception->getMessage()
                 ], 422);
             }
-        } else if ($exception instanceof UnprocessableEntityHttpException) {
+        } else if ($exception instanceof RetryableException) {
             $response = new JsonResponse([
                 'status' => 'error',
                 'type' => 'retryable_error',

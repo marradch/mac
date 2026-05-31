@@ -39,31 +39,13 @@
           </template>
         </div>
       </div>
-      <div class="fixed bottom-0 left-0 right-0 z-50 p-4 flex justify-end">
-        <div class="fixed bottom-0 left-0 right-0 z-50 p-4 flex flex-col items-end gap-2">
 
-          <div
-              v-if="showIntelligentHintValidation"
-              class="relative bg-primary text-white shadow-md rounded-md px-3 py-2 max-w-sm w-full md:w-fit"
-          >
-            <button
-                class="absolute top-2 right-2 text-white hover:text-gray-600"
-                @click="showIntelligentHintValidation = false"
-                type="button"
-            >
-              ✕
-            </button>
-
-            <div class="pr-6">
-              {{$t('intelligent_hint_validation_all')}}
-            </div>
-          </div>
-
-          <ExerciseLoadingHintButton
-              :loading="loading"
-              @click="getIntelligentHint"
-          />
-        </div>
+      <div class="fixed bottom-0 left-0 right-0 z-50 p-4 flex flex-col items-end gap-2">
+        <ExerciseHintError :error="error" @close="error = ''"/>
+        <ExerciseLoadingHintButton
+            :loading="loading"
+            @click="getIntelligentHint"
+        />
       </div>
       <div ref="hintContentRef">
         <TimeSpreadHintResults :hint="intelligentHint" />
@@ -86,7 +68,7 @@ const cards = ref({
   present: [''],
   future: ['']
 })
-const showIntelligentHintValidation = ref(false)
+const error = ref("")
 const intelligentHint = ref({});
 const hintContentRef = ref(null);
 
@@ -97,10 +79,10 @@ function hasEmptyCards() {
 }
 
 async function getIntelligentHint() {
-  showIntelligentHintValidation.value = false
+  error.value = ""
 
   if (!query.value || hasEmptyCards()) {
-    showIntelligentHintValidation.value = true
+    error.value = $t('intelligent_hint_validation_all')
     return
   }
 
@@ -133,9 +115,15 @@ async function getIntelligentHint() {
       block: 'start'
     })
 
-  } catch (error) {
-    console.error(error)
+  } catch (errorResponse) {
+    const responseData = errorResponse?.data ?? errorResponse?.response?._data
 
+    if (responseData?.type === 'retryable_error') {
+      error.value = $t('Something went wrong. Please, try again')
+    } else {
+      error.value = $t(`Something went wrong`)
+    }
+    console.log(errorResponse)
   } finally {
     loading.value = false;
   }

@@ -23,12 +23,13 @@
       <ExerciseLoadingHintButton
           :loading="loading" class="order-4 mx-auto" @click="getIntelligentHint"
       />
-      <p v-if="showIntelligentHintValidation" class="order-5 font-bold mb-3 text-primary">
-        {{ $t('intelligent_hint_validation') }}
-      </p>
       <QuestionToCardHintResults :hint="intelligentHint"/>
 
       <ChooseDeck class="lg:order-1" v-model="deck"/>
+
+      <div class="fixed bottom-0 left-0 right-0 z-50 p-4 flex flex-col items-end gap-2">
+        <ExerciseHintError :error="error" @close="error = ''"/>
+      </div>
     </div>
   </div>
 </template>
@@ -40,16 +41,16 @@ const { exercise } = useExercise('question-to-card')
 
 const query = ref('')
 const selectedCard = ref('')
-const showIntelligentHintValidation = ref(false)
+const error = ref('')
 const deck = ref(config.public.defaultDeckSlug)
 const intelligentHint = ref({});
 const loading = ref(false)
 
 async function getIntelligentHint() {
-  showIntelligentHintValidation.value = false
+  error.value = ''
 
   if (!query.value && !selectedCard.value) {
-    showIntelligentHintValidation.value = true
+    error.value = $t('intelligent_hint_validation_all')
     return
   }
 
@@ -65,9 +66,15 @@ async function getIntelligentHint() {
       }
     })
 
-  } catch (error) {
-    console.error(error)
+  } catch (errorResponse) {
+    const responseData = errorResponse?.data ?? errorResponse?.response?._data
 
+    if (responseData?.type === 'retryable_error') {
+      error.value = $t('Something went wrong. Please, try again')
+    } else {
+      error.value = $t(`Something went wrong`)
+    }
+    console.log(errorResponse)
   } finally {
     loading.value = false;
   }
