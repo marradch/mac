@@ -36,6 +36,7 @@
   "variant_1_placeholder": "Введіть опис першого варіанту",
   "variant_2_placeholder": "Введіть опис другого варіанту",
   "cards-number-per-option": "Кількість карт на кожний варіант",
+  "cards-number": "Кількість карт",
   "variant": "Варіант",
   "Something went wrong. Please, try again": "Щось пішло не так. Будь ласка спробуйте ще раз",
   "Something went wrong": "Щось пішло не так"

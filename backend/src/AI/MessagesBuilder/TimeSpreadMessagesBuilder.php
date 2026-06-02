@@ -4,19 +4,11 @@ namespace App\AI\MessagesBuilder;
 
 use App\AI\Prompt\TimeSpreadMultiCardPrompt;
 use App\AI\DTO\MetaphoricalCard;
+use App\DTO\Input\InterpretDTOInterface;
 
-class TimeSpreadMessagesBuilder
+class TimeSpreadMessagesBuilder implements MessageBuilderInterface
 {
-    /**
-     * @param string $locale
-     * @param string $query
-     * @param array{
-     *     past: MetaphoricalCard[],
-     *     present: MetaphoricalCard[],
-     *     future: MetaphoricalCard[]
-     * } $cards
-     */
-    public function buildMessages(string $locale, string $query, array $cards): array
+    public function build(string $locale, InterpretDTOInterface $dto): array
     {
         return [
             [
@@ -29,16 +21,16 @@ class TimeSpreadMessagesBuilder
                     [
                         [
                             'type' => 'text',
-                            'text' => $query,
+                            'text' => $dto->query,
                         ],
                     ],
-                    $this->buildCardsContent($cards)
+                    $this->buildCardsContent($dto)
                 ),
             ],
         ];
     }
 
-    private function buildCardsContent(array $cards): array
+    private function buildCardsContent(InterpretDTOInterface $dto): array
     {
         $result = [];
 
@@ -47,7 +39,7 @@ class TimeSpreadMessagesBuilder
             'text' => "PAST CARDS:",
         ];
 
-        foreach ($cards['past'] ?? [] as $index => $card) {
+        foreach ($dto->past as $index => $card) {
             foreach ($this->cardBlock('Past', $index + 1, $card) as $block) {
                 $result[] = $block;
             }
@@ -58,7 +50,7 @@ class TimeSpreadMessagesBuilder
             'text' => "PRESENT CARDS:",
         ];
 
-        foreach ($cards['present'] ?? [] as $index => $card) {
+        foreach ($dto->present as $index => $card) {
             foreach ($this->cardBlock('Present', $index + 1, $card) as $block) {
                 $result[] = $block;
             }
@@ -69,7 +61,7 @@ class TimeSpreadMessagesBuilder
             'text' => "FUTURE CARDS:",
         ];
 
-        foreach ($cards['future'] ?? [] as $index => $card) {
+        foreach ($dto->future as $index => $card) {
             foreach ($this->cardBlock('Future', $index + 1, $card) as $block) {
                 $result[] = $block;
             }

@@ -25,7 +25,7 @@ class ChoiceInterpreterService implements InterpreterInterface
             $dto->{$option} = $newOptionCards;
         }
 
-        $messages = $this->messageBuilder->buildMessages($locale, $dto);
+        $messages = $this->messageBuilder->build($locale, $dto);
 
         return $this->openAIClient->ask($messages);
     }

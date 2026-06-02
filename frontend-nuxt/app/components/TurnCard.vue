@@ -61,7 +61,7 @@ const toggle = () => {
     is_flipped.value = false;
     emit('update:modelValue', '')
   } else {
-    randomCardIndex.value = Math.floor(Math.random() * 2) + 1
+    randomCardIndex.value = Math.floor(Math.random() * 13) + 1
     is_flipped.value = true;
     emit('update:modelValue', cardPath.value)
   }

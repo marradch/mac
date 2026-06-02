@@ -89,7 +89,8 @@ async function getIntelligentHint() {
   try {
     loading.value = true;
 
-    const origin = useRequestURL().origin
+    //const origin = useRequestURL().origin
+    const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
 
     intelligentHint.value = await $fetch(`/time-spread/${locale.value}`, {
       baseURL: config.public.apiBase,

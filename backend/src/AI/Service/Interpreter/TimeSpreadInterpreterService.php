@@ -2,6 +2,7 @@
 
 namespace App\AI\Service\Interpreter;
 
+use App\AI\DTO\MetaphoricalCard;
 use App\AI\MessagesBuilder\TimeSpreadMessagesBuilder;
 use App\AI\Service\OpenAIClient;
 use App\Factory\TimeSpreadCardsFactory;
@@ -17,13 +18,16 @@ class TimeSpreadInterpreterService implements InterpreterInterface
 
     public function interpret(string $locale, InterpretDTOInterface $dto): array
     {
-        $cards = $this->cardsFactory->makeTimeSpreadCardsArray($dto);
+        foreach (['past', 'present', 'future'] as $timeRange) {
+            $optionCards = $dto->{$timeRange};
 
-        $messages = $this->messageBuilder->buildMessages(
-            $locale,
-            $dto->query,
-            $cards
-        );
+            $dto->{$timeRange} = array_map(
+                fn($card) => new MetaphoricalCard($card['imageUrl']),
+                $optionCards
+            );
+        }
+
+        $messages = $this->messageBuilder->build($locale, $dto);
 
         return $this->openAIClient->ask($messages);
     }

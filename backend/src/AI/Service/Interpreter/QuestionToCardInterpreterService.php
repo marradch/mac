@@ -16,8 +16,12 @@ class QuestionToCardInterpreterService implements InterpreterInterface
 
     public function interpret(string $locale, InterpretDTOInterface $dto): array
     {
-        $card = new MetaphoricalCard($dto->cardUrl);
-        $messages = $this->messageBuilder->buildMessages($locale, $dto->query, $card);
+        $dto->cards = array_map(
+            fn($card) => new MetaphoricalCard($card['imageUrl']),
+            $dto->cards
+        );
+
+        $messages = $this->messageBuilder->build($locale, $dto);
 
         return $this->openAIClient->ask($messages);
     }

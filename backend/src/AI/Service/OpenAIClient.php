@@ -62,6 +62,7 @@ class OpenAIClient
                     str_contains($message, '429');
 
                 if (!$retryable) {
+                    var_dump($e->getResponse()->getContent(false));
                     throw $e;
                 }
 

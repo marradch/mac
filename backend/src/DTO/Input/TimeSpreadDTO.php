@@ -4,7 +4,7 @@ namespace App\DTO\Input;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class TimeSpreadDTO implements InterpretDTOInterface
+class TimeSpreadDTO implements InterpretDTOInterface
 {
     public function __construct(
         #[Assert\NotBlank(message: 'Query is required')]

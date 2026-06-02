@@ -5,9 +5,9 @@ namespace App\AI\MessagesBuilder;
 use App\AI\Prompt\ChoiceExercisePrompt;
 use App\DTO\Input\{ChoiceDTO, InterpretDTOInterface};
 
-class ChoiceMessagesBuilder
+class ChoiceMessagesBuilder implements MessageBuilderInterface
 {
-    public function buildMessages(string $locale, InterpretDTOInterface $dto): array
+    public function build(string $locale, InterpretDTOInterface $dto): array
     {
         return [
             [
