@@ -49,11 +49,15 @@ interface Deck {
 const availableCardsState = useState<[]>('availableCards', () => [])
 
 const { data: decks } = await useFetch<Deck[]>(
-    `/decks/${locale.value}`,
-        {
-          watch: [locale], // 🔥 важно: перезапрос при смене языка
-          baseURL: config.public.apiBase
-        }
+    () => `/decks/${locale.value}`,
+    {
+      baseURL: config.public.apiBase,
+      key: () => `decks-${locale.value}`,
+      watch: [locale],
+      getCachedData: (key) => {
+        return useNuxtApp().payload.data[key]
+      }
+    }
 )
 
 watch(
