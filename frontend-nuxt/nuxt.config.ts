@@ -30,37 +30,6 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
 
-  tailwindcss: {
-    config: {
-      content: [
-        './components/**/*.{vue,js}',
-        './layouts/**/*.vue',
-        './pages/**/*.vue',
-        './app.vue'
-      ],
-      theme: {
-        screens: {
-          sm: '640px',
-          md: '768px',
-          lg: '1024px',
-        },
-        extend: {
-          fontFamily: {
-            sans: ['Merriweather Sans', 'Arial', 'sans-serif'],   // основной шрифт
-            // Можно добавить дополнительные:
-            // heading: ['Merriweather Sans', 'sans-serif'],
-          },
-          colors: {
-            primary: {
-              DEFAULT: '#ff435d',
-              hover: '#DA324A',
-            }
-          }
-        }
-      }
-    }
-  },
-
   i18n: {
     lazy: true,
     langDir: 'locales',

@@ -39,5 +39,8 @@
   "cards-number": "Кількість карт",
   "variant": "Варіант",
   "Something went wrong. Please, try again": "Щось пішло не так. Будь ласка спробуйте ще раз",
-  "Something went wrong": "Щось пішло не так"
+  "Something went wrong": "Щось пішло не так",
+  "add_resource": "Додати ресурс",
+  "choose_deck": "Обрати колоду",
+  "choose_card": "Обрати карту"
 }

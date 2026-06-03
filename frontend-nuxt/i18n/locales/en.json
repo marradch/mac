@@ -39,5 +39,8 @@
   "cards-number": "Cards number",
   "variant": "Variant",
   "Something went wrong. Please, try again": "Something went wrong. Please, try again",
-  "Something went wrong": "Something went wrong"
+  "Something went wrong": "Something went wrong",
+  "add_resource": "Add resource",
+  "choose_deck": "Choose deck",
+  "choose_card": "Choose card"
 }
