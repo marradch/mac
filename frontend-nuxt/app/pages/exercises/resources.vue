@@ -29,8 +29,8 @@
       :open="isDeckModalOpen"
       @close="isDeckModalOpen = false"
   >
-    <ChooseDeck v-if="resourceSelectionDeck === ''" v-model="resourceSelectionDeck"/>
-    <p v-else>another component</p>
+    <ChooseDeck class="flex-1" v-if="resourceSelectionDeck === ''" v-model="resourceSelectionDeck"/>
+    <CardSelection v-else :deck="resourceSelectionDeck" />
 
     <template v-if="resourceSelectionDeck === ''" #header>
       {{ $t('choose_deck') }}

@@ -18,25 +18,27 @@
 
         <!-- Modal -->
         <div
-            class="relative z-10 w-full h-full sm:h-auto sm:max-w-3xl
-                 bg-white p-6 shadow-xl
-                 sm:rounded-xl
-                 overflow-y-auto"
+            class="relative z-10 w-full h-full lg:h-auto max-h-screen lg:max-w-3xl
+                 bg-white p-3 lg:p-6 shadow-xl
+                 lg:rounded-xl
+                 overflow-y-auto flex flex-col"
         >
           <!-- Close button -->
           <button
-              class="absolute right-4 top-4 text-gray-500 hover:text-black"
+              class="text-2xl absolute right-2 lg:right-4 top-2 lg:top-4 text-gray-500 hover:text-black"
               @click="$emit('close')"
           >
             ✕
           </button>
 
           <!-- HEADER -->
-          <div v-if="$slots.header" class="mb-4 pb-4 text-xl font-bold text-gray-600 border-b border-gray-200">
+          <div v-if="$slots.header" class="mb-4 pb-2 lg:pb-4 text-xl font-bold text-gray-600 border-b border-gray-200">
             <slot name="header" />
           </div>
 
-          <slot />
+          <div class="flex-1 flex items-center justify-center">
+            <slot />
+          </div>
         </div>
       </div>
     </Transition>
