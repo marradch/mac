@@ -18,7 +18,7 @@
 
         <!-- Modal -->
         <div
-            class="relative z-10 w-full h-full lg:h-auto max-h-screen lg:max-w-3xl
+            class="relative z-10 w-full h-full max-h-screen lg:max-h-[calc(100vh-40px)] lg:max-w-3xl
                  bg-white p-3 lg:p-6 shadow-xl
                  lg:rounded-xl
                  overflow-y-auto flex flex-col"
@@ -36,7 +36,7 @@
             <slot name="header" />
           </div>
 
-          <div class="flex-1 flex items-center justify-center">
+          <div class="flex-1 flex items-center justify-center h-[calc(100%-150px)]">
             <slot />
           </div>
         </div>

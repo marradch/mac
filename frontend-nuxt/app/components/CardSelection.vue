@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center gap-2 sm:gap-4">
+  <div class="flex items-center justify-center gap-2 sm:gap-4 h-full">
 
     <!-- LEFT ARROW -->
     <button
@@ -7,24 +7,14 @@
         @click="prev"
         :disabled="index <= 1"
     >
-      <svg xmlns="http://www.w3.org/2000/svg"
-           class="h-6 w-auto"
-           fill="none"
-           viewBox="7 4 9 16"
-           stroke="currentColor">
-        <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 19l-7-7 7-7" />
-      </svg>
+      <ArrowLeft class="h-6 w-auto" />
     </button>
 
     <!-- IMAGE -->
-    <div class="flex-1 flex items-center justify-center overflow-hidden">
+    <div class="flex-1 flex items-center justify-center overflow-hidden h-full">
       <img
           :src="imageSrc"
-          class="w-full h-auto sm:max-w-[350px] object-contain rounded-lg"
+          class="w-full h-auto h-full object-contain rounded-lg"
           :alt="`card-${index}`"
       />
     </div>
@@ -34,17 +24,7 @@
         class="text-primary hover:text-primary-hover transition"
         @click="next"
     >
-      <svg xmlns="http://www.w3.org/2000/svg"
-           class="h-6 w-auto"
-           fill="none"
-           viewBox="8 4 9 16"
-           stroke="currentColor">
-        <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5l7 7-7 7" />
-      </svg>
+      <ArrowRight class="h-6 w-auto" />
     </button>
 
   </div>
@@ -52,6 +32,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import ArrowLeft from '~/assets/icons/arrow-left.svg'
+import ArrowRight from '~/assets/icons/arrow-right.svg'
 
 const props = defineProps<{
   deck: string
