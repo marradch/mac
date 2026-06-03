@@ -14,6 +14,7 @@ class DeckOutputDTOFactory {
         $dto->id = $deck->getId();
         $dto->slug = $deck->getSlug();
         $dto->title = $translation?->getTitle();
+        $dto->cardsCount = $deck->getCardsCount();
 
         return $dto;
     }

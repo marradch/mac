@@ -21,7 +21,7 @@
       <div class="cards-container">
         <template v-if="numberOfCards === 1">
           <div class="card-container flex justify-center">
-            <TurnCard :deck="deck" class="" v-model="cards[0]"/>
+            <TurnCard :deck="deck" class="" v-model="cards[0]" :key="0"/>
           </div>
         </template>
         <template v-if="numberOfCards === 3">
@@ -118,5 +118,9 @@ watch(numberOfCards, (val) => {
       { length: val },
       (_, i) => cards.value?.[i] ?? ''
   )
+})
+
+watch(deck, () => {
+  cards.value = Array(numberOfCards.value).fill('')
 })
 </script>

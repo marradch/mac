@@ -33,7 +33,7 @@
 const { locale } = useI18n()
 const config = useRuntimeConfig()
 
-defineProps({
+const props = defineProps({
   modelValue: String
 })
 
@@ -43,13 +43,25 @@ interface Deck {
   id: number
   slug: string
   title: string
+  cardsCount: number
 }
 
-const { data: decks, status, error } = await useFetch<Deck[]>(
+const availableCardsState = useState<[]>('availableCards', () => [])
+
+const { data: decks } = await useFetch<Deck[]>(
     `/decks/${locale.value}`,
         {
           watch: [locale], // 🔥 важно: перезапрос при смене языка
           baseURL: config.public.apiBase
         }
+)
+
+watch(
+    () => props.modelValue,
+    (val) => {
+      const cardsCount = decks.value.find(d => d.slug === val)?.cardsCount
+      availableCardsState.value[val] = Array.from({ length: cardsCount }, (_, i) => i + 1)
+    },
+    { immediate: true }
 )
 </script>

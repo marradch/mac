@@ -138,4 +138,12 @@ watch(numberOfCards, (val) => {
     )
   })
 })
+
+watch(deck, () => {
+  cards.value = {
+    past: Array(numberOfCards.value).fill(''),
+    present: Array(numberOfCards.value).fill(''),
+    future: Array(numberOfCards.value).fill('')
+  }
+})
 </script>

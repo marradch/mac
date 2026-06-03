@@ -59,9 +59,14 @@ const cardPath = computed(() => {
 const toggle = () => {
   if (is_flipped.value) {
     is_flipped.value = false;
+    randomCardIndex.value = '';
     emit('update:modelValue', '')
+    availableCardsState.value[props.deck].push(randomCardIndex.value)
   } else {
-    randomCardIndex.value = Math.floor(Math.random() * 13) + 1
+    const randomArrayIndex = Math.floor(Math.random() * availableCardsState.value[props.deck].length)
+    const randomCardNumber = availableCardsState.value[props.deck][randomArrayIndex];
+    availableCardsState.value[props.deck] = availableCardsState.value[props.deck].filter(n => n !== randomCardNumber)
+    randomCardIndex.value = randomCardNumber
     is_flipped.value = true;
     emit('update:modelValue', cardPath.value)
   }
@@ -73,4 +78,24 @@ const inner_style = computed(() => {
     transform: ${is_flipped.value ? 'rotateY(180deg)' : 'rotateY(0deg)'};
   `
 })
+
+const availableCardsState = useState('availableCards', () => [])
+
+watch(
+    () => props.modelValue,
+    (val) => {
+      if (val) {
+        const match = val.match(/\/(\d+)\.png$/)
+
+        if (match) {
+          is_flipped.value = true
+          randomCardIndex.value = Number(match[1])
+        }
+      } else {
+        is_flipped.value = false;
+        randomCardIndex.value = false;
+      }
+    },
+    {immediate: true}
+)
 </script>

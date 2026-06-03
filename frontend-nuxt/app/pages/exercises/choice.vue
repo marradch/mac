@@ -152,4 +152,11 @@ watch(numberOfCards, (val) => {
     )
   })
 })
+
+watch(deck, () => {
+  cards.value = {
+    option_1: Array(numberOfCards.value).fill(''),
+    option_2: Array(numberOfCards.value).fill('')
+  }
+})
 </script>
