@@ -89,7 +89,6 @@ watch(
     (val) => {
       if (val) {
         const match = val.match(/\/(\d+)\.png$/)
-
         if (match) {
           is_flipped.value = true
           randomCardIndex.value = Number(match[1])
@@ -100,22 +99,5 @@ watch(
       }
     },
     {immediate: true}
-)
-
-watch(
-    () => props.deck,
-    (val) => {
-      if (val) {
-        const match = val.match(/\/(\d+)\.png$/)
-
-        if (match) {
-          is_flipped.value = true
-          randomCardIndex.value = Number(match[1])
-        }
-      } else {
-        is_flipped.value = false;
-        randomCardIndex.value = '';
-      }
-    },
 )
 </script>

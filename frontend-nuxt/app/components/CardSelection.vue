@@ -5,7 +5,7 @@
     <button
         class="text-primary hover:text-primary-hover transition"
         @click="prev"
-        v-if="index > 1"
+        v-if="index > 0"
     >
       <ArrowLeft class="h-6 w-auto" />
     </button>
@@ -16,6 +16,7 @@
           :src="imageSrc"
           class="w-full h-auto h-full object-contain rounded-lg"
           :alt="`card-${index}`"
+          @click="selectCard"
       />
     </div>
 
@@ -23,7 +24,7 @@
     <button
         class="text-primary hover:text-primary-hover transition"
         @click="next"
-        v-if="index < maxCards"
+        v-if="index < maxIndex"
     >
       <ArrowRight class="h-6 w-auto" />
     </button>
@@ -36,28 +37,38 @@ import { ref, computed } from 'vue'
 import ArrowLeft from '~/assets/icons/arrow-left.svg'
 import ArrowRight from '~/assets/icons/arrow-right.svg'
 
+const emit = defineEmits(['selected'])
+
 const props = defineProps<{
   deck: string
 }>()
 
-const index = ref(1)
+const index = ref(0)
 
 const imageSrc = computed(() => {
-  return `/decks/${props.deck}/${index.value}.png`
+  const cardNumber = availableCardsState.value[props.deck][index.value];
+  return `/decks/${props.deck}/${cardNumber}.png`
 })
 
 function next() {
-  if (index.value < maxCards) {
+  if (index.value < maxIndex) {
     index.value++
   }
 }
 
 function prev() {
-  if (index.value > 1) {
+  if (index.value > 0) {
     index.value--
   }
 }
 
-const decksState = useState<[]>('decks', () => [])
-const maxCards = decksState.value.find(d => d.slug === props.deck)?.cardsCount
+const availableCardsState = useState<[]>('availableCards', () => [])
+const maxIndex = availableCardsState.value[props.deck].length - 1
+
+function selectCard() {
+  const cardNumber = availableCardsState.value[props.deck][index.value];
+  emit('selected', imageSrc.value);
+  availableCardsState.value[props.deck] = availableCardsState.value[props.deck].filter(n => n !== cardNumber)
+  console.log(availableCardsState.value[props.deck])
+}
 </script>
