@@ -15,7 +15,7 @@
         <img
             :src="`/decks/${deck}/back.png`"
             class="w-full h-full object-cover"
-            alt="front"
+            alt="back"
         />
       </div>
 
@@ -53,15 +53,24 @@ const emit = defineEmits(['update:modelValue'])
 const is_flipped = ref(false);
 const randomCardIndex = ref('');
 const cardPath = computed(() => {
-  return `/decks/${props.deck}/${randomCardIndex.value}.png`
+  if (randomCardIndex.value) {
+    return `/decks/${props.deck}/${randomCardIndex.value}.png`
+  } else {
+    //return `/decks/${props.deck}/back.png`
+  }
 })
 
+const internalChange = ref('');
+
 const toggle = () => {
+  internalChange.value = true
+
   if (is_flipped.value) {
     is_flipped.value = false;
-    emit('update:modelValue', '')
+
     availableCardsState.value[props.deck].push(randomCardIndex.value)
-    randomCardIndex.value = '';
+    //randomCardIndex.value = '';
+    emit('update:modelValue', '')
   } else {
     //console.log(availableCardsState.value[props.deck]);
     const randomArrayIndex = Math.floor(Math.random() * availableCardsState.value[props.deck].length)
@@ -87,6 +96,12 @@ const availableCardsState = useState('availableCards', () => [])
 watch(
     () => props.modelValue,
     (val) => {
+      if (internalChange.value == true) {
+        internalChange.value = false
+
+        return
+      }
+
       if (val) {
         const match = val.match(/\/(\d+)\.png$/)
         if (match) {
