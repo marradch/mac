@@ -41,7 +41,11 @@ const { data: exercises, status, error } = await useFetch<Exercise[]>(
     `/exercises/${locale.value}`,
     {
       watch: [locale], // 🔥 важно: перезапрос при смене языка
-      baseURL: config.public.apiBase
+      baseURL: config.public.apiBase,
+      key: () => `exercises-${locale.value}`,
+      getCachedData: (key) => {
+        return useNuxtApp().payload.data[key]
+      }
     }
 )
 </script>

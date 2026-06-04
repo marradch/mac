@@ -21,7 +21,6 @@ class OpenAIClient
                 $response = $this->httpClient->request('POST',
                     'https://api.openai.com/v1/chat/completions',
                     [
-                        'http_version' => '1.1',
                         'timeout' => 60,
 
                         'headers' => [
