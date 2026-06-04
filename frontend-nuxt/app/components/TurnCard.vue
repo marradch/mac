@@ -56,7 +56,7 @@ const cardPath = computed(() => {
   if (randomCardIndex.value) {
     return `/decks/${props.deck}/${randomCardIndex.value}.png`
   } else {
-    //return `/decks/${props.deck}/back.png`
+    return `/decks/${props.deck}/back.png`
   }
 })
 
