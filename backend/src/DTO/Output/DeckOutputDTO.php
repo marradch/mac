@@ -6,5 +6,5 @@ class DeckOutputDTO {
     public int $id;
     public string $slug;
     public string $title;
-    public string $cardsCount;
+    public int $cardsCount;
 }

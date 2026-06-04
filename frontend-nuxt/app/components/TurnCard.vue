@@ -27,7 +27,7 @@
         <img
             :src="cardPath"
             class="w-full h-full object-cover"
-            alt="back"
+            alt="front"
         />
       </div>
     </div>
@@ -59,12 +59,15 @@ const cardPath = computed(() => {
 const toggle = () => {
   if (is_flipped.value) {
     is_flipped.value = false;
-    randomCardIndex.value = '';
     emit('update:modelValue', '')
     availableCardsState.value[props.deck].push(randomCardIndex.value)
+    randomCardIndex.value = '';
   } else {
+    //console.log(availableCardsState.value[props.deck]);
     const randomArrayIndex = Math.floor(Math.random() * availableCardsState.value[props.deck].length)
+    //console.log(randomArrayIndex);
     const randomCardNumber = availableCardsState.value[props.deck][randomArrayIndex];
+    //console.log(randomCardNumber);
     availableCardsState.value[props.deck] = availableCardsState.value[props.deck].filter(n => n !== randomCardNumber)
     randomCardIndex.value = randomCardNumber
     is_flipped.value = true;
@@ -93,9 +96,26 @@ watch(
         }
       } else {
         is_flipped.value = false;
-        randomCardIndex.value = false;
+        randomCardIndex.value = '';
       }
     },
     {immediate: true}
+)
+
+watch(
+    () => props.deck,
+    (val) => {
+      if (val) {
+        const match = val.match(/\/(\d+)\.png$/)
+
+        if (match) {
+          is_flipped.value = true
+          randomCardIndex.value = Number(match[1])
+        }
+      } else {
+        is_flipped.value = false;
+        randomCardIndex.value = '';
+      }
+    },
 )
 </script>

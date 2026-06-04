@@ -29,7 +29,7 @@
       :open="isDeckModalOpen"
       @close="isDeckModalOpen = false"
   >
-    <ChooseDeck class="flex-1" v-if="resourceSelectionDeck === ''" v-model="resourceSelectionDeck"/>
+    <ChooseDeck2 :decks="decks" class="flex-1" v-if="resourceSelectionDeck === ''" v-model="resourceSelectionDeck"/>
     <CardSelection v-else :deck="resourceSelectionDeck" />
 
     <template v-if="resourceSelectionDeck === ''" #header>
@@ -41,14 +41,12 @@
   </BaseModal>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const { t, locale} = useI18n()
 const { exercise } = useExercise('resources')
 const config = useRuntimeConfig()
 const loading = ref(false)
 const isDeckModalOpen = ref(false)
 const resourceSelectionDeck = ref('')
-
-
-
+const { decks } = await useDecks();
 </script>

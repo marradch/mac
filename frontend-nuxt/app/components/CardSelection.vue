@@ -5,7 +5,7 @@
     <button
         class="text-primary hover:text-primary-hover transition"
         @click="prev"
-        :disabled="index <= 1"
+        v-if="index > 1"
     >
       <ArrowLeft class="h-6 w-auto" />
     </button>
@@ -23,6 +23,7 @@
     <button
         class="text-primary hover:text-primary-hover transition"
         @click="next"
+        v-if="index < maxCards"
     >
       <ArrowRight class="h-6 w-auto" />
     </button>
@@ -37,20 +38,16 @@ import ArrowRight from '~/assets/icons/arrow-right.svg'
 
 const props = defineProps<{
   deck: string
-  max?: number
 }>()
 
 const index = ref(1)
-
-// если не передали max — по дефолту 100 карт
-const maxCards = computed(() => props.max ?? 100)
 
 const imageSrc = computed(() => {
   return `/decks/${props.deck}/${index.value}.png`
 })
 
 function next() {
-  if (index.value < maxCards.value) {
+  if (index.value < maxCards) {
     index.value++
   }
 }
@@ -60,4 +57,7 @@ function prev() {
     index.value--
   }
 }
+
+const decksState = useState<[]>('decks', () => [])
+const maxCards = decksState.value.find(d => d.slug === props.deck)?.cardsCount
 </script>

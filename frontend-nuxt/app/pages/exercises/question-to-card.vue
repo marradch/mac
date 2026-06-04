@@ -2,7 +2,7 @@
   <ExerciseHeader :exercise="exercise" />
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px]">
-      <ChooseDeck v-model="deck"/>
+      <ChooseDeck :decks="decks" v-model="deck"/>
       <textarea
           v-model="query"
           :placeholder="$t('query_placeholder')"
@@ -51,6 +51,7 @@
 <script setup>
 const { t, locale} = useI18n()
 const { exercise } = useExercise('question-to-card')
+const { decks, resetAvailableCardsState } = await useDecks();
 const config = useRuntimeConfig()
 
 const loading = ref(false)
@@ -122,5 +123,7 @@ watch(numberOfCards, (val) => {
 
 watch(deck, () => {
   cards.value = Array(numberOfCards.value).fill('')
+  resetAvailableCardsState()
 })
+
 </script>
