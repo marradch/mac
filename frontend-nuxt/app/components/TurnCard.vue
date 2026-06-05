@@ -7,6 +7,25 @@
         class="relative w-full h-full transition-transform duration-700"
         :style="inner_style"
     >
+      <div
+          class="
+            absolute top-[20px]
+            w-[30px] h-[30px]
+            bg-primary
+            rounded-full
+
+            flex items-center justify-center
+            cursor-pointer
+
+            text-white text-[20px] leading-none
+            z-[99999]
+            hover:bg-primary-hover
+          "
+          :class="is_flipped ? 'left-[20px]' : 'right-[20px]'"
+          @click="emit('remove')"
+      >
+        ✕
+      </div>
       <!-- FRONT (рубашка) -->
       <div
           class="absolute inset-0 rounded-xl overflow-hidden"
@@ -48,7 +67,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'remove'])
 
 const is_flipped = ref(false);
 const randomCardIndex = ref('');

@@ -10,7 +10,7 @@
       />
       <div class="flex flex-col lg:flex-row gap-3">
         <button
-            class="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-white font-medium shadow-md w-full md:w-fit justify-center"
+            class="inline-flex items-center gap-2 rounded-md bg-primary hover:bg-primary-hover px-4 py-2 text-white font-medium shadow-md w-full md:w-fit justify-center"
             @click="isModalOpen = true"
         >
           {{ $t('add_resource') }}
@@ -42,7 +42,13 @@
     </div>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
-    <TurnCard v-for="(card, index)  in cards" v-model="cards[index]" :deck="cardDecks[index]"></TurnCard>
+    <TurnCard
+        v-for="(card, index) in cards"
+        v-model="cards[index]"
+        :deck="cardDecks[index]"
+        :key="cards.length"
+        @remove="removeCardByIndex(index)"
+    ></TurnCard>
   </div>
   <div class="fixed bottom-0 left-0 right-0 z-50 p-4 flex flex-col items-end gap-2">
 
@@ -104,5 +110,10 @@ function selectDeck() {
     isModalOpen.value = false;
     resourceSelectionDeck.value = ''
   }
+}
+
+function removeCardByIndex(index) {
+  cards.value = cards.value.filter((_, i) => i !== index)
+  cardDecks.value = cardDecks.value.filter((_, i) => i !== index)
 }
 </script>
