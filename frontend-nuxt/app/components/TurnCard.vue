@@ -7,7 +7,7 @@
         class="relative w-full h-full transition-transform duration-700"
         :style="inner_style"
     >
-      <div
+      <div v-if="removable"
           class="
             absolute top-[20px]
             w-[30px] h-[30px]
@@ -64,6 +64,10 @@ const props = defineProps({
   modelValue: {
     type: String,
     default: ''
+  },
+  removable: {
+    type: Boolean,
+    default: false
   }
 })
 

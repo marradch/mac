@@ -47,6 +47,7 @@
         v-model="cards[index]"
         :deck="cardDecks[index]"
         :key="cards.length"
+        removable
         @remove="removeCardByIndex(index)"
     ></TurnCard>
   </div>
