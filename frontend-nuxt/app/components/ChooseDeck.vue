@@ -1,5 +1,5 @@
 <template>
-  <div class="grid md:grid-cols-3 gap-3">
+  <div class="grid gap-3" :class="colLayout ? '' : 'md:grid-cols-3'">
     <button
         v-for="deck in decks"
         :key="deck.slug"
@@ -42,6 +42,10 @@ const props = defineProps({
     type: String,
     required: true
   },
+  colLayout: {
+    type: Boolean,
+    default: false
+  }
 })
 
 defineEmits(['update:modelValue'])

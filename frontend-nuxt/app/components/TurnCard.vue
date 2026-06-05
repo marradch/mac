@@ -13,7 +13,7 @@
           style="backface-visibility: hidden;"
       >
         <img
-            :src="`/decks/${deck}/back.png`"
+            :src="`/decks/${deckRef}/back.png`"
             class="w-full h-full object-cover"
             alt="back"
         />
@@ -40,7 +40,7 @@ import { ref, computed } from 'vue'
 const props = defineProps({
   deck: {
     type: String,
-    required: true
+    required: false
   },
   modelValue: {
     type: String,
@@ -54,13 +54,15 @@ const is_flipped = ref(false);
 const randomCardIndex = ref('');
 const cardPath = computed(() => {
   if (randomCardIndex.value) {
-    return `/decks/${props.deck}/${randomCardIndex.value}.png`
+    return `/decks/${deckRef.value}/${randomCardIndex.value}.png`
   } else {
-    return `/decks/${props.deck}/back.png`
+    return `/decks/${deckRef.value}/back.png`
   }
 })
 
 const internalChange = ref('');
+const deckRef = ref('');
+deckRef.value = props.deck ?? '';
 
 const toggle = () => {
   internalChange.value = true
@@ -68,16 +70,16 @@ const toggle = () => {
   if (is_flipped.value) {
     is_flipped.value = false;
 
-    availableCardsState.value[props.deck].push(randomCardIndex.value)
+    availableCardsState.value[deckRef.value].push(randomCardIndex.value)
     //randomCardIndex.value = '';
     emit('update:modelValue', '')
   } else {
     //console.log(availableCardsState.value[props.deck]);
-    const randomArrayIndex = Math.floor(Math.random() * availableCardsState.value[props.deck].length)
+    const randomArrayIndex = Math.floor(Math.random() * availableCardsState.value[deckRef.value].length)
     //console.log(randomArrayIndex);
-    const randomCardNumber = availableCardsState.value[props.deck][randomArrayIndex];
+    const randomCardNumber = availableCardsState.value[deckRef.value][randomArrayIndex];
     //console.log(randomCardNumber);
-    availableCardsState.value[props.deck] = availableCardsState.value[props.deck].filter(n => n !== randomCardNumber)
+    availableCardsState.value[deckRef.value] = availableCardsState.value[deckRef.value].filter(n => n !== randomCardNumber)
     randomCardIndex.value = randomCardNumber
     is_flipped.value = true;
     emit('update:modelValue', cardPath.value)
@@ -103,10 +105,11 @@ watch(
       }
 
       if (val) {
-        const match = val.match(/\/(\d+)\.png$/)
+        const match = val.match(/^\/decks\/([^/]+)\/(\d+)\.png$/)
         if (match) {
           is_flipped.value = true
-          randomCardIndex.value = Number(match[1])
+          randomCardIndex.value = Number(match[2])
+          deckRef.value = match[1]
         }
       } else {
         is_flipped.value = false;

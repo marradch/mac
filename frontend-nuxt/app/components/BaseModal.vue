@@ -18,10 +18,11 @@
 
         <!-- Modal -->
         <div
-            class="relative z-10 w-full h-full max-h-screen lg:max-h-[calc(100vh-40px)] lg:max-w-3xl
+            class="relative z-10 w-full h-full max-h-screen lg:w-fit
                  bg-white p-3 lg:p-6 shadow-xl
                  lg:rounded-xl
                  overflow-y-auto flex flex-col"
+            :class="hFull ? 'lg:max-h-[calc(100vh-40px)]' : 'lg:h-fit'"
         >
           <!-- Close button -->
           <button
@@ -50,6 +51,9 @@ defineProps({
   open: {
     type: Boolean,
     required: true
+  },
+  hFull: {
+    type: Boolean
   }
 })
 

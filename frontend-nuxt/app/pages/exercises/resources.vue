@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
-    <TurnCard v-for="(card, index)  in cards" deck="nature-reflections" v-model="cards[index]"></TurnCard>
+    <TurnCard v-for="(card, index)  in cards" v-model="cards[index]"></TurnCard>
   </div>
   <div class="fixed bottom-0 left-0 right-0 z-50 p-4 flex flex-col items-end gap-2">
 
@@ -30,9 +30,16 @@
   </div>
   <BaseModal
       :open="isDeckModalOpen"
+      :h-full="resourceSelectionDeck !== ''"
       @close="isDeckModalOpen = false; resourceSelectionDeck = ''"
   >
-    <ChooseDeck :decks="decks" class="flex-1" v-if="resourceSelectionDeck === ''" v-model="resourceSelectionDeck"/>
+    <ChooseDeck
+        v-if="resourceSelectionDeck === ''"
+        v-model="resourceSelectionDeck"
+        class="flex-1"
+        :decks="decks"
+        col-layout
+        />
     <CardSelection v-else :deck="resourceSelectionDeck" @selected="(value) => selectCard(value)"/>
 
     <template v-if="resourceSelectionDeck === ''" #header>
