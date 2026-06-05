@@ -42,5 +42,7 @@
   "Something went wrong": "Что-то пошло не так",
   "add_resource": "Добавить ресурс",
   "choose_deck": "Выбрать колоду",
-  "choose_card": "Выбрать карту"
+  "choose_card": "Выбрать карту",
+  "open_mode": "В открытую",
+  "close_mode": "В закрытую"
 }

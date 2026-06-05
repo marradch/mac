@@ -42,5 +42,7 @@
   "Something went wrong": "Something went wrong",
   "add_resource": "Add resource",
   "choose_deck": "Choose deck",
-  "choose_card": "Choose card"
+  "choose_card": "Choose card",
+  "open_mode": "Open mode",
+  "close_mode": "Close mode"
 }
