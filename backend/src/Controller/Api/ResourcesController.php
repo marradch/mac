@@ -3,7 +3,7 @@
 namespace App\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\AI\Service\Interpreter\QuestionToCardInterpreterService;
+use App\AI\Service\Interpreter\ResourcesInterpreterService;
 use App\AI\DTO\MetaphoricalCard;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -11,15 +11,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use App\DTO\Input\QuestionDTO;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 
-final class QuestionController extends AbstractController {
+final class ResourcesController extends AbstractController {
     public function __construct(
-        private QuestionToCardInterpreterService $questionToCardService,
+        private ResourcesInterpreterService $resourcesService,
     ) {}
 
-    #[Route('/api/question/{locale}', 'question_to_card', methods: ['POST', 'OPTIONS'])]
+    #[Route('/api/resources/{locale}', 'question_to_card', methods: ['POST', 'OPTIONS'])]
     public function list(string $locale, #[MapRequestPayload] QuestionDTO $questionDTO, Request $request): JsonResponse
     {
-        $result = $this->questionToCardService->interpret(
+        $result = $this->resourcesService->interpret(
             $locale,
             $questionDTO,
         );

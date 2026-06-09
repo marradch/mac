@@ -19,14 +19,6 @@ final class ChoiceController extends AbstractController
     #[Route('/api/choice/{locale}', 'choice', methods: ['POST', 'OPTIONS'])]
     public function interpret(string $locale, #[MapRequestPayload] ChoiceDTO $dto, Request $request): JsonResponse
     {
-        if ($request->getMethod() === 'OPTIONS') {
-            return new JsonResponse(null, 204, [
-                'Access-Control-Allow-Origin' => '*',
-                'Access-Control-Allow-Methods' => 'POST, OPTIONS',
-                'Access-Control-Allow-Headers' => 'Content-Type',
-            ]);
-        }
-
         $result = $this->service->interpret($locale, $dto);
 
         return new JsonResponse($result);
