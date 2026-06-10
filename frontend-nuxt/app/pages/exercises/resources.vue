@@ -41,15 +41,22 @@
       </div>
     </div>
   </div>
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
-    <TurnCard
-        v-for="(card, index) in cards"
-        v-model="cards[index]"
-        :deck="cardDecks[index]"
-        :key="cards.length"
-        removable
-        @remove="removeCardByIndex(index)"
-    ></TurnCard>
+  <div ref="cardsContentRef" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
+    <div v-for="(card, index) in cards" :key="cards.length" class="flex flex-col gap-3">
+      <TurnCard
+          v-model="cards[index]"
+          :deck="cardDecks[index]"
+          removable
+          @remove="removeCardByIndex(index)"
+      ></TurnCard>
+      <div v-if="intelligentHint?.cards_interpretations?.[index]?.interpretation" class="bg-white border border-gray-200 p-3 shadow-md rounded-md text-gray-600 mb-3">
+        {{ intelligentHint.cards_interpretations[index].interpretation }}
+      </div>
+
+      <div v-if="intelligentHint?.cards_interpretations?.[index]?.affirmation" class="bg-white border border-gray-200 p-3 shadow-md rounded-md text-gray-600 mb-3">
+        {{ intelligentHint.cards_interpretations[index].affirmation }}
+      </div>
+    </div>
   </div>
   <div class="fixed bottom-0 left-0 right-0 z-50 p-4 flex flex-col items-end gap-2">
 
@@ -93,9 +100,14 @@ const loading = ref(false)
 const isModalOpen = ref(false)
 const resourceSelectionDeck = ref('')
 const resourceSelectionMode = ref('open')
+const query = ref('')
+const error = ref('');
+const intelligentHint = ref({});
 
 const cards = ref([]);
 const cardDecks = ref([]);
+
+const cardsContentRef = ref(null);
 
 function selectCard(value) {
   cards.value.push(value);
@@ -116,5 +128,59 @@ function selectDeck() {
 function removeCardByIndex(index) {
   cards.value = cards.value.filter((_, i) => i !== index)
   cardDecks.value = cardDecks.value.filter((_, i) => i !== index)
+}
+
+function hasEmptyCards() {
+  return cards.value.some((card) => !card)
+}
+
+async function getIntelligentHint() {
+  error.value = ''
+
+  if (!query.value || hasEmptyCards() || !cards.value.length) {
+    error.value = $t('intelligent_hint_validation_all');
+    return
+  }
+
+  try {
+    loading.value = true;
+
+    //const origin = useRequestURL().origin
+    const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
+
+    intelligentHint.value = await $fetch(`/resources/${locale.value}`, {
+      baseURL: config.public.apiBase,
+      method: 'POST',
+      body: {
+        query: query.value,
+        cards: cards.value.map(card => ({
+          'imageUrl': origin + card
+        })),
+      }
+    })
+
+    await nextTick()
+
+    if (intelligentHint.value?.is_query_valid) {
+      cardsContentRef.value?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    } else {
+      error.value = intelligentHint.value?.query_feedback;
+    }
+
+  } catch (errorResponse) {
+    const responseData = errorResponse?.data ?? errorResponse?.response?._data
+
+    if (responseData?.type === 'retryable_error') {
+      error.value = $t('Something went wrong. Please, try again')
+    } else {
+      error.value = $t(`Something went wrong`)
+    }
+    console.log(errorResponse)
+  } finally {
+    loading.value = false;
+  }
 }
 </script>

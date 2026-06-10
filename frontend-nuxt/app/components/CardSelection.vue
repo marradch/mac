@@ -69,6 +69,5 @@ function selectCard() {
   const cardNumber = availableCardsState.value[props.deck][index.value];
   emit('selected', imageSrc.value);
   availableCardsState.value[props.deck] = availableCardsState.value[props.deck].filter(n => n !== cardNumber)
-  console.log(availableCardsState.value[props.deck])
 }
 </script>
