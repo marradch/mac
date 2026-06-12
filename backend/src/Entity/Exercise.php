@@ -34,6 +34,9 @@ class Exercise
     #[ORM\Column(options: ['default' => 1])]
     private ?int $orderInList = 1;
 
+    #[ORM\OneToOne(inversedBy: 'exercise', cascade: ['persist', 'remove'])]
+    private ?Spread $spread = null;
+
     public function __construct()
     {
         $this->translations = new ArrayCollection();
@@ -96,6 +99,18 @@ class Exercise
     public function setOrderInList(int $orderInList): static
     {
         $this->orderInList = $orderInList;
+
+        return $this;
+    }
+
+    public function getSpread(): ?Spread
+    {
+        return $this->spread;
+    }
+
+    public function setSpread(?Spread $spread): static
+    {
+        $this->spread = $spread;
 
         return $this;
     }
