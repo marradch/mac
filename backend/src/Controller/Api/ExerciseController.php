@@ -27,8 +27,7 @@ final class ExerciseController extends AbstractController
     #[Route('/api/exercises/{locale}/{slug}', 'api_exercise', methods: ['GET'])]
     public function show(string $locale, string $slug): JsonResponse
     {
-        $exercise = $this->service->findOneBySlugAndLocale($locale, $slug);
-        $dto = $this->factory->makeExerciseOutputDTOForExercisePage($exercise);
+        $dto = $this->service->findOneBySlugAndLocale($locale, $slug);
 
         return $this->json($dto);
     }

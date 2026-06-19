@@ -9,4 +9,5 @@ class ExerciseOutputDTO {
     public ?string $description;
     public ?string $seo_title;
     public ?string $seo_description;
+    public ?array $spread;
 }

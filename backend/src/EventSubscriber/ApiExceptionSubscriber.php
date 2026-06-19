@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -10,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use App\Exception\RetryableException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ApiExceptionSubscriber implements EventSubscriberInterface
 {
@@ -64,7 +66,13 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
                 'message' => 'Not found',
             ], 404);
             $event->setResponse($response);
-        } /*else {
+        } else if ($exception instanceof BadRequestHttpException) {
+            $response = new JsonResponse([
+                'status' => 'error',
+                'message' => $exception->getMessage(),
+            ], 404);
+            $event->setResponse($response);
+        }/*else {
             $response = new JsonResponse([
                 'status' => 'error',
                 'type' => 'internal_error',

@@ -3,6 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\Exercise;
+use App\Entity\SpreadCard;
 use App\DTO\Output\ExerciseOutputDTO;
 
 class ExerciseOutputDTOFactory {
@@ -24,7 +25,7 @@ class ExerciseOutputDTOFactory {
         return array_map(fn(Exercise $exercise) => $this->makeExerciseOutputDTO($exercise), $exercises);
     }
 
-    public function makeExerciseOutputDTOForExercisePage(Exercise $exercise): ExerciseOutputDTO
+    public function makeExerciseOutputDTOForExercisePage(Exercise $exercise, array $cards): ExerciseOutputDTO
     {
         $translation = $exercise->getTranslations()->first();
 
@@ -35,6 +36,14 @@ class ExerciseOutputDTOFactory {
         $dto->description = $translation?->getDescription();
         $dto->seo_title = $translation?->getSeoTitle();
         $dto->seo_description = $translation?->getSeoDescription();
+        $dto->spread = array_map(function (SpreadCard $card) {
+            $translation = $card->getSpreadCardTranslations()->first();
+
+            return [
+                'slug' => $card->getSlug(),
+                'title' => $translation?->getTitle(),
+            ];
+        }, $cards);
 
         return $dto;
     }
