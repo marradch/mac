@@ -13,7 +13,7 @@
 import type { Exercise } from "~/types/Exercise"
 
 const props = defineProps<{
-  exercise: Exercise
+  exercise?: Exercise
 }>()
 
 useHead(() => ({

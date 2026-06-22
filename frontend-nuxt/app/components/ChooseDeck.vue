@@ -33,7 +33,7 @@
 import type { Deck } from '~/types/Deck'
 
 const props = defineProps<{
-  decks: Deck[]
+  decks?: Deck[]
   modelValue: string
   colLayout?: boolean
 }>()

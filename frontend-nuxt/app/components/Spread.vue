@@ -1,8 +1,8 @@
 <template>
-  <ExerciseHeader v-if="exercise" :exercise="exercise" />
+  <ExerciseHeader :exercise="exercise" />
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px] justify-center">
-      <ChooseDeck v-if="decks" :decks="decks" v-model="deck"/>
+      <ChooseDeck :decks="decks" v-model="deck"/>
 
       <textarea
           v-model="query"

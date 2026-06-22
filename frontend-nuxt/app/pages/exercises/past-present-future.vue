@@ -22,7 +22,7 @@
         'grid-cols-1': numberOfCards !== 1,
         'grid-cols-1 sm:grid-cols-3 gap-3': numberOfCards === 1
       }">
-        <div class="time-period-container" v-for="period in ['past', 'present', 'future']"
+        <div class="time-period-container" v-for="period in periods"
              :key="period">
           <h2 class="text-3xl font-bold my-3 text-primary text-center">{{$t(period)}}</h2>
           <template v-if="numberOfCards === 1">
@@ -54,7 +54,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const { t, locale} = useI18n()
 const { exercise } = useExercise('past-present-future')
 const { decks, resetAvailableCardsState } = await useDecks()
@@ -71,10 +71,13 @@ const cards = ref({
 })
 const error = ref("")
 const intelligentHint = ref({});
-const hintContentRef = ref(null);
+const hintContentRef = ref<HTMLElement | null>(null);
+
+type Period = 'past' | 'present' | 'future'
+const periods: Period[] = ['past', 'present', 'future']
 
 function hasEmptyCards() {
-  return ['past', 'present', 'future'].some((period) => {
+  return periods.some((period: Period) => {
     return cards.value[period].some((card) => !card)
   })
 }
@@ -117,7 +120,7 @@ async function getIntelligentHint() {
       block: 'start'
     })
 
-  } catch (errorResponse) {
+  } catch (errorResponse: any) {
     const responseData = errorResponse?.data ?? errorResponse?.response?._data
 
     if (responseData?.type === 'retryable_error') {
@@ -132,7 +135,7 @@ async function getIntelligentHint() {
 }
 
 watch(numberOfCards, (val) => {
-  ['past', 'present', 'future'].forEach((period) => {
+  periods.forEach((period: Period) => {
     cards.value[period] = Array.from(
         { length: val },
         (_, i) => cards.value[period]?.[i] ?? ''

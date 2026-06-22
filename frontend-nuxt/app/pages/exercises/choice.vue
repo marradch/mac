@@ -1,8 +1,8 @@
 <template>
-  <ExerciseHeader v-if="exercise" :exercise="exercise" />
+  <ExerciseHeader :exercise="exercise" />
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px]">
-      <ChooseDeck v-if="decks" :decks="decks" v-model="deck"/>
+      <ChooseDeck :decks="decks" v-model="deck"/>
       <textarea
           v-model="query"
           :placeholder="$t('query_placeholder')"
@@ -81,16 +81,16 @@ const numberOfCards = ref(1)
 const deck = ref(config.public.defaultDeckSlug)
 
 type OptionKey = 'option_1' | 'option_2'
+const options: OptionKey[] = ['option_1', 'option_2']
+
 const cards = ref<Record<OptionKey, string[]>>({
   option_1: [''],
   option_2: [''],
 })
 
-const intelligentHint = ref({});
-const hintContentRef = ref<HTMLElement | null>(null);
-const error = ref('');
-
-const options: OptionKey[] = ['option_1', 'option_2']
+const intelligentHint = ref({})
+const hintContentRef = ref<HTMLElement | null>(null)
+const error = ref('')
 
 function hasEmptyCards() {
   return options.some((option: OptionKey) => {
@@ -102,12 +102,12 @@ async function getIntelligentHint() {
   error.value = ''
 
   if (!query.value || !option1Text.value || !option2Text.value || hasEmptyCards()) {
-    error.value = $t('intelligent_hint_validation_all');
+    error.value = $t('intelligent_hint_validation_all')
     return
   }
 
   try {
-    loading.value = true;
+    loading.value = true
 
     //const origin = useRequestURL().origin
     const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
@@ -145,7 +145,7 @@ async function getIntelligentHint() {
     }
     console.log(errorResponse)
   } finally {
-    loading.value = false;
+    loading.value = false
   }
 }
 
