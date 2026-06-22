@@ -1,4 +1,5 @@
 <template>
+  <ExerciseHeader v-if="exercise" :exercise="exercise" />
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px] justify-center">
       <ChooseDeck v-if="decks" :decks="decks" v-model="deck"/>
@@ -39,7 +40,6 @@
 </template>
 <script setup lang="ts">
 import type { Exercise } from "~/types/Exercise"
-import type { Deck } from "~/types/Deck"
 
 const props = defineProps<{
   exercise: Exercise

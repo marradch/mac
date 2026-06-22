@@ -92,9 +92,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Exercise } from "~/types/Exercise"
-import type { Deck } from "~/types/Deck"
-
 const { t, locale} = useI18n()
 const { exercise } = useExercise('resources')
 const { decks } = await useDecks()

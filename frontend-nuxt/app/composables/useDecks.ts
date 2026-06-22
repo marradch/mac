@@ -1,5 +1,11 @@
 import type { Deck } from "~/types/Deck"
-export const useDecks = async () => {
+import type { AsyncDataRequestStatus } from '#app'
+export const useDecks = async ():Promise<{
+    decks: Ref<Deck[] | undefined>
+    status: Ref<AsyncDataRequestStatus>
+    error: Ref<Error | undefined>
+    resetAvailableCardsState: () => void
+}> => {
     const availableCardsState = useState<Record<string, number[]>>(
         'availableCards',
         () => ({})

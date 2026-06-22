@@ -1,6 +1,11 @@
 import type { Exercise } from "~/types/Exercise"
+import type { AsyncDataRequestStatus } from '#app'
 
-export const useExercise = (section: string) => {
+export const useExercise = (section: string): {
+    exercise: Ref<Exercise | undefined>
+    status: Ref<AsyncDataRequestStatus>
+    error: Ref<Error | undefined>
+} => {
     const { locale } = useI18n()
     const config = useRuntimeConfig()
 
