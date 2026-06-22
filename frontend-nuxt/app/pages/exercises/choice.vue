@@ -1,8 +1,8 @@
 <template>
-  <ExerciseHeader :exercise="exercise" />
+  <ExerciseHeader v-if="exercise" :exercise="exercise" />
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px]">
-      <ChooseDeck :decks="decks" v-model="deck"/>
+      <ChooseDeck v-if="decks" :decks="decks" v-model="deck"/>
       <textarea
           v-model="query"
           :placeholder="$t('query_placeholder')"
@@ -39,13 +39,13 @@
           <h2 class="text-3xl font-bold my-3 text-primary text-center">{{$t("variant")}} {{i}}</h2>
           <template v-if="numberOfCards === 1">
             <div class="card-container flex justify-center">
-              <TurnCard :deck="deck" class="" v-model="cards[`option_${i}`][0]"/>
+              <TurnCard :deck="deck" class="" v-model="cards[getOptionKey(i)][0]"/>
             </div>
           </template>
           <template v-if="numberOfCards === 3">
             <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div class="card-container flex justify-center" :key="index" v-for="(n, index) in numberOfCards">
-                <TurnCard :deck="deck" class="" v-model="cards[`option_${i}`][index]"/>
+                <TurnCard :deck="deck" class="" v-model="cards[getOptionKey(i)][index]"/>
               </div>
             </div>
           </template>
@@ -67,7 +67,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const { t, locale} = useI18n()
 const { exercise } = useExercise('choice')
 const { decks, resetAvailableCardsState } = await useDecks()
@@ -79,17 +79,21 @@ const option1Text = ref('')
 const option2Text = ref('')
 const numberOfCards = ref(1)
 const deck = ref(config.public.defaultDeckSlug)
-const cards = ref({
+
+type OptionKey = 'option_1' | 'option_2'
+const cards = ref<Record<OptionKey, string[]>>({
   option_1: [''],
   option_2: [''],
 })
 
 const intelligentHint = ref({});
-const hintContentRef = ref(null);
+const hintContentRef = ref<HTMLElement | null>(null);
 const error = ref('');
 
+const options: OptionKey[] = ['option_1', 'option_2']
+
 function hasEmptyCards() {
-  return ['option_1', 'option_2'].some((option) => {
+  return options.some((option: OptionKey) => {
     return cards.value[option].some((card) => !card)
   })
 }
@@ -115,10 +119,10 @@ async function getIntelligentHint() {
         query: query.value,
         option1Text: option1Text.value,
         option2Text: option2Text.value,
-        option1Cards: cards.value.option_1.map(card => ({
+        option1Cards: cards.value.option_1?.map(card => ({
           'imageUrl': origin + card
         })),
-        option2Cards: cards.value.option_2.map(card => ({
+        option2Cards: cards.value.option_2?.map(card => ({
           'imageUrl': origin + card
         })),
       }
@@ -131,7 +135,7 @@ async function getIntelligentHint() {
       block: 'start'
     })
 
-  } catch (errorResponse) {
+  } catch (errorResponse: any) {
     const responseData = errorResponse?.data ?? errorResponse?.response?._data
 
     if (responseData?.type === 'retryable_error') {
@@ -146,10 +150,10 @@ async function getIntelligentHint() {
 }
 
 watch(numberOfCards, (val) => {
-  ['option_1', 'option_2'].forEach((period) => {
-    cards.value[period] = Array.from(
+  options.forEach((option) => {
+    cards.value[option] = Array.from(
         { length: val },
-        (_, i) => cards.value[period]?.[i] ?? ''
+        (_, i) => cards.value[option]?.[i] ?? ''
     )
   })
 })
@@ -161,4 +165,7 @@ watch(deck, () => {
   }
   resetAvailableCardsState()
 })
+
+const getOptionKey = (i: number): OptionKey =>
+    `option_${i}` as OptionKey
 </script>
