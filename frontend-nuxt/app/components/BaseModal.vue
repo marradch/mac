@@ -46,16 +46,13 @@
   </Teleport>
 </template>
 
-<script setup>
-defineProps({
-  open: {
-    type: Boolean,
-    required: true
-  },
-  hFull: {
-    type: Boolean
-  }
-})
+<script setup lang="ts">
+defineProps<{
+  open: boolean
+  hFull?: boolean
+}>()
 
-defineEmits(['close'])
+defineEmits<{
+  (e: 'close'): void
+}>()
 </script>

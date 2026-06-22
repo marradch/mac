@@ -26,26 +26,17 @@
 </template>
 
 <script setup lang="ts">
+import type { Exercise } from "~/types/Exercise"
+
 const { locale } = useI18n()
 const config = useRuntimeConfig()
 const localePath = useLocalePath()
-
-interface Exercise {
-  id: number
-  slug: string
-  title: string
-  description: string
-}
 
 const { data: exercises, status, error } = await useFetch<Exercise[]>(
     `/exercises/${locale.value}`,
     {
       watch: [locale], // 🔥 важно: перезапрос при смене языка
       baseURL: config.public.apiBase,
-      key: () => `exercises-${locale.value}`,
-      getCachedData: (key) => {
-        return useNuxtApp().payload.data[key]
-      }
     }
 )
 </script>

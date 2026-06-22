@@ -14,7 +14,7 @@
     <div class="flex-1 flex items-center justify-center overflow-hidden h-full">
       <img
           :src="imageSrc"
-          class="w-full h-auto h-full object-contain rounded-lg"
+          class="w-full h-full object-contain rounded-lg"
           :alt="`card-${index}`"
           @click="selectCard"
       />
@@ -37,37 +37,39 @@ import { ref, computed } from 'vue'
 import ArrowLeft from '~/assets/icons/arrow-left.svg'
 import ArrowRight from '~/assets/icons/arrow-right.svg'
 
-const emit = defineEmits(['selected'])
+const emit = defineEmits<{
+  (e: 'selected', value: string): void
+}>()
 
 const props = defineProps<{
   deck: string
 }>()
 
-const index = ref(0)
+const index = ref<number>(0)
 
-const imageSrc = computed(() => {
-  const cardNumber = availableCardsState.value[props.deck][index.value];
+const imageSrc = computed<string>(() => {
+  const cardNumber = availableCardsState.value?.[props.deck]?.[index.value];
   return `/decks/${props.deck}/${cardNumber}.png`
 })
 
-function next() {
+function next():void {
   if (index.value < maxIndex) {
     index.value++
   }
 }
 
-function prev() {
+function prev(): void {
   if (index.value > 0) {
     index.value--
   }
 }
 
-const availableCardsState = useState<[]>('availableCards', () => [])
-const maxIndex = availableCardsState.value[props.deck].length - 1
+const availableCardsState = useState<Record<string, number[]>>('availableCards', () => ({}))
+const maxIndex: number = (availableCardsState.value[props.deck]?.length ?? 0) - 1
 
-function selectCard() {
-  const cardNumber = availableCardsState.value[props.deck][index.value];
+function selectCard(): void {
+  const cardNumber: number = availableCardsState.value?.[props.deck]?.[index.value] ?? 0;
   emit('selected', imageSrc.value);
-  availableCardsState.value[props.deck] = availableCardsState.value[props.deck].filter(n => n !== cardNumber)
+  availableCardsState.value[props.deck] = availableCardsState.value?.[props.deck]?.filter(n => n !== cardNumber) ?? []
 }
 </script>

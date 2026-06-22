@@ -5,6 +5,6 @@ namespace App\Enum;
 enum Locale: string
 {
     case RU = 'ru';
-    case UK = 'uk';
+    case UK = 'ua';
     case EN = 'en';
 }

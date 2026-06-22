@@ -103,23 +103,26 @@
   </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const { t, locale, locales, setLocale } = useI18n()
+type LocaleCode = 'en' | 'ua' | 'ru'
 
-const localesOpen = ref(false)
-const mobileOpen = ref(false)
-const dropdownRef = ref(null)
+const localesOpen = ref<boolean>(false)
+const mobileOpen = ref<boolean>(false)
+const dropdownRef = ref<HTMLElement| null>(null)
 
 
 const currentLocale = locale
 
-const changeLocale = async (code) => {
+const changeLocale = async (code: LocaleCode) => {
   await setLocale(code)
-  open.value = false
+  localesOpen.value = false
 }
 
-const handleClickOutside = (event) => {
-  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
+const handleClickOutside = (event: MouseEvent) => {
+  if (dropdownRef.value &&
+      event.target instanceof Node &&
+      !dropdownRef.value.contains(event.target)) {
     localesOpen.value = false
   }
 }

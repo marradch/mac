@@ -4,6 +4,8 @@ interface SpreadItem {
 }
 
 export interface Exercise {
+    id?: number,
+    slug?: string,
     title: string
     description: string
     seo_title: string
