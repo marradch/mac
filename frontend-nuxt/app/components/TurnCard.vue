@@ -73,8 +73,8 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'remove'])
 
-const is_flipped = ref(false);
-const randomCardIndex = ref('');
+const is_flipped = ref(false)
+const randomCardIndex = ref('')
 const cardPath = computed(() => {
   if (randomCardIndex.value) {
     return `/decks/${deckRef.value}/${randomCardIndex.value}.png`
@@ -83,28 +83,35 @@ const cardPath = computed(() => {
   }
 })
 
-const internalChange = ref('');
-const deckRef = ref('');
-deckRef.value = props.deck ?? '';
+const internalChange = ref('')
+const deckRef = ref('')
+deckRef.value = props.deck ?? ''
+
+watch(
+    () => props.deck,
+    (newDeck) => {
+      deckRef.value = newDeck ?? ''
+    }
+)
 
 const toggle = () => {
   internalChange.value = true
 
   if (is_flipped.value) {
-    is_flipped.value = false;
+    is_flipped.value = false
 
     availableCardsState.value[deckRef.value].push(randomCardIndex.value)
-    //randomCardIndex.value = '';
+    //randomCardIndex.value = ''
     emit('update:modelValue', '')
   } else {
-    //console.log(availableCardsState.value[props.deck]);
+    //console.log(availableCardsState.value[props.deck])
     const randomArrayIndex = Math.floor(Math.random() * availableCardsState.value[deckRef.value].length)
-    //console.log(randomArrayIndex);
-    const randomCardNumber = availableCardsState.value[deckRef.value][randomArrayIndex];
-    //console.log(randomCardNumber);
+    //console.log(randomArrayIndex)
+    const randomCardNumber = availableCardsState.value[deckRef.value][randomArrayIndex]
+    //console.log(randomCardNumber)
     availableCardsState.value[deckRef.value] = availableCardsState.value[deckRef.value].filter(n => n !== randomCardNumber)
     randomCardIndex.value = randomCardNumber
-    is_flipped.value = true;
+    is_flipped.value = true
     emit('update:modelValue', cardPath.value)
   }
 }
@@ -112,7 +119,7 @@ const toggle = () => {
 const inner_style = computed(() => {
   return `
     transform-style: preserve-3d;
-    transform: ${is_flipped.value ? 'rotateY(180deg)' : 'rotateY(0deg)'};
+    transform: ${is_flipped.value ? 'rotateY(180deg)' : 'rotateY(0deg)'}
   `
 })
 
@@ -135,8 +142,8 @@ watch(
           deckRef.value = match[1]
         }
       } else {
-        is_flipped.value = false;
-        randomCardIndex.value = '';
+        is_flipped.value = false
+        randomCardIndex.value = ''
       }
     },
     {immediate: true}

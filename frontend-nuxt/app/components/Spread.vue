@@ -1,7 +1,8 @@
 <template>
-  <ChooseDeck v-if="decks" :decks="decks" v-model="deck" @update:model-value="console.log('test')"/>
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px] justify-center">
+      <ChooseDeck v-if="decks" :decks="decks" v-model="deck"/>
+
       <textarea
           v-model="query"
           :placeholder="$t('query_placeholder')"
@@ -45,9 +46,7 @@ const props = defineProps<{
 }>()
 
 const { t, locale} = useI18n()
-const { decks } = await useDecks() as {
-  decks: Ref<Array<Deck> | undefined>
-}
+const { decks, resetAvailableCardsState } = await useDecks()
 
 const query = ref('')
 const error = ref('')
@@ -67,6 +66,11 @@ cards.value = props.exercise?.spread?.map(spreadItem => ({
       ...spreadItem,
       imageUrl: "",
 })) ?? []
+
+watch(deck, () => {
+  cards.value.forEach(card => (card.imageUrl = ''))
+  resetAvailableCardsState()
+})
 
 function  getIntelligentHint() {
   console.log(cards.value, deck.value)
