@@ -1,5 +1,5 @@
 <template>
-  <ExerciseHeader :exercise="exercise" />
+  <ExerciseHeader v-if="exercise" :exercise="exercise" />
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px] justify-center">
       <textarea
@@ -73,7 +73,7 @@
       @close="isModalOpen = false; resourceSelectionDeck = ''"
   >
     <ChooseDeck
-        v-if="resourceSelectionDeck === ''"
+        v-if="decks && resourceSelectionDeck === ''"
         v-model="resourceSelectionDeck"
         class="flex-1"
         :decks="decks"
@@ -92,40 +92,44 @@
 </template>
 
 <script setup lang="ts">
+import type { Exercise } from "~/types/Exercise"
+import type { Deck } from "~/types/Deck"
+
 const { t, locale} = useI18n()
 const { exercise } = useExercise('resources')
-const { decks } = await useDecks();
+const { decks } = await useDecks()
+
 const config = useRuntimeConfig()
 const loading = ref(false)
 const isModalOpen = ref(false)
 const resourceSelectionDeck = ref('')
 const resourceSelectionMode = ref('open')
 const query = ref('')
-const error = ref('');
-const intelligentHint = ref({});
+const error = ref('')
+const intelligentHint = ref<any>({})
 
-const cards = ref([]);
-const cardDecks = ref([]);
+const cards = ref<string[]>([])
+const cardDecks = ref<string[]>([])
 
-const cardsContentRef = ref(null);
+const cardsContentRef = ref<HTMLElement | null>(null)
 
-function selectCard(value) {
-  cards.value.push(value);
-  cardDecks.value.push(resourceSelectionDeck.value);
-  isModalOpen.value = false;
+function selectCard(value: string) {
+  cards.value.push(value)
+  cardDecks.value.push(resourceSelectionDeck.value)
+  isModalOpen.value = false
   resourceSelectionDeck.value = ''
 }
 
 function selectDeck() {
   if (resourceSelectionMode.value === 'close') {
-    cards.value.push('');
-    cardDecks.value.push(resourceSelectionDeck.value);
-    isModalOpen.value = false;
+    cards.value.push('')
+    cardDecks.value.push(resourceSelectionDeck.value)
+    isModalOpen.value = false
     resourceSelectionDeck.value = ''
   }
 }
 
-function removeCardByIndex(index) {
+function removeCardByIndex(index: number) {
   cards.value = cards.value.filter((_, i) => i !== index)
   cardDecks.value = cardDecks.value.filter((_, i) => i !== index)
 }
@@ -138,12 +142,12 @@ async function getIntelligentHint() {
   error.value = ''
 
   if (!query.value || hasEmptyCards() || !cards.value.length) {
-    error.value = $t('intelligent_hint_validation_all');
+    error.value = $t('intelligent_hint_validation_all')
     return
   }
 
   try {
-    loading.value = true;
+    loading.value = true
 
     //const origin = useRequestURL().origin
     const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
@@ -167,10 +171,10 @@ async function getIntelligentHint() {
         block: 'start'
       })
     } else {
-      error.value = intelligentHint.value?.query_feedback;
+      error.value = intelligentHint.value?.query_feedback
     }
 
-  } catch (errorResponse) {
+  } catch (errorResponse: any) {
     const responseData = errorResponse?.data ?? errorResponse?.response?._data
 
     if (responseData?.type === 'retryable_error') {
@@ -180,7 +184,7 @@ async function getIntelligentHint() {
     }
     console.log(errorResponse)
   } finally {
-    loading.value = false;
+    loading.value = false
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-<ExerciseHeader :exercise="exercise" />
+<ExerciseHeader v-if="exercise" :exercise="exercise" />
 <Spread v-if="exercise" :exercise="exercise" />
 </template>
 
