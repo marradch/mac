@@ -1,16 +1,13 @@
+import type { Deck } from "~/types/Deck"
 export const useDecks = async () => {
-    const availableCardsState = useState<[]>('availableCards', () => [])
-    const decksState = useState<[]>('decks', () => [])
+    const availableCardsState = useState<Record<string, number[]>>(
+        'availableCards',
+        () => ({})
+    )
+    const decksState = useState<Deck[]>('decks', () => [])
 
     const { locale } = useI18n()
     const config = useRuntimeConfig()
-
-    interface Deck {
-        id: number
-        slug: string
-        title: string
-        cardsCount: number
-    }
 
     const { data: decks, status, error } = await useFetch<Deck[]>(
         () => `/decks/${locale.value}`,
@@ -24,9 +21,9 @@ export const useDecks = async () => {
         }
     )
 
-    decksState.value = decks;
+    decksState.value = decks.value ?? []
 
-    decks.value.forEach(deck => {
+    decks.value?.forEach(deck => {
         availableCardsState.value[deck.slug] = Array.from({ length: deck.cardsCount }, (_, i) => i + 1)
     })
 

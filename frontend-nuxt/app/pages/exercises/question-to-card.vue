@@ -1,8 +1,8 @@
 <template>
-  <ExerciseHeader :exercise="exercise" />
+  <ExerciseHeader v-if="exercise" :exercise="exercise" />
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px]">
-      <ChooseDeck :decks="decks" v-model="deck"/>
+      <ChooseDeck v-if="decks" :decks="decks" v-model="deck"/>
       <textarea
           v-model="query"
           :placeholder="$t('query_placeholder')"
@@ -48,10 +48,10 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const { t, locale} = useI18n()
 const { exercise } = useExercise('question-to-card')
-const { decks, resetAvailableCardsState } = await useDecks();
+const { decks, resetAvailableCardsState } = await useDecks()
 const config = useRuntimeConfig()
 
 const loading = ref(false)
@@ -60,9 +60,9 @@ const numberOfCards = ref(1)
 const deck = ref(config.public.defaultDeckSlug)
 const cards = ref([''])
 
-const intelligentHint = ref({});
-const hintContentRef = ref(null);
-const error = ref('');
+const intelligentHint = ref({})
+const hintContentRef = ref<HTMLElement | null>(null)
+const error = ref('')
 
 function hasEmptyCards() {
   return cards.value.some((card) => !card)
@@ -72,12 +72,12 @@ async function getIntelligentHint() {
   error.value = ''
 
   if (!query.value || hasEmptyCards()) {
-    error.value = $t('intelligent_hint_validation_all');
+    error.value = $t('intelligent_hint_validation_all')
     return
   }
 
   try {
-    loading.value = true;
+    loading.value = true
 
     //const origin = useRequestURL().origin
     const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
@@ -100,7 +100,7 @@ async function getIntelligentHint() {
       block: 'start'
     })
 
-  } catch (errorResponse) {
+  } catch (errorResponse: any) {
     const responseData = errorResponse?.data ?? errorResponse?.response?._data
 
     if (responseData?.type === 'retryable_error') {
@@ -110,7 +110,7 @@ async function getIntelligentHint() {
     }
     console.log(errorResponse)
   } finally {
-    loading.value = false;
+    loading.value = false
   }
 }
 

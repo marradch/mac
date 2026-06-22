@@ -30,23 +30,15 @@
 </template>
 
 <script setup lang="ts">
-const { locale } = useI18n()
-const config = useRuntimeConfig()
+import type { Deck } from '~/types/Deck'
 
-const props = defineProps({
-  decks: {
-    type: Array,
-    required: true
-  },
-  modelValue: {
-    type: String,
-    required: true
-  },
-  colLayout: {
-    type: Boolean,
-    default: false
-  }
-})
+const props = defineProps<{
+  decks: Deck[]
+  modelValue: string
+  colLayout?: boolean
+}>()
 
-defineEmits(['update:modelValue'])
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: string): void
+}>()
 </script>

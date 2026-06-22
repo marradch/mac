@@ -17,13 +17,12 @@
 </div>
 </template>
 
-<script setup>
-defineProps({
-  error: {
-    type: String,
-    required: true
-  }
-})
+<script setup lang="ts">
+defineProps<{
+  error: string
+}>()
 
-const emit = defineEmits(['close'])
+const emit = defineEmits<{
+  (e: 'close'): void
+}>()
 </script>

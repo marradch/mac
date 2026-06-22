@@ -16,7 +16,7 @@ final class ResourcesController extends AbstractController {
         private ResourcesInterpreterService $resourcesService,
     ) {}
 
-    #[Route('/api/resources/{locale}', 'question_to_card', methods: ['POST', 'OPTIONS'])]
+    #[Route('/api/resources/{locale}', 'resources', methods: ['POST', 'OPTIONS'])]
     public function list(string $locale, #[MapRequestPayload] QuestionDTO $questionDTO, Request $request): JsonResponse
     {
         $result = $this->resourcesService->interpret(
