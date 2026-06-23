@@ -5,11 +5,11 @@
   >
     <div
         class="relative w-full h-full transition-transform duration-700"
-        :style="inner_style"
+        :style="innerStyle"
     >
       <div v-if="removable"
           class="
-            absolute top-[20px]
+            absolute top-[10px]
             w-[30px] h-[30px]
             bg-primary
             rounded-full
@@ -21,10 +21,30 @@
             z-[99999]
             hover:bg-primary-hover
           "
-          :class="is_flipped ? 'left-[20px]' : 'right-[20px]'"
+          :class="isFlipped ? 'left-[20px]' : 'right-[20px]'"
           @click="emit('remove')"
       >
         ✕
+      </div>
+      <div v-if="manuallySelectable && !isFlipped"
+           class="
+      absolute top-[40px]
+      left-1/2 -translate-x-1/2
+
+      px-4 py-2
+
+      min-w-[116px]
+      whitespace-nowrap
+
+      bg-white rounded-full
+      cursor-pointer
+      text-gray-600
+
+      z-[999999]
+      hover:bg-orange-200
+    "
+      >
+        {{$t('select_manually')}}
       </div>
       <!-- FRONT (рубашка) -->
       <div
@@ -51,30 +71,43 @@
       </div>
     </div>
   </div>
+
+  <BaseModal
+      :open="isModalOpen"
+      h-full
+      @close="isModalOpen = false"
+  >
+    <CardSelection :deck="deck" @selected="(value) => selectCard(value)"/>
+
+    <template #header>
+      {{ $t('choose_card') }}
+    </template>
+  </BaseModal>
 </template>
 
-<script setup>
-import { ref, computed } from 'vue'
-
-const props = defineProps({
-  deck: {
-    type: String,
-    required: false
-  },
-  modelValue: {
-    type: String,
-    default: ''
-  },
-  removable: {
-    type: Boolean,
-    default: false
-  }
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  deck: string
+  modelValue?: string
+  removable?: boolean
+  manuallySelectable?: boolean
+}>(), {
+  modelValue: '',
+  removable: false,
+  manuallySelectable: false
 })
 
-const emit = defineEmits(['update:modelValue', 'remove'])
+const emit = defineEmits<{
+  'update:modelValue': [value: string],
+  'remove': [],
+}>()
 
-const is_flipped = ref(false)
-const randomCardIndex = ref('')
+const isFlipped = ref<boolean>(false)
+const randomCardIndex = ref<number>(0)
+const internalChange = ref<boolean>(false)
+const deckRef = ref<string>('')
+deckRef.value = props.deck ?? ''
+
 const cardPath = computed(() => {
   if (randomCardIndex.value) {
     return `/decks/${deckRef.value}/${randomCardIndex.value}.png`
@@ -82,10 +115,6 @@ const cardPath = computed(() => {
     return `/decks/${deckRef.value}/back.png`
   }
 })
-
-const internalChange = ref('')
-const deckRef = ref('')
-deckRef.value = props.deck ?? ''
 
 watch(
     () => props.deck,
@@ -97,33 +126,33 @@ watch(
 const toggle = () => {
   internalChange.value = true
 
-  if (is_flipped.value) {
-    is_flipped.value = false
+  if (isFlipped.value) {
+    isFlipped.value = false
 
-    availableCardsState.value[deckRef.value].push(randomCardIndex.value)
+    availableCardsState.value?.[deckRef.value]?.push(randomCardIndex.value)
     //randomCardIndex.value = ''
     emit('update:modelValue', '')
   } else {
     //console.log(availableCardsState.value[props.deck])
-    const randomArrayIndex = Math.floor(Math.random() * availableCardsState.value[deckRef.value].length)
+    const randomArrayIndex = Math.floor(Math.random() * (availableCardsState.value?.[deckRef.value]?.length ?? 0))
     //console.log(randomArrayIndex)
-    const randomCardNumber = availableCardsState.value[deckRef.value][randomArrayIndex]
+    const randomCardNumber = availableCardsState.value?.[deckRef.value]?.[randomArrayIndex] ?? 0
     //console.log(randomCardNumber)
-    availableCardsState.value[deckRef.value] = availableCardsState.value[deckRef.value].filter(n => n !== randomCardNumber)
+    availableCardsState.value[deckRef.value] = availableCardsState.value?.[deckRef.value]?.filter(n => n !== randomCardNumber) ?? []
     randomCardIndex.value = randomCardNumber
-    is_flipped.value = true
+    isFlipped.value = true
     emit('update:modelValue', cardPath.value)
   }
 }
 
-const inner_style = computed(() => {
+const innerStyle = computed(() => {
   return `
     transform-style: preserve-3d;
-    transform: ${is_flipped.value ? 'rotateY(180deg)' : 'rotateY(0deg)'}
+    transform: ${isFlipped.value ? 'rotateY(180deg)' : 'rotateY(0deg)'}
   `
 })
 
-const availableCardsState = useState('availableCards', () => [])
+const availableCardsState = useState<Record<string, number[]>>('availableCards', () => ({}))
 
 watch(
     () => props.modelValue,
@@ -137,15 +166,26 @@ watch(
       if (val) {
         const match = val.match(/^\/decks\/([^/]+)\/(\d+)\.png$/)
         if (match) {
-          is_flipped.value = true
+          isFlipped.value = true
           randomCardIndex.value = Number(match[2])
-          deckRef.value = match[1]
+          deckRef.value = String(match[1])
         }
       } else {
-        is_flipped.value = false
-        randomCardIndex.value = ''
+        isFlipped.value = false
+        randomCardIndex.value = 0
       }
     },
     {immediate: true}
 )
+
+const isModalOpen = ref(false)
+
+function selectCard(val: string) {
+  const match = val.match(/^\/decks\/([^/]+)\/(\d+)\.png$/)
+  if (match) {
+    isFlipped.value = true
+    randomCardIndex.value = Number(match[2])
+    isModalOpen.value = false
+  }
+}
 </script>

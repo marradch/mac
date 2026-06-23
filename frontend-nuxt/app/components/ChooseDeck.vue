@@ -1,5 +1,5 @@
 <template>
-  <div class="grid gap-3" :class="colLayout ? '' : 'md:grid-cols-3'">
+  <div class="grid gap-3" :class="colLayout ? '' : 'sm:grid-cols-3'">
     <button
         v-for="deck in decks"
         :key="deck.slug"

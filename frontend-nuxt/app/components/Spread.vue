@@ -12,12 +12,13 @@
       />
     </div>
   </div>
-  <div ref="cardsContentRef" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
-    <div v-for="(card, index) in cards" :key="card.slug" class="flex flex-col gap-3 items-center">
-      <p class="text-gray-600 text-center">{{ card.title }}</p>
+  <div ref="cardsContentRef" class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-5">
+    <div v-for="(card, index) in cards" :key="card.slug" class="flex flex-col gap-3 items-center justify-end">
+      <p class="text-gray-600 text-center lg:truncate w-full" :title="card.title">{{ card.title }}</p>
       <TurnCard
           v-model="card.imageUrl"
           :deck="deck"
+          manuallySelectable
       ></TurnCard>
       <div v-if="intelligentHint?.cards_interpretations?.[index]?.interpretation" class="bg-white border border-gray-200 p-3 shadow-md rounded-md text-gray-600 mb-3">
         {{ intelligentHint.cards_interpretations[index].interpretation }}

@@ -44,5 +44,6 @@
   "choose_deck": "Обрати колоду",
   "choose_card": "Обрати карту",
   "open_mode": "В відкриту",
-  "close_mode": "В закриту"
+  "close_mode": "В закриту",
+  "select_manually": "Вибрати вручну"
 }

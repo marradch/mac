@@ -1,7 +1,7 @@
 <template>
   <button
       :disabled="loading"
-      class="inline-flex items-center gap-2 rounded-md bg-primary hover:bg-primary-hover px-4 py-2 text-white font-medium shadow-md w-full md:w-fit justify-center"
+      class="inline-flex items-center gap-2 rounded-md bg-primary hover:bg-primary-hover px-4 py-2 text-white font-medium shadow-md w-full sm:w-fit justify-center"
       @click="emit('click')"
   >
     <span v-if="!loading">

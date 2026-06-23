@@ -44,6 +44,7 @@
   <div ref="cardsContentRef" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
     <div v-for="(card, index) in cards" :key="cards.length" class="flex flex-col gap-3">
       <TurnCard
+          v-if="cardDecks[index]"
           v-model="cards[index]"
           :deck="cardDecks[index]"
           removable
