@@ -4,11 +4,10 @@ namespace App\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\AI\Service\Interpreter\ResourcesInterpreterService;
-use App\AI\DTO\MetaphoricalCard;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\DTO\Input\QuestionDTO;
+use App\DTO\Input\ResourcesDTO;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 
 final class ResourcesController extends AbstractController {
@@ -17,7 +16,7 @@ final class ResourcesController extends AbstractController {
     ) {}
 
     #[Route('/api/resources/{locale}', 'resources', methods: ['POST', 'OPTIONS'])]
-    public function list(string $locale, #[MapRequestPayload] QuestionDTO $questionDTO, Request $request): JsonResponse
+    public function list(string $locale, #[MapRequestPayload] ResourcesDTO $questionDTO, Request $request): JsonResponse
     {
         $result = $this->resourcesService->interpret(
             $locale,

@@ -51,15 +51,12 @@
           </template>
         </div>
       </div>
-      <div class="fixed bottom-0 left-0 right-0 z-50 p-4 flex flex-col items-end gap-2">
-
-        <ExerciseHintError :error="error" @close="error = ''"/>
-
-        <ExerciseLoadingHintButton
-            :loading="loading"
-            @click="getIntelligentHint"
-        />
-      </div>
+      <ExerciseBottomActions
+          :error="error"
+          :loading="loading"
+          @closeError="error = ''"
+          @hintButtonClick="getIntelligentHint"
+      />
       <div ref="hintContentRef">
         <ChoiceHintResults :hint="intelligentHint" />
       </div>

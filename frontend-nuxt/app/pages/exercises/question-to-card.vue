@@ -9,9 +9,9 @@
           rows="1"
           class="w-full min-h-[3cm] lg:min-h-[2cm] max-h-40 overflow-y-auto px-4 py-2 border rounded-lg resize-none shadow-sm"
       />
-      <div class="flex flex-col md:flex-row gap-3 items-center">
+      <div class="flex flex-col sm:flex-row gap-3 items-center">
         <div class="text-start text-gray-600">{{$t('cards-number')}}</div>
-        <div class="w-full md:w-[100px]">
+        <div class="w-full sm:w-[100px]">
           <select v-model.number="numberOfCards" class="w-full px-2 py-1 border rounded">
             <option value="1">1</option>
             <option value="3">3</option>
@@ -32,15 +32,12 @@
           </div>
         </template>
       </div>
-      <div class="fixed bottom-0 left-0 right-0 z-50 p-4 flex flex-col items-end gap-2">
-
-        <ExerciseHintError :error="error" @close="error = ''"/>
-
-        <ExerciseLoadingHintButton
-            :loading="loading"
-            @click="getIntelligentHint"
-        />
-      </div>
+      <ExerciseBottomActions
+          :error="error"
+          :loading="loading"
+          @closeError="error = ''"
+          @hintButtonClick="getIntelligentHint"
+      />
       <div ref="hintContentRef">
         <QuestionToCardHintResults :hint="intelligentHint" />
       </div>

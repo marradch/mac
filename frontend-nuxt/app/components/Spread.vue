@@ -29,15 +29,12 @@
       </div>
     </div>
   </div>
-  <div class="fixed bottom-0 left-0 right-0 z-50 p-4 flex flex-col items-end gap-2">
-
-    <ExerciseHintError :error="error" @close="error = ''"/>
-
-    <ExerciseLoadingHintButton
-        :loading="loading"
-        @click="getIntelligentHint"
-    />
-  </div>
+  <ExerciseBottomActions
+      :error="error"
+      :loading="loading"
+      @closeError="error = ''"
+      @hintButtonClick="getIntelligentHint"
+  />
 </template>
 <script setup lang="ts">
 import type { Exercise } from "~/types/Exercise"
@@ -49,11 +46,12 @@ const props = defineProps<{
 const { t, locale} = useI18n()
 const { decks, resetAvailableCardsState } = await useDecks()
 
-const query = ref('')
-const error = ref('')
-const intelligentHint = ref({})
+const query = ref<string>('')
+const error = ref<string>('')
+const intelligentHint = ref<any>({})
 const config = useRuntimeConfig()
-const deck = ref(config.public.defaultDeckSlug)
+const deck = ref<string>(config.public.defaultDeckSlug)
+const loading = ref<boolean>(false);
 
 const cards = ref<Array<{
   slug: string

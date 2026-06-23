@@ -8,9 +8,9 @@
           rows="1"
           class="w-full min-h-[3cm] lg:min-h-[2cm] max-h-40 overflow-y-auto px-4 py-2 border rounded-lg resize-none shadow-sm"
       />
-      <div class="flex flex-col lg:flex-row gap-3">
+      <div class="flex flex-col sm:flex-row gap-3">
         <button
-            class="inline-flex items-center gap-2 rounded-md bg-primary hover:bg-primary-hover px-4 py-2 text-white font-medium shadow-md w-full md:w-fit justify-center"
+            class="inline-flex items-center gap-2 rounded-md bg-primary hover:bg-primary-hover px-4 py-2 text-white font-medium shadow-md w-full sm:w-fit justify-center"
             @click="isModalOpen = true"
         >
           {{ $t('add_resource') }}
@@ -59,15 +59,12 @@
       </div>
     </div>
   </div>
-  <div class="fixed bottom-0 left-0 right-0 z-50 p-4 flex flex-col items-end gap-2">
-
-    <ExerciseHintError :error="error" @close="error = ''"/>
-
-    <ExerciseLoadingHintButton
-        :loading="loading"
-        @click="getIntelligentHint"
-    />
-  </div>
+  <ExerciseBottomActions
+      :error="error"
+      :loading="loading"
+      @closeError="error = ''"
+      @hintButtonClick="getIntelligentHint"
+  />
   <BaseModal
       :open="isModalOpen"
       :h-full="resourceSelectionDeck !== ''"
