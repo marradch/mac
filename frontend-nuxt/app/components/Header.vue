@@ -76,10 +76,10 @@
         v-if="mobileOpen"
         class="text-lg fixed top-12 left-0 right-0 w-full bg-primary md:hidden flex flex-col"
     >
-      <NuxtLink to="/" class="p-4 text-white hover:bg-primary-hover">{{ t('header.exercises') }}</NuxtLink>
-      <NuxtLink to="/decks" class="p-4 text-white hover:bg-primary-hover">{{ t('header.decks') }}</NuxtLink>
-      <NuxtLink to="/about" class="p-4 text-white hover:bg-primary-hover">{{ t('header.about') }}</NuxtLink>
-      <NuxtLink to="/contacts" class="p-4 text-white hover:bg-primary-hover">{{ t('header.contacts') }}</NuxtLink>
+      <NuxtLink to="/" @click="mobileOpen = false" class="p-4 text-white hover:bg-primary-hover">{{ t('header.exercises') }}</NuxtLink>
+      <NuxtLink to="/decks" @click="mobileOpen = false" class="p-4 text-white hover:bg-primary-hover">{{ t('header.decks') }}</NuxtLink>
+      <NuxtLink to="/about" @click="mobileOpen = false" class="p-4 text-white hover:bg-primary-hover">{{ t('header.about') }}</NuxtLink>
+      <NuxtLink to="/contacts" @click="mobileOpen = false" class="p-4 text-white hover:bg-primary-hover">{{ t('header.contacts') }}</NuxtLink>
 
       <!-- 🌐 LANG SWITCHER -->
       <div class="flex gap-2 px-4">
@@ -97,7 +97,7 @@
         </button>
       </div>
 
-      <NuxtLink to="/login" class="p-4 text-white">{{ t('header.login') }}</NuxtLink>
+      <NuxtLink to="/login" @click="mobileOpen = false" class="p-4 text-white">{{ t('header.login') }}</NuxtLink>
     </div>
 
   </header>
@@ -110,8 +110,6 @@ type LocaleCode = 'en' | 'ua' | 'ru'
 const localesOpen = ref<boolean>(false)
 const mobileOpen = ref<boolean>(false)
 const dropdownRef = ref<HTMLElement| null>(null)
-
-
 const currentLocale = locale
 
 const changeLocale = async (code: LocaleCode) => {
