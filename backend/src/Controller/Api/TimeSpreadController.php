@@ -14,11 +14,11 @@ use App\DTO\Input\TimeSpreadDTO;
 final class TimeSpreadController extends AbstractController
 {
     public function __construct(
-        private TimeSpreadInterpreterService $service
+        private readonly TimeSpreadInterpreterService $service
     ) {}
 
-    #[Route('/api/time-spread/{locale}', 'time_spread', methods: ['POST', 'OPTIONS'])]
-    public function interpret(string $locale, #[MapRequestPayload] TimeSpreadDTO $timeSpreadDTO, Request $request): JsonResponse
+    #[Route('/api/time-spread/{locale}', 'time_spread', methods: ['POST'])]
+    public function interpret(string $locale, #[MapRequestPayload] TimeSpreadDTO $timeSpreadDTO): JsonResponse
     {
         $result = $this->service->interpret($locale, $timeSpreadDTO);
 

@@ -12,11 +12,11 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 
 final class ResourcesController extends AbstractController {
     public function __construct(
-        private ResourcesInterpreterService $resourcesService,
+        private readonly ResourcesInterpreterService $resourcesService,
     ) {}
 
-    #[Route('/api/resources/{locale}', 'resources', methods: ['POST', 'OPTIONS'])]
-    public function list(string $locale, #[MapRequestPayload] ResourcesDTO $questionDTO, Request $request): JsonResponse
+    #[Route('/api/resources/{locale}', 'resources', methods: ['POST'])]
+    public function list(string $locale, #[MapRequestPayload] ResourcesDTO $questionDTO): JsonResponse
     {
         $result = $this->resourcesService->interpret(
             $locale,

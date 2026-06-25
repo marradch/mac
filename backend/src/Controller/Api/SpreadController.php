@@ -5,19 +5,19 @@ namespace App\Controller\Api;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
-use App\AI\Service\Interpreter\ChoiceInterpreterService;
+use App\AI\Service\Interpreter\SpreadInterpreterService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use App\DTO\Input\ChoiceDTO;
+use App\DTO\Input\SpreadDTO;
 
-final class ChoiceController extends AbstractController
+final class SpreadController extends AbstractController
 {
     public function __construct(
-        private readonly ChoiceInterpreterService $service,
+        readonly private SpreadInterpreterService $service,
     ) {}
 
-    #[Route('/api/choice/{locale}', 'choice', methods: ['POST'])]
-    public function interpret(string $locale, #[MapRequestPayload] ChoiceDTO $dto): JsonResponse
+    #[Route('/api/spread/{locale}', 'choice', methods: ['POST'])]
+    public function interpret(string $locale, #[MapRequestPayload] SpreadDTO $dto): JsonResponse
     {
         $result = $this->service->interpret($locale, $dto);
 

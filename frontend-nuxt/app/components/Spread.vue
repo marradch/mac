@@ -1,5 +1,5 @@
 <template>
-  <ExerciseHeader :exercise="exercise" />
+  <ExerciseHeader :exercise="exercise"/>
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px] justify-center">
       <ChooseDeck :decks="decks" v-model="deck"/>
@@ -13,19 +13,21 @@
     </div>
   </div>
   <div ref="cardsContentRef" class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-5">
-    <div v-for="(card, index) in cards" :key="card.slug" class="flex flex-col gap-3 items-center justify-end">
+    <div v-for="(card, index) in cards" :key="card.slug" class="flex flex-col gap-3 items-center justify-start">
       <p class="text-gray-600 text-center lg:truncate w-full" :title="card.title">{{ card.title }}</p>
       <TurnCard
           v-model="card.imageUrl"
           :deck="deck"
           manuallySelectable
       ></TurnCard>
-      <div v-if="intelligentHint?.cards_interpretations?.[index]?.interpretation" class="bg-white border border-gray-200 p-3 shadow-md rounded-md text-gray-600 mb-3">
-        {{ intelligentHint.cards_interpretations[index].interpretation }}
+      <div v-if="intelligentHint?.cards_interpretations?.[card.slug]?.interpretation" class="bg-white border border-gray-200 p-3 shadow-md rounded-md text-gray-600 mb-3">
+        {{ intelligentHint?.cards_interpretations?.[card.slug].interpretation }}
       </div>
-
-      <div v-if="intelligentHint?.cards_interpretations?.[index]?.affirmation" class="bg-white border border-gray-200 p-3 shadow-md rounded-md text-gray-600 mb-3">
-        {{ intelligentHint.cards_interpretations[index].affirmation }}
+      <div v-if="intelligentHint?.cards_interpretations?.[card.slug]?.interpretation" class="bg-white border border-gray-200 p-3 shadow-md rounded-md text-gray-600 mb-3">
+        {{ intelligentHint?.cards_interpretations?.[card.slug].affirmation }}
+      </div>
+      <div v-if="intelligentHint?.cards_interpretations?.[card.slug]?.meditation" class="bg-white border border-gray-200 p-3 shadow-md rounded-md text-gray-600 mb-3">
+        {{ intelligentHint?.cards_interpretations?.[card.slug].meditation }}
       </div>
     </div>
   </div>
@@ -37,14 +39,14 @@
   />
 </template>
 <script setup lang="ts">
-import type { Exercise } from "~/types/Exercise"
+import type {Exercise} from "~/types/Exercise"
 
 const props = defineProps<{
   exercise: Exercise
 }>()
 
-const { t, locale} = useI18n()
-const { decks, resetAvailableCardsState } = await useDecks()
+const {t, locale} = useI18n()
+const {decks, resetAvailableCardsState} = await useDecks()
 
 const query = ref<string>('')
 const error = ref<string>('')
@@ -59,11 +61,11 @@ const cards = ref<Array<{
   imageUrl: string
 }>>([])
 
-const cardsContentRef = ref(null)
+const cardsContentRef = ref<HTMLElement | null>(null)
 
 cards.value = props.exercise?.spread?.map(spreadItem => ({
-      ...spreadItem,
-      imageUrl: "",
+  ...spreadItem,
+  imageUrl: "",
 })) ?? []
 
 watch(deck, () => {
@@ -71,8 +73,54 @@ watch(deck, () => {
   resetAvailableCardsState()
 })
 
-function  getIntelligentHint() {
-  console.log(cards.value, deck.value)
+function hasEmptyCards() {
+  return cards.value.some((card) => !card.imageUrl)
+}
+
+async function getIntelligentHint() {
+  error.value = ''
+
+  if (!query.value || hasEmptyCards()) {
+    error.value = $t('intelligent_hint_validation_all')
+    return
+  }
+
+  try {
+    loading.value = true
+
+    //const origin = useRequestURL().origin
+    const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
+
+    intelligentHint.value = await $fetch(`/spread/${locale.value}`, {
+      baseURL: config.public.apiBase,
+      method: 'POST',
+      body: {
+        query: query.value,
+        cards: cards.value.map(card => ({
+          ...card,
+          imageUrl: origin + card.imageUrl
+        }))
+      }
+    })
+
+    await nextTick()
+
+    cardsContentRef.value?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    })
+  } catch (errorResponse: any) {
+    const responseData = errorResponse?.data ?? errorResponse?.response?._data
+
+    if (responseData?.type === 'retryable_error') {
+      error.value = $t('Something went wrong. Please, try again')
+    } else {
+      error.value = $t(`Something went wrong`)
+    }
+    console.log(errorResponse)
+  } finally {
+    loading.value = false
+  }
 }
 
 </script>
