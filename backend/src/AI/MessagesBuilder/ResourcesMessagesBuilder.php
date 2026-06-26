@@ -2,7 +2,6 @@
 
 namespace App\AI\MessagesBuilder;
 
-use App\AI\Prompt\ResourcesExercisePrompt;
 use App\DTO\Input\InterpretDTOInterface;
 
 class ResourcesMessagesBuilder implements MessageBuilderInterface
@@ -12,18 +11,23 @@ class ResourcesMessagesBuilder implements MessageBuilderInterface
         return [
             [
                 'role' => 'system',
-                'content' => ResourcesExercisePrompt::$prompt[$locale]
+                'content' => file_get_contents(__DIR__ . '/../Prompt/resources.md')
             ],
             [
                 'role' => 'user',
-                'content' => $this->buildCardsContent($dto)
+                'content' => $this->buildCardsContent($locale, $dto)
             ]
         ];
     }
 
-    private function buildCardsContent(InterpretDTOInterface $dto): array
+    private function buildCardsContent(string $locale, InterpretDTOInterface $dto): array
     {
         $result = [];
+
+        $result[] = [
+            'type' => 'text',
+            'text' => "LANGUAGE: {$locale}",
+        ];
 
         $result[] = [
             'type' => 'text',

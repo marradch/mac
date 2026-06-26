@@ -2,7 +2,6 @@
 
 namespace App\AI\MessagesBuilder;
 
-use App\AI\Prompt\SpreadExercisePrompt;
 use App\DTO\Input\InterpretDTOInterface;
 
 class SpreadMessagesBuilder implements MessageBuilderInterface

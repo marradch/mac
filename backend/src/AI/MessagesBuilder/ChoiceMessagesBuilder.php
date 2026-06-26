@@ -2,7 +2,6 @@
 
 namespace App\AI\MessagesBuilder;
 
-use App\AI\Prompt\ChoiceExercisePrompt;
 use App\DTO\Input\{ChoiceDTO, InterpretDTOInterface};
 
 class ChoiceMessagesBuilder implements MessageBuilderInterface
@@ -12,73 +11,43 @@ class ChoiceMessagesBuilder implements MessageBuilderInterface
         return [
             [
                 'role' => 'system',
-                'content' => ChoiceExercisePrompt::$prompt[$locale],
+                'content' => file_get_contents(__DIR__ . '/../Prompt/choice.md'),
             ],
             [
                 'role' => 'user',
-                'content' => $this->buildUserContent($dto),
+                'content' => json_encode(
+                    $this->buildPayload($dto, $locale),
+                    JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+                ),
             ],
         ];
     }
 
-    private function buildUserContent(ChoiceDTO $dto): array
+    private function buildPayload(ChoiceDTO $dto, string $locale): array
     {
-        return array_merge(
-            [
-                [
-                    'type' => 'text',
-                    'text' => $dto->query,
-                ],
-
-                [
-                    'type' => 'text',
-                    'text' => "OPTION 1 TEXT:\n" . $dto->option1Text,
-                ],
+        $payload = [
+            'language' => $locale,
+            'query' => $dto->query,
+            'option1' => [
+                'text' => $dto->option1Text,
+                'cards' => $this->mapCards($dto->option1Cards),
             ],
-
-            $this->buildCardsBlock('OPTION 1 CARDS', $dto->option1Cards),
-
-            [
-                [
-                    'type' => 'text',
-                    'text' => "OPTION 2 TEXT:\n" . $dto->option2Text,
-                ],
+            'option2' => [
+                'text' => $dto->option2Text,
+                'cards' => $this->mapCards($dto->option2Cards),
             ],
-
-            $this->buildCardsBlock('OPTION 2 CARDS', $dto->option2Cards),
-
-            !empty($dto->selectedOption)
-                ? [[
-                'type' => 'text',
-                'text' => "SELECTED OPTION: " . $dto->selectedOption,
-            ]]
-                : []
-        );
-    }
-
-    private function buildCardsBlock(string $label, array $cards): array
-    {
-        $result = [];
-
-        $result[] = [
-            'type' => 'text',
-            'text' => $label,
         ];
 
-        foreach ($cards as $index => $card) {
-            $result[] = [
-                'type' => 'text',
-                'text' => "Card " . ($index + 1),
-            ];
+        return $payload;
+    }
 
-            $result[] = [
-                'type' => 'image_url',
-                'image_url' => [
-                    'url' => $card->imageUrl,
-                ],
+    private function mapCards(array $cards): array
+    {
+        return array_map(function ($card, $index) {
+            return [
+                'number' => $index + 1,
+                'image_url' => $card->imageUrl,
             ];
-        }
-
-        return $result;
+        }, $cards, array_keys($cards));
     }
 }

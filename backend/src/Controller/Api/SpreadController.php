@@ -16,7 +16,7 @@ final class SpreadController extends AbstractController
         readonly private SpreadInterpreterService $service,
     ) {}
 
-    #[Route('/api/spread/{locale}', 'choice', methods: ['POST'])]
+    #[Route('/api/spread/{locale}', 'spread', methods: ['POST'])]
     public function interpret(string $locale, #[MapRequestPayload] SpreadDTO $dto): JsonResponse
     {
         $result = $this->service->interpret($locale, $dto);

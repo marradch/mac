@@ -2,9 +2,8 @@
 
 namespace App\AI\MessagesBuilder;
 
-use App\AI\Prompt\TimeSpreadMultiCardPrompt;
 use App\AI\DTO\MetaphoricalCard;
-use App\DTO\Input\InterpretDTOInterface;
+use App\DTO\Input\{TimeSpreadDTO, InterpretDTOInterface};
 
 class TimeSpreadMessagesBuilder implements MessageBuilderInterface
 {
@@ -13,76 +12,38 @@ class TimeSpreadMessagesBuilder implements MessageBuilderInterface
         return [
             [
                 'role' => 'system',
-                'content' => TimeSpreadMultiCardPrompt::$prompt[$locale],
+                'content' => file_get_contents(__DIR__ . '/../Prompt/time-spread.md'),
             ],
             [
                 'role' => 'user',
-                'content' => array_merge(
-                    [
-                        [
-                            'type' => 'text',
-                            'text' => $dto->query,
-                        ],
-                    ],
-                    $this->buildCardsContent($dto)
+                'content' => json_encode(
+                    $this->buildPayload($dto, $locale),
+                    JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
                 ),
             ],
         ];
     }
 
-    private function buildCardsContent(InterpretDTOInterface $dto): array
+    private function buildPayload(TimeSpreadDTO $dto, string $locale): array
     {
-        $result = [];
-
-        $result[] = [
-            'type' => 'text',
-            'text' => "PAST CARDS:",
+        $payload = [
+            'language' => $locale,
+            'query' => $dto->query,
+            'past' => $this->mapCards($dto->past),
+            'present' => $this->mapCards($dto->present),
+            'future' => $this->mapCards($dto->future),
         ];
 
-        foreach ($dto->past as $index => $card) {
-            foreach ($this->cardBlock('Past', $index + 1, $card) as $block) {
-                $result[] = $block;
-            }
-        }
-
-        $result[] = [
-            'type' => 'text',
-            'text' => "PRESENT CARDS:",
-        ];
-
-        foreach ($dto->present as $index => $card) {
-            foreach ($this->cardBlock('Present', $index + 1, $card) as $block) {
-                $result[] = $block;
-            }
-        }
-
-        $result[] = [
-            'type' => 'text',
-            'text' => "FUTURE CARDS:",
-        ];
-
-        foreach ($dto->future as $index => $card) {
-            foreach ($this->cardBlock('Future', $index + 1, $card) as $block) {
-                $result[] = $block;
-            }
-        }
-
-        return $result;
+        return $payload;
     }
 
-    private function cardBlock(string $layer, int $index, MetaphoricalCard $card): array
+    private function mapCards(array $cards): array
     {
-        return [
-            [
-                'type' => 'text',
-                'text' => "{$layer} card {$index}",
-            ],
-            [
-                'type' => 'image_url',
-                'image_url' => [
-                    'url' => $card->imageUrl,
-                ],
-            ],
-        ];
+        return array_map(function ($card, $index) {
+            return [
+                'number' => $index + 1,
+                'image_url' => $card->imageUrl,
+            ];
+        }, $cards, array_keys($cards));
     }
 }

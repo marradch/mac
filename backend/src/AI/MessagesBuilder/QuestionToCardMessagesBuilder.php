@@ -2,7 +2,6 @@
 
 namespace App\AI\MessagesBuilder;
 
-use App\AI\Prompt\QuestionToCardPrompt;
 use App\DTO\Input\InterpretDTOInterface;
 
 class QuestionToCardMessagesBuilder implements MessageBuilderInterface
@@ -12,40 +11,29 @@ class QuestionToCardMessagesBuilder implements MessageBuilderInterface
         return [
             [
                 'role' => 'system',
-                'content' => QuestionToCardPrompt::$prompt[$locale]
+                'content' => file_get_contents(__DIR__ . '/../Prompt/question.md')
             ],
             [
                 'role' => 'user',
-                'content' => $this->buildCardsContent($dto)
+                'content' => json_encode(
+                    $this->buildPayload($dto, $locale),
+                    JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+                )
             ]
         ];
     }
 
-    private function buildCardsContent(InterpretDTOInterface $dto): array
+    private function buildPayload(InterpretDTOInterface $dto, string $locale): array
     {
-        $result = [];
-
-        $result[] = [
-            'type' => 'text',
-            'text' => $dto->query
+        return [
+            'language' => $locale,
+            'query' => $dto->query,
+            'cards' => array_map(function ($card, $index) {
+                return [
+                    'number' => $index + 1,
+                    'image_url' => $card->imageUrl,
+                ];
+            }, $dto->cards, array_keys($dto->cards)),
         ];
-
-        foreach ($dto->cards as $index => $card) {
-            $num = $index + 1;
-
-            $result[] = [
-                'type' => 'text',
-                'text' => "card {$num}",
-            ];
-
-            $result[] = [
-                'type' => 'image_url',
-                'image_url' => [
-                    'url' => $card->imageUrl,
-                ],
-            ];
-        }
-
-        return $result;
     }
 }
