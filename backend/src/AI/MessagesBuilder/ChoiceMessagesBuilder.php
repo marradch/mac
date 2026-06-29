@@ -4,7 +4,7 @@ namespace App\AI\MessagesBuilder;
 
 use App\DTO\Input\{ChoiceDTO, InterpretDTOInterface};
 
-class ChoiceMessagesBuilder implements MessageBuilderInterface
+class ChoiceMessagesBuilder implements InterpreterMessageBuilderInterface
 {
     public function build(string $locale, InterpretDTOInterface $dto): array
     {

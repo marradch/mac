@@ -5,7 +5,7 @@ namespace App\AI\MessagesBuilder;
 use App\AI\DTO\MetaphoricalCard;
 use App\DTO\Input\{TimeSpreadDTO, InterpretDTOInterface};
 
-class TimeSpreadMessagesBuilder implements MessageBuilderInterface
+class TimeSpreadMessagesBuilder implements InterpreterMessageBuilderInterface
 {
     public function build(string $locale, InterpretDTOInterface $dto): array
     {

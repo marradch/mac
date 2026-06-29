@@ -4,7 +4,7 @@ namespace App\AI\MessagesBuilder;
 
 use App\DTO\Input\InterpretDTOInterface;
 
-class QuestionToCardMessagesBuilder implements MessageBuilderInterface
+class QuestionToCardMessagesBuilder implements InterpreterMessageBuilderInterface
 {
     public function build(string $locale, InterpretDTOInterface $dto): array
     {
