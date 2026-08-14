@@ -19,7 +19,7 @@ class DeckFixture extends Fixture implements FixtureGroupInterface
         $items = [
             [
                 'slug' => 'nature-reflections',
-                'cardsCount' => 13,
+                'cardsCount' => 79,
                 'orderInList' => 1,
                 'show' => true,
                 'translations' => [

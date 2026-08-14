@@ -27,22 +27,23 @@
         ✕
       </div>
       <div v-if="manuallySelectable && !isFlipped"
-           class="
-      absolute top-[40px]
-      left-1/2 -translate-x-1/2
+        class="
+          absolute top-[40px]
+          left-1/2 -translate-x-1/2
 
-      px-4 py-2
+          px-4 py-2
 
-      min-w-[116px]
-      whitespace-nowrap
+          min-w-[116px]
+          whitespace-nowrap
 
-      bg-white rounded-full
-      cursor-pointer
-      text-gray-600
+          bg-white rounded-full
+          cursor-pointer
+          text-gray-600
 
-      z-[999999]
-      hover:bg-orange-200
-    "
+          z-[999999]
+          hover:bg-orange-200
+        "
+        @click.stop="isModalOpen = true"
       >
         {{$t('select_manually')}}
       </div>
