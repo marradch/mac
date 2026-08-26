@@ -47,6 +47,8 @@ class PsychologicalStateService
         $saved = 0;
         $usedSlugs = [];
 
+        dump($items);
+
         foreach ($items as $slug => $item) {
             if (!is_array($item)) {
                 throw new \RuntimeException(sprintf('Invalid item format %d.', $slug));
