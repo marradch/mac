@@ -133,6 +133,6 @@ Return ONLY valid JSON array:
 "<english_slug>": {
 "en": "<english>",
 "ru": "<russian>",
-"uk": "<ukrainian>"
+"ua": "<ukrainian>"
 }
 }

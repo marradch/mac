@@ -47,8 +47,6 @@ class PsychologicalStateService
         $saved = 0;
         $usedSlugs = [];
 
-        dump($items);
-
         foreach ($items as $slug => $item) {
             if (!is_array($item)) {
                 throw new \RuntimeException(sprintf('Invalid item format %d.', $slug));
@@ -56,7 +54,7 @@ class PsychologicalStateService
 
             $englishTitle = $this->normalizeTitle($item['en'] ?? null);
             $russianTitle = $this->normalizeTitle($item['ru'] ?? null);
-            $ukrainianTitle = $this->normalizeTitle($item['uk'] ?? null);
+            $ukrainianTitle = $this->normalizeTitle($item['ua'] ?? null);
 
             if ($englishTitle === '' || $russianTitle === '' || $ukrainianTitle === '') {
                 throw new \RuntimeException(sprintf('Missing data for item %d.', $slug));
@@ -72,7 +70,7 @@ class PsychologicalStateService
             $state->setSlug($slug);
             $state->addTranslation($this->createTranslation('en', $englishTitle));
             $state->addTranslation($this->createTranslation('ru', $russianTitle));
-            $state->addTranslation($this->createTranslation('uk', $ukrainianTitle));
+            $state->addTranslation($this->createTranslation('ua', $ukrainianTitle));
 
             $this->entityManager->persist($state);
             $saved++;
