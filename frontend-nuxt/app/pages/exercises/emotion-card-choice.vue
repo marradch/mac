@@ -7,14 +7,15 @@
   </div>
   <div ref="cardsContentRef" class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-5">
     <div
-        v-for="card in cards"
+        v-for="(card, index) in cards"
         :key="card.stateSlug"
         class="flex flex-col gap-3 items-center justify-start"
     >
       <div class="w-full md:max-w-[400px]">
         <p
-            class="bg-orange-200 hover:bg-orange-300 w-full text-center p-4 mb-5 rounded-lg border border-gray-200/80 font-medium shadow-sm"
+            class="cursor-pointer bg-orange-200 hover:bg-orange-300 w-full text-center p-4 mb-5 rounded-lg border border-gray-200/80 font-medium shadow-sm"
             :title="card.stateTitle"
+            @click="replaceCardWithRandomState(index)"
         >
           {{ card.stateTitle }}
         </p>
@@ -23,6 +24,8 @@
             v-model="card.imageUrl"
             :deck="deck"
             manuallySelectable
+            removable
+            @remove="removeCardByIndex(index)"
         />
       </div>
     </div>
@@ -32,7 +35,7 @@
         <button
             type="button"
             class="w-full aspect-[2/3] rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 hover:border-gray-400 transition flex items-center justify-center"
-            @click="initCardsWithRandomState"
+            @click="addCardWithRandomState"
         >
           <span
               class="text-[60px] text-gray-500"
@@ -43,25 +46,25 @@
       </div>
     </div>
   </div>  
-  <ExerciseBottomActions
+  <!--<ExerciseBottomActions
       :error="error"
       :loading="loading"
       @closeError="error = ''"
       @hintButtonClick="getIntelligentHint"
-  />
+  />-->
 </template>
 <script setup lang="ts">
 import type { PsychologicalState } from '~/types/PsychologicalState'
 
 const { locale } = useI18n()
-const {decks} = await useDecks()
+const { decks } = await useDecks()
 const { exercise } = useExercise('emotion-card-choice')
 
-const error = ref<string>('')
+//const error = ref<string>('')
 //const intelligentHint = ref<any>({})
 const config = useRuntimeConfig()
 const deck = ref<string>(config.public.defaultDeckSlug)
-const loading = ref<boolean>(false)
+//const loading = ref<boolean>(false)
 
 const { data: psychologicalStates } = await useFetch<PsychologicalState[]>(
     () => `/psychological-states/${locale.value}`,
@@ -83,14 +86,18 @@ type CardWithState = {
 
 const cards = ref<CardWithState[]>([])
 
-function pickRandomState(): PsychologicalState | null {
+function removeCardByIndex(index: number) {
+  cards.value = cards.value.filter((_, i) => i !== index)
+}
+
+function pickRandomState(): PsychologicalState | undefined {
   if (!psychologicalStates.value || !psychologicalStates.value.length) {
-    return null
+    return undefined
   }
   return psychologicalStates.value[Math.floor(Math.random() * psychologicalStates.value.length)]
 }
 
-function initCardsWithRandomState() {
+function addCardWithRandomState() {
   const randomState = pickRandomState()
 
   if (!randomState) {
@@ -104,7 +111,21 @@ function initCardsWithRandomState() {
   }]
 }
 
-initCardsWithRandomState();
+function replaceCardWithRandomState(index: number) {
+  const randomState = pickRandomState()
+
+  if (!randomState || index < 0 || index >= cards.value.length || cards.value[index] === undefined) {
+    return
+  }
+
+  cards.value[index] = {
+    stateTitle: randomState.title,
+    stateSlug: randomState.slug,
+    imageUrl: cards.value[index].imageUrl,
+  }
+}
+
+addCardWithRandomState();
 
 //const cardsContentRef = ref<HTMLElement | null>(null)
 

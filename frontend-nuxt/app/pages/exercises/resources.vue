@@ -126,7 +126,6 @@ function selectDeck() {
 
 function removeCardByIndex(index: number) {
   cards.value = cards.value.filter((_, i) => i !== index)
-  cardDecks.value = cardDecks.value.filter((_, i) => i !== index)
 }
 
 function hasEmptyCards() {
