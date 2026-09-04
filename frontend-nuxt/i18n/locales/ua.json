@@ -45,5 +45,17 @@
   "choose_card": "Обрати карту",
   "open_mode": "В відкриту",
   "close_mode": "В закриту",
-  "select_manually": "Вибрати вручну"
+  "select_manually": "Вибрати вручну",
+  "interpretation": "Інтерпретація",
+  "match_score": "Оцінка відповідності",
+  "match_level_high": "Висока",
+  "match_level_medium": "Середня",
+  "match_level_low": "Низька",
+  "card_interpretation": "Інтерпретація карти",
+  "connection_to_state": "Зв'язок зі станом",
+  "how_card_helps": "Як карта допомагає",
+  "self_reflection_question": "Питання для самовідображення",
+  "summary": "Резюме",
+  "show_more": "Показати всі",
+  "show_less": "Згорнути"
 }

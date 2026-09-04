@@ -45,5 +45,17 @@
   "choose_card": "Choose card",
   "open_mode": "Open mode",
   "close_mode": "Close mode",
-  "select_manually": "Select manually"
+  "select_manually": "Select manually",
+  "interpretation": "Interpretation",
+  "match_score": "Match Score",
+  "match_level_high": "High",
+  "match_level_medium": "Medium",
+  "match_level_low": "Low",
+  "card_interpretation": "Card Interpretation",
+  "connection_to_state": "Connection to State",
+  "how_card_helps": "How the Card Helps",
+  "self_reflection_question": "Self-Reflection Question",
+  "summary": "Summary",
+  "show_more": "Show more",
+  "show_less": "Show less"
 }

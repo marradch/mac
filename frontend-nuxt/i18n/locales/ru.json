@@ -45,5 +45,17 @@
   "choose_card": "Выбрать карту",
   "open_mode": "В открытую",
   "close_mode": "В закрытую",
-  "select_manually": "Выбрать вручную"
+  "select_manually": "Выбрать вручную",
+  "interpretation": "Интерпретация",
+  "match_score": "Оценка соответствия",
+  "match_level_high": "Высокая",
+  "match_level_medium": "Средняя",
+  "match_level_low": "Низкая",
+  "card_interpretation": "Интерпретация карты",
+  "connection_to_state": "Связь с состоянием",
+  "how_card_helps": "Как карта помогает",
+  "self_reflection_question": "Вопрос для самоотражения",
+  "summary": "Резюме",
+  "show_more": "Показать всё",
+  "show_less": "Свернуть"
 }

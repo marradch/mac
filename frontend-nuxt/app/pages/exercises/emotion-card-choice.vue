@@ -22,11 +22,14 @@
 
         <TurnCard
             v-model="card.imageUrl"
-            :deck="deck"
+            :deck="card.deck"
             manuallySelectable
             removable
             @remove="removeCardByIndex(index)"
         />
+
+        <!-- Intelligent Hint under card -->
+        <EmotionCardHintResults :hint="intelligentHint[index]" />
       </div>
     </div>
 
@@ -46,25 +49,27 @@
       </div>
     </div>
   </div>  
-  <!--<ExerciseBottomActions
+  <ExerciseBottomActions
       :error="error"
       :loading="loading"
       @closeError="error = ''"
       @hintButtonClick="getIntelligentHint"
-  />-->
+  />
+
+
 </template>
 <script setup lang="ts">
 import type { PsychologicalState } from '~/types/PsychologicalState'
 
-const { locale } = useI18n()
+const { locale, t: $t } = useI18n()
 const { decks } = await useDecks()
 const { exercise } = useExercise('emotion-card-choice')
 
-//const error = ref<string>('')
-//const intelligentHint = ref<any>({})
+const error = ref<string>('')
+const intelligentHint = ref<any[]>([])
 const config = useRuntimeConfig()
 const deck = ref<string>(config.public.defaultDeckSlug)
-//const loading = ref<boolean>(false)
+const loading = ref<boolean>(false)
 
 const { data: psychologicalStates } = await useFetch<PsychologicalState[]>(
     () => `/psychological-states/${locale.value}`,
@@ -81,7 +86,8 @@ const { data: psychologicalStates } = await useFetch<PsychologicalState[]>(
 type CardWithState = {
   stateTitle: string
   stateSlug: string
-  imageUrl: string
+  imageUrl: string,
+  deck: string
 }
 
 const cards = ref<CardWithState[]>([])
@@ -107,6 +113,7 @@ function addCardWithRandomState() {
   cards.value = [...cards.value, {
     stateTitle: randomState.title,
     stateSlug: randomState.slug,
+    deck: deck.value,
     imageUrl: '',
   }]
 }
@@ -121,22 +128,23 @@ function replaceCardWithRandomState(index: number) {
   cards.value[index] = {
     stateTitle: randomState.title,
     stateSlug: randomState.slug,
-    imageUrl: cards.value[index].imageUrl,
+    imageUrl: '',
+    deck: deck.value,
   }
 }
 
 addCardWithRandomState();
 
-//const cardsContentRef = ref<HTMLElement | null>(null)
+const cardsContentRef = ref<HTMLElement | null>(null)
 
 function hasEmptyCards() {
   return cards.value.some((card) => !card.imageUrl)
 }
 
-/*async function getIntelligentHint() {
+async function getIntelligentHint() {
   error.value = ''
 
-  if (!query.value || hasEmptyCards()) {
+  if (hasEmptyCards()) {
     error.value = $t('intelligent_hint_validation_all')
     return
   }
@@ -147,20 +155,21 @@ function hasEmptyCards() {
     //const origin = useRequestURL().origin
     const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
 
-    intelligentHint.value = await $fetch(`/spread/${locale.value}`, {
+    intelligentHint.value = await $fetch(`/emotion-and-card/${locale.value}`, {
       baseURL: config.public.apiBase,
       method: 'POST',
       body: {
-        query: query.value,
         cards: cards.value.map(card => ({
-          ...card,
+          stateSlug: card.stateSlug,
           imageUrl: origin + card.imageUrl
         }))
       }
     })
 
-    await nextTick()
+    console.log('intelligentHint.value', intelligentHint.value)
 
+    await nextTick()
+    
     cardsContentRef.value?.scrollIntoView({
       behavior: 'smooth',
       block: 'start'
@@ -177,6 +186,6 @@ function hasEmptyCards() {
   } finally {
     loading.value = false
   }
-}*/
+}
 
 </script>
