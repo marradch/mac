@@ -100,7 +100,20 @@ function pickRandomState(): PsychologicalState | undefined {
   if (!psychologicalStates.value || !psychologicalStates.value.length) {
     return undefined
   }
-  return psychologicalStates.value[Math.floor(Math.random() * psychologicalStates.value.length)]
+  
+  // Получить список уже выбранных slug'ов
+  const usedSlugs = cards.value.map(card => card.stateSlug)
+  
+  // Исключить уже выбранные состояния
+  const availableStates = psychologicalStates.value.filter(
+    state => !usedSlugs.includes(state.slug)
+  )
+  
+  if (!availableStates.length) {
+    return undefined
+  }
+  
+  return availableStates[Math.floor(Math.random() * availableStates.length)]
 }
 
 function addCardWithRandomState() {
@@ -133,7 +146,9 @@ function replaceCardWithRandomState(index: number) {
   }
 }
 
-addCardWithRandomState();
+onMounted(() => {
+  addCardWithRandomState()
+})
 
 const cardsContentRef = ref<HTMLElement | null>(null)
 
