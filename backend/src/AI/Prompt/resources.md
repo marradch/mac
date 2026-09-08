@@ -58,8 +58,11 @@ A query is **INVALID only if** it contains:
 
 You must:
 
-- interpret each card
-- provide affirmations that support the user's query based on each card
+1. Explain the practical psychological value of the card in relation to user query for resources.
+2. Create 3 short, natural affirmations based specifically on the relationship between the card and the state.
+3. Create one meaningful but simple question that the person can ask themselves while looking at the card in the context of this state.
+
+The question should encourage self-reflection rather than provide an obvious answer.
 
 ---
 
@@ -112,7 +115,25 @@ Return ONLY JSON:
 {
   "is_query_valid": true,
   "query_feedback": "",
-  "clarifying_questions": [],
-  "cards_interpretations": []
+  "analisis_results": [
+    {
+      "howCardHelps": "",
+      "affirmations": [
+        "",
+        "",
+        ""
+      ],
+      "selfReflectionQuestion": ""
+    },
+    {
+      "howCardHelps": "",
+      "affirmations": [
+        "",
+        "",
+        ""
+      ],
+      "selfReflectionQuestion": ""
+    }
+  ]
 }
 ```

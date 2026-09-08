@@ -42,7 +42,7 @@
     </div>
   </div>
   <div ref="cardsContentRef" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
-    <div v-for="(card, index) in cards" :key="cards.length" class="flex flex-col gap-3">
+    <div v-for="(card, index) in cards" :key="cards.length" class="md:max-w-[400px] flex flex-col gap-3">
       <TurnCard
           v-if="cardDecks[index]"
           v-model="cards[index]"
@@ -50,13 +50,7 @@
           removable
           @remove="removeCardByIndex(index)"
       ></TurnCard>
-      <div v-if="intelligentHint?.cards_interpretations?.[index]?.interpretation" class="bg-white border border-gray-200 p-3 shadow-md rounded-md text-gray-600 mb-3">
-        {{ intelligentHint.cards_interpretations[index].interpretation }}
-      </div>
-
-      <div v-if="intelligentHint?.cards_interpretations?.[index]?.affirmation" class="bg-white border border-gray-200 p-3 shadow-md rounded-md text-gray-600 mb-3">
-        {{ intelligentHint.cards_interpretations[index].affirmation }}
-      </div>
+      <ResourcesHintResults v-if="intelligentHint?.analisis_results?.[index]" :hint="intelligentHint?.analisis_results?.[index]" />
     </div>
   </div>
   <ExerciseBottomActions
@@ -156,6 +150,7 @@ async function getIntelligentHint() {
         })),
       }
     })
+    console.log('intelligentHint.value', intelligentHint.value)
 
     await nextTick()
 

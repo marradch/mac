@@ -7,60 +7,6 @@
     >
       <div class="space-y-4">
 
-        <!-- Match score -->
-        <div
-            v-if="hint.matchScore !== undefined"
-            class="flex items-center justify-between"
-        >
-          <div class="flex items-center gap-2">
-            <span class="text-lg">🎯</span>
-            <span class="text-gray-600 font-medium">
-              {{$t('match_score')}}
-            </span>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <span class="text-2xl font-bold text-orange-600">
-              {{ hint.matchScore }}
-            </span>
-
-            <span
-                class="text-sm px-2 py-1 rounded-full"
-                :class="{
-                  'bg-green-100 text-green-700': hint.matchLevel === 'high',
-                  'bg-yellow-100 text-yellow-700': hint.matchLevel === 'medium',
-                  'bg-red-100 text-red-700': hint.matchLevel === 'low'
-                }"
-            >
-              {{ $t(`match_level_${hint.matchLevel}`) }}
-            </span>
-          </div>
-        </div>
-
-        <!-- Card interpretation -->
-        <div v-if="hint.cardInterpretation" class="space-y-2">
-          <h3 class="flex items-center gap-2 font-semibold text-gray-700">
-            <span class="text-lg">🖼️</span>
-            {{$t('card_interpretation')}}
-          </h3>
-
-          <p class="text-gray-600 text-sm leading-relaxed">
-            {{ hint.cardInterpretation }}
-          </p>
-        </div>
-
-        <!-- Connection to state -->
-        <div v-if="hint.connectionToState" class="space-y-2">
-          <h3 class="flex items-center gap-2 font-semibold text-gray-700">
-            <span class="text-lg">🔗</span>
-            {{$t('connection_to_state')}}
-          </h3>
-
-          <p class="text-gray-600 text-sm leading-relaxed">
-            {{ hint.connectionToState }}
-          </p>
-        </div>
-
         <!-- How card helps -->
         <div v-if="hint.howCardHelps" class="space-y-2">
           <h3 class="flex items-center gap-2 font-semibold text-gray-700">
