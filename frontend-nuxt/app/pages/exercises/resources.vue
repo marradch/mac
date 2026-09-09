@@ -150,7 +150,6 @@ async function getIntelligentHint() {
         })),
       }
     })
-    console.log('intelligentHint.value', intelligentHint.value)
 
     await nextTick()
 

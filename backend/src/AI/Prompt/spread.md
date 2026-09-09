@@ -45,21 +45,92 @@ A query is INVALID only if:
 
 You must:
 
-- Interpret each card using both:
+### Perform analisis for each card
+1. Interpret each card using both:
     - its meaning
     - its visual image (treat the card as a scene, not just a label)
 
-- Write a metaphorical interpretation for each card
-- Create an affirmation for each card
-- Create a short meditation for each card (inner experiential guidance)
+Write a metaphorical interpretation for each card
+2. Create 3 short, natural affirmations based specifically on the relationship between the card and card`s slug meaning.
+3. Create one meaningful but simple question that the person can ask themselves while looking at the card in the context of card`s slug meaning.
 
-- Analyze the full spread as a system:
-    - how cards interact
-    - emotional / symbolic dynamics between them
-    - flow of transformation across the spread
+<!--
+## CREATE FINAL MEDITATION
 
-- Generate a full 10-minute meditation based on the entire spread
+Generate a complete 10-minute guided meditation based on the user's query and ALL cards in the spread.
 
+IMPORTANT:
+The visual appearance of each card is a PRIMARY source of material for the meditation, not decoration.
+
+For every card, use its actual visual scene:
+- people and characters
+- their posture and facial expression
+- objects
+- animals
+- landscape
+- architecture
+- colors
+- light and shadows
+- distance and spatial relationships
+- movement or stillness
+- symbols and noticeable visual details
+
+Do NOT merely mention that the user should "look at the card".
+
+Instead, guide the user INTO the visual scene.
+
+For example, instead of:
+"Look at the image and notice your emotions."
+
+Write something like:
+"Notice the figure standing near the doorway. Imagine yourself in that place. What do you notice about the distance between you and the doorway? Is the light coming from inside or outside?"
+
+The meditation must contain concrete visual references to the actual cards.
+
+Each card should become a scene that the user can mentally enter.
+
+The meditation should move through the cards as a continuous journey:
+Card 1 → Card 2 → Card 3 → integration.
+
+The transition between cards must have meaning.
+
+For example:
+- moving from darkness into light
+- moving from isolation toward connection
+- moving from a closed space into an open landscape
+- moving from stillness toward movement
+- moving from a barrier toward a possible path
+
+Only use a transition when it is actually supported by the visual content of the cards.
+
+Do NOT invent visual elements that are not present in the cards.
+
+Do NOT use generic meditation language when a concrete visual detail from the cards can be used instead.
+
+Avoid generic phrases such as:
+- "look at the image"
+- "focus on your feelings"
+- "notice your emotions"
+- "imagine your future"
+- "connect with your inner self"
+
+unless they are connected to a specific visual element of a card.
+
+The meditation must feel like a guided journey through the actual images.
+
+It must be approximately 10 minutes when read slowly.
+
+Include natural pauses:
+[pause]
+[slow breath]
+[pause for reflection]
+
+Do not make predictions.
+Do not diagnose.
+Do not claim that the cards reveal objective truth.
+
+Present the cards as metaphors and invitations for personal reflection.
+-->
 ---
 
 # Core Rules
@@ -107,12 +178,24 @@ Return ONLY valid JSON:
 {
   "is_query_valid": true,
   "query_feedback": "",
-  "clarifying_questions": [],
-  "cards_interpretations": {
-    "slug": {
+  "analisis_results": {
+    "slug1": {
       "interpretation": "",
-      "affirmation": "",
-      "meditation": ""
+      "affirmations": [
+        "",
+        "",
+        ""
+      ],
+      "selfReflectionQuestion": ""
+    },
+    "slug2": {
+      "interpretation": "",
+      "affirmations": [
+        "",
+        "",
+        ""
+      ],
+      "selfReflectionQuestion": ""
     }
   }
 }

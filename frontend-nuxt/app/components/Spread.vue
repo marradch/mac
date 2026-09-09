@@ -20,15 +20,7 @@
           :deck="deck"
           manuallySelectable
       ></TurnCard>
-      <div v-if="intelligentHint?.cards_interpretations?.[card.slug]?.interpretation" class="bg-white border border-gray-200 p-3 shadow-md rounded-md text-gray-600 mb-3">
-        {{ intelligentHint?.cards_interpretations?.[card.slug].interpretation }}
-      </div>
-      <div v-if="intelligentHint?.cards_interpretations?.[card.slug]?.interpretation" class="bg-white border border-gray-200 p-3 shadow-md rounded-md text-gray-600 mb-3">
-        {{ intelligentHint?.cards_interpretations?.[card.slug].affirmation }}
-      </div>
-      <div v-if="intelligentHint?.cards_interpretations?.[card.slug]?.meditation" class="bg-white border border-gray-200 p-3 shadow-md rounded-md text-gray-600 mb-3">
-        {{ intelligentHint?.cards_interpretations?.[card.slug].meditation }}
-      </div>
+      <SpreadHintResults v-if="intelligentHint?.analisis_results?.[card.slug]" :hint="intelligentHint?.analisis_results?.[card.slug]"/>
     </div>
   </div>
   <ExerciseBottomActions
