@@ -22,6 +22,8 @@
   "past": "Past",
   "present": "Present",
   "future": "Future",
+  "cross_layer_patterns": "Connections Between Periods",
+  "overall_narrative": "Overall Picture",
   "intelligent_hint": "Intelligent hint",
   "intelligent_hint_validation": "To get an intelligent hint, you need to select a card and enter a query",
   "helpful_questions": "Helpful questions",

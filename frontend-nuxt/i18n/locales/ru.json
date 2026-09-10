@@ -22,6 +22,8 @@
   "past": "Прошлое",
   "present": "Настоящее",
   "future": "Будущее",
+  "cross_layer_patterns": "Связи между периодами",
+  "overall_narrative": "Общая картина",
   "intelligent_hint": "Интеллектуальная подсказка",
   "intelligent_hint_validation": "Для получения интеллектуальной подсказки необходимо выбрать карту и ввести запрос",
   "helpful_questions": "Вспомогательные вопросы",

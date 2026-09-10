@@ -53,6 +53,8 @@
 </template>
 
 <script setup lang="ts">
+import TimeSpreadHintResults from '~/components/TimeSpreadHintResults.vue'
+
 const { t, locale} = useI18n()
 const { exercise } = useExercise('past-present-future')
 const { decks, resetAvailableCardsState } = await useDecks()
