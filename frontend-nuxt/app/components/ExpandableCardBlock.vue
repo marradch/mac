@@ -24,7 +24,7 @@
     </div>
 
     <!-- Toggle button -->
-    <div class="flex items-center justify-center px-4 py-3 bg-white cursor-pointer transition"
+    <div v-if="showBlur" class="flex items-center justify-center px-4 py-3 bg-white cursor-pointer transition"
          @click="toggleExpand"
     >
       <span class="text-sm font-medium text-gray-700 mr-2">
