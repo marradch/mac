@@ -40,9 +40,6 @@
           @closeError="error = ''"
           @hintButtonClick="getIntelligentHint"
       />
-      <div ref="hintContentRef">
-        <QuestionToCardHintResults :hint="intelligentHint" />
-      </div>
     </div>
   </div>
 </template>
