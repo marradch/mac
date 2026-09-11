@@ -26,14 +26,16 @@
              :key="period">
           <h2 class="text-3xl font-bold my-3 text-primary text-center">{{$t(period)}}</h2>
           <template v-if="numberOfCards === 1">
-            <div class="card-container flex justify-center">
+            <div class="card-container flex flex-col items-center justify-start">
                 <TurnCard :deck="deck" class="" v-model="cards[period][0]"/>
+                <UsualCardHintResults v-if="intelligentHint?.cards_analisis_results?.[period]?.[0]" :hint="intelligentHint?.cards_analisis_results?.[period]?.[0]" />
             </div>
           </template>
           <template v-if="numberOfCards === 3">
             <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div class="card-container flex justify-center" :key="index" v-for="(n, index) in numberOfCards">
+              <div class="card-container flex flex-col items-center justify-start" :key="index" v-for="(n, index) in numberOfCards">
                 <TurnCard :deck="deck" class="" v-model="cards[period][index]"/>
+                <UsualCardHintResults v-if="intelligentHint?.cards_analisis_results?.[period]?.[index]" :hint="intelligentHint?.cards_analisis_results?.[period]?.[index]" />
               </div>
             </div>
           </template>
@@ -70,7 +72,7 @@ const cards = ref({
   future: ['']
 })
 const error = ref("")
-const intelligentHint = ref({});
+const intelligentHint = ref<Record<string, any>>({});
 const hintContentRef = ref<HTMLElement | null>(null);
 
 type Period = 'past' | 'present' | 'future'
