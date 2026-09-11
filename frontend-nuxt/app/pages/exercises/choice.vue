@@ -38,14 +38,17 @@
              :key="i">
           <h2 class="text-3xl font-bold my-3 text-primary text-center">{{$t("variant")}} {{i}}</h2>
           <template v-if="numberOfCards === 1">
-            <div class="card-container flex justify-center">
+            <div class="card-container flex flex-col items-center justify-start">
               <TurnCard :deck="deck" class="" v-model="cards[getOptionKey(i)][0]"/>
+              <UsualCardHintResults v-if="intelligentHint?.cards_analisis_results?.[getOptionKey(i)]?.[0]" :hint="intelligentHint?.cards_analisis_results?.[getOptionKey(i)]?.[0]" />
             </div>
           </template>
           <template v-if="numberOfCards === 3">
             <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div class="card-container flex justify-center" :key="index" v-for="(n, index) in numberOfCards">
+              <div class="card-container flex flex-col items-center justify-start" :key="index" v-for="(n, index) in numberOfCards">
+                {{ getOptionKey(i) }}
                 <TurnCard :deck="deck" class="" v-model="cards[getOptionKey(i)][index]"/>
+                <UsualCardHintResults v-if="intelligentHint?.cards_analisis_results?.[getOptionKey(i)]?.[index]" :hint="intelligentHint?.cards_analisis_results?.[getOptionKey(i)]?.[index]" />
               </div>
             </div>
           </template>
@@ -85,7 +88,7 @@ const cards = ref<Record<OptionKey, string[]>>({
   option_2: [''],
 })
 
-const intelligentHint = ref({})
+const intelligentHint = ref<any>({})
 const hintContentRef = ref<HTMLElement | null>(null)
 const error = ref('')
 

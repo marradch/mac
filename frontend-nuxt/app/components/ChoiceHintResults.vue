@@ -6,29 +6,7 @@
         border-class="border border-orange-200"
     >
       <div class="space-y-4">
-        <div v-if="hint.option1_interpretation" class="space-y-2">
-          <h3 class="flex items-center gap-2 font-semibold text-gray-700">
-            <span class="text-lg">🖼️</span>
-            {{ $t('variant') }} 1
-          </h3>
-
-          <p class="text-sm leading-relaxed text-gray-600">
-            {{ hint.option1_interpretation }}
-          </p>
-        </div>
-
-        <div v-if="hint.option2_interpretation" class="space-y-2">
-          <h3 class="flex items-center gap-2 font-semibold text-gray-700">
-            <span class="text-lg">🖼️</span>
-            {{ $t('variant') }} 2
-          </h3>
-
-          <p class="text-sm leading-relaxed text-gray-600">
-            {{ hint.option2_interpretation }}
-          </p>
-        </div>
-
-        <div v-if="hint.comparison" class="space-y-2 pt-2 border-t border-orange-200">
+        <div v-if="hint.comparison" class="space-y-2 pt-2 border-orange-200">
           <h3 class="flex items-center gap-2 font-semibold text-gray-700">
             <span class="text-lg">⚖️</span>
             {{ $t('comparison') }}
