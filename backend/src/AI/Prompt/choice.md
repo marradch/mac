@@ -16,7 +16,6 @@ You receive a JSON payload with:
   - `text` — text description of the option
   - `cards` — array of 1–3 cards, each with `number` and `image_url`
 - `option2` — second choice option (same structure as `option1`)
-- `selected_option` (optional) — `1` or `2` if the user has already made a choice
 
 ---
 
@@ -85,13 +84,15 @@ Each option_text must be classified as:
 
 ### If Query and Option Texts are VALID
 
-You must:
-
-- interpret each option
-- provide a comparative analysis
-- use metaphorical language
-- give a gentle recommendation for decision-making
-- provide affirmations to support the user's choice
+You must give next analisis information use metaphorical language:
+1. For each card:
+  1.1. Explain the practical psychological value of the card image in relation to user query and option text.
+  1.2. Create 3 short, natural affirmations based specifically on the relationship between the card user query and option text.
+  1.3. Create one meaningful but simple question that the person can ask themselves while looking at the card in the context of user query and option text.
+1. Explain the practical psychological value of the card image in relation to user query and option text.
+2. provide a comparative analysis for options text and it`s card practical psychological value.
+3. give a gentle recommendation for decision-making
+4. provide affirmations to support the user's choice
 
 ---
 
@@ -145,8 +146,26 @@ Return ONLY JSON:
   "is_query_valid": true,
   "query_feedback": "",
   "clarifying_questions": [],
-  "option1_interpretation": "",
-  "option2_interpretation": "",
+  "cards_analisis_results": {
+    "option_{num}": [{
+      "howCardHelps": "",
+      "affirmations": [
+        "",
+        "",
+        ""
+      ],
+      "selfReflectionQuestion": ""
+    },
+    {
+      "howCardHelps": "",
+      "affirmations": [
+        "",
+        "",
+        ""
+      ],
+      "selfReflectionQuestion": ""
+    }
+  }],
   "comparison": "",
   "recommendations": "",
   "affirmations": []

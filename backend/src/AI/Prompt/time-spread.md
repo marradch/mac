@@ -61,9 +61,16 @@ A query is **INVALID only if**:
 
 You must:
 
-- interpret each time layer
-- build narrative Past → Present → Future
+1.  interpret each time layer
+For each card:
+  1.1. Explain the practical psychological value of the card image in relation to user query and time layer.
+  1.2. Create 3 short, natural affirmations based specifically on the relationship between the card user query and time layer.
+  1.3. Create one meaningful but simple question that the person can ask themselves while looking at the card in the context of user query and time layer.
+2. build narrative Past → Present → Future
 - stay metaphorical and reflective
+3. Detect and descrie cross time layer patterns using metaforical language.
+4. Create 3 short, natural affirmations based specifically on user query, narrative, cross time layer patterns.
+5. Give narrative for each time layer
 
 ---
 
@@ -122,6 +129,26 @@ Return ONLY JSON:
   "future_interpretation": "",
   "cross_layer_patterns": "",
   "overall_narrative": "",
-  "affirmations": []
+  "affirmations": [],
+  "cards_analisis_results": {
+    "{time_layer}": [{
+      "howCardHelps": "",
+      "affirmations": [
+        "",
+        "",
+        ""
+      ],
+      "selfReflectionQuestion": ""
+    },
+    {
+      "howCardHelps": "",
+      "affirmations": [
+        "",
+        "",
+        ""
+      ],
+      "selfReflectionQuestion": ""
+    }
+  }],
 }
 ```
