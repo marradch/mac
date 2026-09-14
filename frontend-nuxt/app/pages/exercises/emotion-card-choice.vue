@@ -29,7 +29,7 @@
         />
 
         <!-- Intelligent Hint under card -->
-        <EmotionCardHintResults :hint="intelligentHint[index]" />
+        <EmotionCardHintResults :hint="intelligentHint?.[card.stateSlug]" />
       </div>
     </div>
 

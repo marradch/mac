@@ -7,6 +7,18 @@
     >
       <div class="space-y-4">
 
+        <!-- Card interpretation -->
+        <div v-if="hint.interpretation" class="space-y-2">
+          <h3 class="flex items-center gap-2 font-semibold text-gray-700">
+            <span class="text-lg">🖼️</span>
+            {{$t('card_interpretation')}}
+          </h3>
+
+          <p class="text-gray-600 text-sm leading-relaxed">
+            {{ hint.interpretation }}
+          </p>
+        </div>
+
         <!-- How card helps -->
         <div v-if="hint.howCardHelps" class="space-y-2">
           <h3 class="flex items-center gap-2 font-semibold text-gray-700">

@@ -106,10 +106,10 @@ async function getIntelligentHint() {
         past: cards.value.past.map(card => ({
           'imageUrl': origin + card
         })),
-        present: cards.value.past.map(card => ({
+        present: cards.value.present.map(card => ({
           'imageUrl': origin + card
         })),
-        future: cards.value.past.map(card => ({
+        future: cards.value.future.map(card => ({
           'imageUrl': origin + card
         })),
       }

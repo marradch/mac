@@ -4,36 +4,54 @@ namespace App\AI\MessagesBuilder;
 
 use App\DTO\Input\InterpretDTOInterface;
 
-class QuestionToCardMessagesBuilder implements InterpreterMessageBuilderInterface
+class QuestionToCardMessagesBuilder extends AbstractInterpreterMessagesBuilder
 {
+    protected string $promptFilename = 'question.md';
+
     public function build(string $locale, InterpretDTOInterface $dto): array
     {
         return [
             [
                 'role' => 'system',
-                'content' => file_get_contents(__DIR__ . '/../Prompt/question.md')
+                'content' => $this->loadPrompt()
             ],
             [
                 'role' => 'user',
-                'content' => json_encode(
-                    $this->buildPayload($dto, $locale),
-                    JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-                )
+                'content' => $this->buildCardsContent($locale, $dto)
             ]
         ];
     }
 
-    private function buildPayload(InterpretDTOInterface $dto, string $locale): array
+    private function buildCardsContent(string $locale, InterpretDTOInterface $dto): array
     {
-        return [
-            'language' => $locale,
-            'query' => $dto->query,
-            'cards' => array_map(function ($card, $index) {
-                return [
-                    'number' => $index + 1,
-                    'image_url' => $card->imageUrl,
-                ];
-            }, $dto->cards, array_keys($dto->cards)),
+        $result = [];
+
+        $result[] = [
+            'type' => 'text',
+            'text' => "LANGUAGE: {$locale}",
         ];
+
+        $result[] = [
+            'type' => 'text',
+            'text' => "QUERY: {$dto->query}"
+        ];
+
+        foreach ($dto->cards as $index => $card) {
+            $num = $index + 1;
+
+            $result[] = [
+                'type' => 'text',
+                'text' => "card {$num}",
+            ];
+
+            $result[] = [
+                'type' => 'image_url',
+                'image_url' => [
+                    'url' => $card->imageUrl,
+                ],
+            ];
+        }
+
+        return $result;
     }
 }

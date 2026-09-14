@@ -2,48 +2,66 @@
 
 namespace App\AI\MessagesBuilder;
 
-use App\AI\DTO\MetaphoricalCard;
 use App\DTO\Input\{TimeSpreadDTO, InterpretDTOInterface};
 
-class TimeSpreadMessagesBuilder implements InterpreterMessageBuilderInterface
+class TimeSpreadMessagesBuilder extends AbstractInterpreterMessagesBuilder
 {
+    protected string $promptFilename = 'time-spread.md';
+
     public function build(string $locale, InterpretDTOInterface $dto): array
     {
+        /** @var TimeSpreadDTO $dto */
+
+        $content = [
+            [
+                'type' => 'text',
+                'text' => "LANGUAGE: {$locale}",
+            ],
+            [
+                'type' => 'text',
+                'text' => "QUERY: {$dto->query}",
+            ],
+        ];
+
+        $content = array_merge(
+            $content,
+            $this->buildPeriodContent('PAST', $dto->past),
+            $this->buildPeriodContent('PRESENT', $dto->present),
+            $this->buildPeriodContent('FUTURE', $dto->future)
+        );
+
         return [
             [
                 'role' => 'system',
-                'content' => file_get_contents(__DIR__ . '/../Prompt/time-spread.md'),
+                'content' => $this->loadPrompt(),
             ],
             [
                 'role' => 'user',
-                'content' => json_encode(
-                    $this->buildPayload($dto, $locale),
-                    JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-                ),
+                'content' => $content,
             ],
         ];
     }
 
-    private function buildPayload(TimeSpreadDTO $dto, string $locale): array
+    private function buildPeriodContent(string $period, array $cards): array
     {
-        $payload = [
-            'language' => $locale,
-            'query' => $dto->query,
-            'past' => $this->mapCards($dto->past),
-            'present' => $this->mapCards($dto->present),
-            'future' => $this->mapCards($dto->future),
-        ];
+        $content = [];
 
-        return $payload;
-    }
+        foreach ($cards as $index => $card) {
+            $number = $index + 1;
 
-    private function mapCards(array $cards): array
-    {
-        return array_map(function ($card, $index) {
-            return [
-                'number' => $index + 1,
-                'image_url' => $card->imageUrl,
+            $content[] = [
+                'type' => 'text',
+                'text' => "TIME LAYER: {$period}, CARD {$number}",
             ];
-        }, $cards, array_keys($cards));
+
+            $content[] = [
+                'type' => 'image_url',
+                'image_url' => [
+                    'url' => $card->imageUrl,
+                ],
+            ];
+        }
+
+        return $content;
     }
 }

@@ -4,14 +4,16 @@ namespace App\AI\MessagesBuilder;
 
 use App\DTO\Input\InterpretDTOInterface;
 
-class ResourcesMessagesBuilder implements InterpreterMessageBuilderInterface
+class ResourcesMessagesBuilder extends AbstractInterpreterMessagesBuilder
 {
+    protected string $promptFilename = 'resources.md';
+
     public function build(string $locale, InterpretDTOInterface $dto): array
     {
         return [
             [
                 'role' => 'system',
-                'content' => file_get_contents(__DIR__ . '/../Prompt/resources.md')
+                'content' => $this->loadPrompt()
             ],
             [
                 'role' => 'user',

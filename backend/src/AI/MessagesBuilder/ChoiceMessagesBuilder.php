@@ -4,50 +4,79 @@ namespace App\AI\MessagesBuilder;
 
 use App\DTO\Input\{ChoiceDTO, InterpretDTOInterface};
 
-class ChoiceMessagesBuilder implements InterpreterMessageBuilderInterface
+class ChoiceMessagesBuilder extends AbstractInterpreterMessagesBuilder
 {
+    protected string $promptFilename = 'choice.md';
+
     public function build(string $locale, InterpretDTOInterface $dto): array
     {
+        /** @var ChoiceDTO $dto */
+
+        $content = [
+            [
+                'type' => 'text',
+                'text' => "LANGUAGE: {$locale}",
+            ],
+            [
+                'type' => 'text',
+                'text' => "QUERY: {$dto->query}",
+            ],
+        ];
+
+        $content = array_merge(
+            $content,
+            $this->buildOptionContent(
+                'OPTION 1',
+                $dto->option1Text,
+                $dto->option1Cards
+            ),
+            $this->buildOptionContent(
+                'OPTION 2',
+                $dto->option2Text,
+                $dto->option2Cards
+            )
+        );
+
         return [
             [
                 'role' => 'system',
-                'content' => file_get_contents(__DIR__ . '/../Prompt/choice.md'),
+                'content' => $this->loadPrompt(),
             ],
             [
                 'role' => 'user',
-                'content' => json_encode(
-                    $this->buildPayload($dto, $locale),
-                    JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-                ),
+                'content' => $content,
             ],
         ];
     }
 
-    private function buildPayload(ChoiceDTO $dto, string $locale): array
-    {
-        $payload = [
-            'language' => $locale,
-            'query' => $dto->query,
-            'option1' => [
-                'text' => $dto->option1Text,
-                'cards' => $this->mapCards($dto->option1Cards),
-            ],
-            'option2' => [
-                'text' => $dto->option2Text,
-                'cards' => $this->mapCards($dto->option2Cards),
+    private function buildOptionContent(
+        string $optionName,
+        string $optionText,
+        array $cards
+    ): array {
+        $content = [
+            [
+                'type' => 'text',
+                'text' => "{$optionName}\nTEXT: {$optionText}",
             ],
         ];
 
-        return $payload;
-    }
+        foreach ($cards as $index => $card) {
+            $number = $index + 1;
 
-    private function mapCards(array $cards): array
-    {
-        return array_map(function ($card, $index) {
-            return [
-                'number' => $index + 1,
-                'image_url' => $card->imageUrl,
+            $content[] = [
+                'type' => 'text',
+                'text' => "CARD {$number}",
             ];
-        }, $cards, array_keys($cards));
+
+            $content[] = [
+                'type' => 'image_url',
+                'image_url' => [
+                    'url' => $card->imageUrl,
+                ],
+            ];
+        }
+
+        return $content;
     }
 }

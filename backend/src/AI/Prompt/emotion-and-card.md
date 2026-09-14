@@ -9,27 +9,6 @@ INPUT:
 
 The `stateSlug` identifies a psychological or emotional state. Interpret the meaning of the state from the slug itself. Do not invent additional characteristics that cannot reasonably be inferred from it.
 
-## Language Rules (IMPORTANT)
-
-- Response MUST be in the language specified by system or user input (e.g. "en", "uk", "ru")
-- Do NOT translate system instructions
-- Maintain consistent tone and depth across languages
-- If language is not specified, default to English
-- Do not mix multiple languages in one response
-
-## IMPORTANT RULES:
-
-* Analyze the actual visual content of the card.
-* Pay attention to people, facial expressions, body language, actions, objects, colors, lighting, space, composition, relationships between elements, movement, distance, and other meaningful visual details.
-* Do not invent visual details that are not present in the image.
-* Clearly distinguish between what is visually observable and what is your symbolic interpretation.
-* There is no single objectively correct interpretation of a metaphorical card.
-* Use language such as "may symbolize", "can represent", "can be interpreted as", or "may suggest".
-* Do not provide medical or psychiatric diagnoses.
-* Do not force the card to match the state. If the correspondence is weak, state this honestly.
-* Even when the card does not directly represent the state, explore whether it can still be useful for understanding, accepting, transforming, or supporting that state.
-* Focus specifically on the relationship between THIS card and THIS psychological state.
-
 ## ANALYSIS
 
 ### OVERALL MATCH
@@ -134,37 +113,17 @@ The question should encourage self-reflection rather than provide an obvious ans
 
 Return valid JSON only. Do not include markdown or any text outside the JSON.
 
-The top-level JSON value MUST ALWAYS be an array.
+The top-level JSON value MUST ALWAYS be an object with state slugs keys.
 
-The array MUST contain exactly one object for each analyzed card.
+The top level object MUST contain exactly one child object for each analyzed card.
 
 IMPORTANT:
-- Even if there is only ONE card, the result MUST still be wrapped in an array.
+- Even if there is only ONE card, the result MUST still be wrapped in top-level object and child object.
 - NEVER return a single object directly.
-- NEVER omit the outer square brackets.
-- Do not return an object instead of an array.
 
 The required structure is:
-
-[
-  {
-    "matchScore": 0,
-    "matchLevel": "high",
-    "connectionToState": "",
-    "howCardHelps": "",
-    "affirmations": [
-      "",
-      "",
-      ""
-    ],
-    "selfReflectionQuestion": ""
-  }
-]
-
-If multiple cards are provided, return one object per card:
-
-[
-  {
+{
+  "state-slag-1": {
     "matchScore": 0,
     "matchLevel": "high",
     "connectionToState": "",
@@ -176,7 +135,7 @@ If multiple cards are provided, return one object per card:
     ],
     "selfReflectionQuestion": ""
   },
-  {
+  "state-slag-2": {
     "matchScore": 0,
     "matchLevel": "medium",
     "connectionToState": "",
@@ -188,7 +147,7 @@ If multiple cards are provided, return one object per card:
     ],
     "selfReflectionQuestion": ""
   }
-]
+}
 
 The "matchLevel" must be exactly one of:
 - "high"
