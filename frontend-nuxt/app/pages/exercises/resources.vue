@@ -2,56 +2,37 @@
   <ExerciseHeader :exercise="exercise" />
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px] justify-center">
+      <ChooseDeck :decks="decks" v-model="deck"/>
       <textarea
           v-model="query"
           :placeholder="$t('query_placeholder')"
           rows="1"
           class="w-full min-h-[3cm] lg:min-h-[2cm] max-h-40 overflow-y-auto px-4 py-2 border rounded-lg resize-none shadow-sm"
-      />
-      <div class="flex flex-col sm:flex-row gap-3">
-        <button
-            class="inline-flex items-center gap-2 rounded-md bg-primary hover:bg-primary-hover px-4 py-2 text-white font-medium shadow-md w-full sm:w-fit justify-center"
-            @click="isModalOpen = true"
-        >
-          {{ $t('add_resource') }}
-        </button>
-        <div class="flex items-center gap-4">
-
-          <label class="flex items-center gap-2 cursor-pointer">
-            <input
-                type="radio"
-                value="open"
-                v-model="resourceSelectionMode"
-                class="accent-primary w-4 h-4"
-            />
-            <span class="text-gray-600">{{$t('open_mode')}}</span>
-          </label>
-
-          <label class="flex items-center gap-2 cursor-pointer">
-            <input
-                type="radio"
-                value="close"
-                v-model="resourceSelectionMode"
-                class="accent-primary w-4 h-4"
-            />
-            <span class="text-gray-600">{{$t('close_mode')}}</span>
-          </label>
-
-        </div>
-      </div>
+      />      
     </div>
   </div>
   <div ref="cardsContentRef" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
-    <div v-for="(card, index) in cards" :key="cards.length" class="md:max-w-[400px] flex flex-col gap-3">
-      <TurnCard
-          v-if="cardDecks[index]"
-          v-model="cards[index]"
-          :deck="cardDecks[index]"
-          removable
-          @remove="removeCardByIndex(index)"
-      ></TurnCard>
-      <ResourcesHintResults v-if="intelligentHint?.analisis_results?.[index]" :hint="intelligentHint?.analisis_results?.[index]" />
+    <div
+        v-for="(card, index) in cards"
+        :key="index"
+        class="flex flex-col gap-3 items-center justify-start"
+    >
+      <div class="w-full md:max-w-[400px]">
+        <TurnCard
+            v-model="card.imageUrl"
+            :deck="card.deck"
+            manuallySelectable
+            removable
+            @remove="removeCardByIndex(index)"
+        />
+
+        <ResourcesHintResults
+            v-if="intelligentHint?.analisis_results?.[index]"
+            :hint="intelligentHint?.analisis_results?.[index]"
+        />
+      </div>
     </div>
+    <AddCardTile @click="addCard" />
   </div>
   <ExerciseBottomActions
       :error="error"
@@ -59,28 +40,6 @@
       @closeError="error = ''"
       @hintButtonClick="getIntelligentHint"
   />
-  <BaseModal
-      :open="isModalOpen"
-      :h-full="resourceSelectionDeck !== ''"
-      @close="isModalOpen = false; resourceSelectionDeck = ''"
-  >
-    <ChooseDeck
-        v-if="decks && resourceSelectionDeck === ''"
-        v-model="resourceSelectionDeck"
-        class="flex-1"
-        :decks="decks"
-        col-layout
-        @update:modelValue="selectDeck()"
-        />
-    <CardSelection v-else-if="resourceSelectionDeck !== '' && resourceSelectionMode === 'open'" :deck="resourceSelectionDeck" @selected="(value) => selectCard(value)"/>
-
-    <template v-if="resourceSelectionDeck === ''" #header>
-      {{ $t('choose_deck') }}
-    </template>
-    <template v-else #header>
-      {{ $t('choose_card') }}
-    </template>
-  </BaseModal>
 </template>
 
 <script setup lang="ts">
@@ -89,42 +48,39 @@ const { exercise } = useExercise('resources')
 const { decks } = await useDecks()
 
 const config = useRuntimeConfig()
+const deck = ref(config.public.defaultDeckSlug)
+
 const loading = ref(false)
-const isModalOpen = ref(false)
-const resourceSelectionDeck = ref('')
-const resourceSelectionMode = ref('open')
 const query = ref('')
 const error = ref('')
 const intelligentHint = ref<any>({})
 
-const cards = ref<string[]>([])
-const cardDecks = ref<string[]>([])
+type CardWithDeck = {
+  imageUrl: string
+  deck: string
+}
+const cards = ref<CardWithDeck[]>([])
 
 const cardsContentRef = ref<HTMLElement | null>(null)
-
-function selectCard(value: string) {
-  cards.value.push(value)
-  cardDecks.value.push(resourceSelectionDeck.value)
-  isModalOpen.value = false
-  resourceSelectionDeck.value = ''
-}
-
-function selectDeck() {
-  if (resourceSelectionMode.value === 'close') {
-    cards.value.push('')
-    cardDecks.value.push(resourceSelectionDeck.value)
-    isModalOpen.value = false
-    resourceSelectionDeck.value = ''
-  }
-}
 
 function removeCardByIndex(index: number) {
   cards.value = cards.value.filter((_, i) => i !== index)
 }
 
 function hasEmptyCards() {
-  return cards.value.some((card) => !card)
+  return cards.value.some((card) => !card.imageUrl)
 }
+
+function addCard() {
+  cards.value = [...cards.value, {
+    imageUrl: '',
+    deck: deck.value,
+  }]
+}
+
+onMounted(() => {
+  addCard()
+})
 
 async function getIntelligentHint() {
   error.value = ''
