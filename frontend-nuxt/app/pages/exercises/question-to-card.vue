@@ -22,14 +22,18 @@
         <template v-if="numberOfCards === 1">
           <div class="card-container flex flex-col items-center justify-start">
             <TurnCard :deck="deck" class="" v-model="cards[0]" :key="0"/>
-            <UsualCardHintResults v-if="intelligentHint?.analisis_results?.[0]" :hint="intelligentHint?.analisis_results?.[0]" />
+            <div ref="hintContentRef">
+              <UsualCardHintResults v-if="intelligentHint?.analisis_results?.[0]" :hint="intelligentHint?.analisis_results?.[0]" />
+            </div>
           </div>
         </template>
         <template v-if="numberOfCards === 3">
           <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div class="card-container flex flex-col items-center justify-start" :key="index" v-for="(n, index) in numberOfCards">
               <TurnCard :deck="deck" class="" v-model="cards[index]"/>
+              <div ref="hintContentRef">
               <UsualCardHintResults v-if="intelligentHint?.analisis_results?.[index]" :hint="intelligentHint?.analisis_results?.[index]" />
+              </div>
             </div>
           </div>
         </template>
@@ -57,7 +61,7 @@ const deck = ref(config.public.defaultDeckSlug)
 const cards = ref([''])
 
 const intelligentHint = ref<any>({})
-const hintContentRef = ref<HTMLElement | null>(null)
+const hintContentRef = ref<HTMLElement | HTMLElement[] | null>(null)
 const error = ref('')
 
 function hasEmptyCards() {
@@ -91,7 +95,11 @@ async function getIntelligentHint() {
 
     await nextTick()
 
-    hintContentRef.value?.scrollIntoView({
+    const firstHint = Array.isArray(hintContentRef.value)
+    ? hintContentRef.value[0]
+    : hintContentRef.value
+
+    firstHint?.scrollIntoView({
       behavior: 'smooth',
       block: 'start'
     })
