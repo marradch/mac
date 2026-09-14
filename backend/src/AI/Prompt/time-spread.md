@@ -75,36 +75,48 @@ Return ONLY JSON:
   "overall_narrative": "",
   "affirmations": [],
   "cards_analisis_results": {
-    "past": [{
-      "interpretation": "",
-      "howCardHelps": "",
-      "affirmations": [
-        "",
-        "",
-        ""
-      ],
-      "selfReflectionQuestion": ""
-    },
-    "present": [{
-      "interpretation": "",
-      "howCardHelps": "",
-      "affirmations": [
-        "",
-        "",
-        ""
-      ],
-      "selfReflectionQuestion": ""
-    },
-    "future": [{
-      "interpretation": "",
-      "howCardHelps": "",
-      "affirmations": [
-        "",
-        "",
-        ""
-      ],
-      "selfReflectionQuestion": ""
-    },
-  }],
+    "past": [
+      {
+        "interpretation": "",
+        "howCardHelps": "",
+        "affirmations": [
+          "",
+          "",
+          ""
+        ],
+        "selfReflectionQuestion": ""
+      },
+      {results for card 2},
+      {results for card 3},
+    ]
+    "present": [
+      {
+        "interpretation": "",
+        "howCardHelps": "",
+        "affirmations": [
+          "",
+          "",
+          ""
+        ],
+        "selfReflectionQuestion": ""
+      },
+      {results for card 2},
+      {results for card 3},
+    ]
+    "future": [
+      {
+        "interpretation": "",
+        "howCardHelps": "",
+        "affirmations": [
+          "",
+          "",
+          ""
+        ],
+        "selfReflectionQuestion": ""
+      },
+      {results for card 2},
+      {results for card 3},
+    ]
+  },
 }
 ```
