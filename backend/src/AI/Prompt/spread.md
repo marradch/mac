@@ -112,8 +112,7 @@ Return ONLY valid JSON:
 
 ```json
 {
-  "is_query_valid": true,
-  "query_feedback": "",
+  "query_status": "valid" | "invalid" | "unsafe",
   "analisis_results": {
     "slug1": {
       "interpretation": "",

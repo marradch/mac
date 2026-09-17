@@ -65,9 +65,7 @@ Return ONLY JSON:
 
 ```json
 {
-  "is_query_valid": true,
-  "query_feedback": "",
-  "clarifying_questions": [],
+  "query_status": "valid" | "invalid" | "unsafe",
   "past_interpretation": "",
   "present_interpretation": "",
   "future_interpretation": "",

@@ -28,24 +28,6 @@
           </p>
         </div>
 
-        <div v-if="hint.clarifying_questions?.length" class="space-y-2 pt-2 border-t border-orange-200">
-          <h3 class="flex items-center gap-2 font-semibold text-gray-700">
-            <span class="text-lg">🪞</span>
-            {{ $t('helpful_questions') }}
-          </h3>
-
-          <ul class="space-y-1">
-            <li
-                v-for="(question, i) in hint.clarifying_questions"
-                :key="i"
-                class="flex items-start gap-2 text-sm text-gray-600"
-            >
-              <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-400"></span>
-              <span>{{ question }}</span>
-            </li>
-          </ul>
-        </div>
-
         <div v-if="hint.affirmations?.length" class="space-y-2 pt-2 border-t border-orange-200">
           <h3 class="flex items-center gap-2 font-semibold text-gray-700">
             <span class="text-lg">✨</span>

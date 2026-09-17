@@ -70,9 +70,7 @@ Return ONLY JSON:
 
 ```json
 {
-  "is_query_valid": true,
-  "query_feedback": "",
-  "clarifying_questions": [],
+  "query_status": "valid" | "invalid" | "unsafe",
   "cards_analisis_results": {
     "option_{num}": [{
       "howCardHelps": "",
