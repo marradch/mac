@@ -45,7 +45,8 @@ const error = ref<string>('')
 const intelligentHint = ref<any>({})
 const config = useRuntimeConfig()
 const deck = ref<string>(config.public.defaultDeckSlug)
-const loading = ref<boolean>(false);
+const loading = ref<boolean>(false)
+const isQueryUnsafe = ref(false)
 
 const cards = ref<Array<{
   slug: string
@@ -97,10 +98,16 @@ async function getIntelligentHint() {
 
     await nextTick()
 
-    cardsContentRef.value?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    })
+    if (intelligentHint.value?.query_status === 'valid') {
+      cardsContentRef.value?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    } else if (intelligentHint.value?.query_status === 'invalid') {
+      error.value = $t('intelligent_hint_invalid_query')
+    } else if (intelligentHint.value?.query_status === 'unsafe') {
+      isQueryUnsafe.value = true
+    }
   } catch (errorResponse: any) {
     const responseData = errorResponse?.data ?? errorResponse?.response?._data
 

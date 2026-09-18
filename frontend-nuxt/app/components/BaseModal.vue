@@ -18,11 +18,15 @@
 
         <!-- Modal -->
         <div
-            class="relative z-10 w-full h-full max-h-screen lg:w-fit
-                 bg-white p-3 lg:p-6 shadow-xl
+            class="relative z-10 w-full h-full max-h-screen
+                 p-3 lg:p-6 shadow-xl
                  lg:rounded-xl
                  overflow-y-auto flex flex-col"
-            :class="hFull ? 'lg:max-h-[calc(100vh-40px)]' : 'lg:h-fit'"
+            :class="[
+              bgClass || 'bg-white',
+              hFull ? 'lg:max-h-[calc(100vh-40px)]' : 'lg:h-fit',
+              widthClass || 'md:max-w-[600px]'
+            ]"
         >
           <!-- Close button -->
           <button
@@ -50,6 +54,8 @@
 defineProps<{
   open: boolean
   hFull?: boolean
+  bgClass?: string
+  widthClass?: string
 }>()
 
 defineEmits<{

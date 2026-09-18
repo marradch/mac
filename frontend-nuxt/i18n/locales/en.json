@@ -34,7 +34,7 @@
     "finding_associations": "Finding associations...",
     "forming_hint": "Generating insight..."
   },
-  "intelligent_hint_validation_all": "To get an intelligent hint, you need to select all cards and enter a query",
+  "intelligent_analisis_validation_all": "To get an intelligent hint, you need to select all cards and enter a query",
   "variant_1_placeholder": "Enter first variant description",
   "variant_2_placeholder": "Enter second variant description",
   "cards-number-per-option": "Cards number per option",
@@ -62,5 +62,8 @@
   "self_reflection_question": "Self-Reflection Question",
   "summary": "Summary",
   "show_more": "Show more",
-  "show_less": "Show less"
+  "show_less": "Show less",
+  "intelligent_analisis_invalid_query": "The query is invalid. Please, enter a valid query to get an intelligent hint",
+  "unsafe_query_modal_title": "The query is unsafe",
+  "unsafe_query_modal_message": "This type of request is not supported by this app. If you feel that you are in danger or may harm yourself or others, please contact your local emergency services or a qualified crisis professional"
 }

@@ -26,20 +26,23 @@
             @remove="removeCardByIndex(index)"
         />
 
-        <ResourcesHintResults
-            v-if="intelligentHint?.analisis_results?.[index]"
-            :hint="intelligentHint?.analisis_results?.[index]"
-        />
+        <div ref="analisisContentRef">
+          <ResourcesHintResults
+              v-if="intelligentAnalisisResult?.analisis_results?.[index]"
+              :hint="intelligentAnalisisResult?.analisis_results?.[index]"
+          />
+        </div>
       </div>
     </div>
     <AddCardTile @click="addCard" />
   </div>
   <ExerciseBottomActions
-      :error="error"
+      :error="requestError"
       :loading="loading"
-      @closeError="error = ''"
-      @hintButtonClick="getIntelligentHint"
+      @closeError="requestError = ''"
+      @hintButtonClick="getIntelligentAnalisisClick"
   />
+  <UnsafeQueryModal :open="isQueryUnsafe" @close="isQueryUnsafe = false"/>
 </template>
 
 <script setup lang="ts">
@@ -50,10 +53,9 @@ const { decks } = await useDecks()
 const config = useRuntimeConfig()
 const deck = ref(config.public.defaultDeckSlug)
 
-const loading = ref(false)
+
 const query = ref('')
-const error = ref('')
-const intelligentHint = ref<any>({})
+const { loading, requestError, isQueryUnsafe, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
 
 type CardWithDeck = {
   imageUrl: string
@@ -61,7 +63,7 @@ type CardWithDeck = {
 }
 const cards = ref<CardWithDeck[]>([])
 
-const cardsContentRef = ref<HTMLElement | null>(null)
+const analisisContentRef = ref<HTMLElement | HTMLElement[] | null>(null)
 
 function removeCardByIndex(index: number) {
   cards.value = cards.value.filter((_, i) => i !== index)
@@ -82,53 +84,34 @@ onMounted(() => {
   addCard()
 })
 
-async function getIntelligentHint() {
-  error.value = ''
+async function getIntelligentAnalisisClick() {
+  requestError.value = ''
 
   if (!query.value || hasEmptyCards() || !cards.value.length) {
-    error.value = $t('intelligent_hint_validation_all')
+    requestError.value = $t('intelligent_analisis_validation_all')
     return
   }
 
-  try {
-    loading.value = true
+  const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
 
-    //const origin = useRequestURL().origin
-    const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
+  await getIntelligentAnalisis('resources', {
+    query: query.value,
+    cards: cards.value.map(card => ({
+      'imageUrl': origin + card.imageUrl
+    })),
+  })
 
-    intelligentHint.value = await $fetch(`/resources/${locale.value}`, {
-      baseURL: config.public.apiBase,
-      method: 'POST',
-      body: {
-        query: query.value,
-        cards: cards.value.map(card => ({
-          'imageUrl': origin + card
-        })),
-      }
+  await nextTick()
+
+  const firstHint = Array.isArray(analisisContentRef.value)
+    ? analisisContentRef.value[0]
+    : analisisContentRef.value
+
+  if (intelligentAnalisisResult.value?.query_status === 'valid') {
+    firstHint?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
     })
-
-    await nextTick()
-
-    if (intelligentHint.value?.is_query_valid) {
-      cardsContentRef.value?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      })
-    } else {
-      error.value = intelligentHint.value?.query_feedback
-    }
-
-  } catch (errorResponse: any) {
-    const responseData = errorResponse?.data ?? errorResponse?.response?._data
-
-    if (responseData?.type === 'retryable_error') {
-      error.value = $t('Something went wrong. Please, try again')
-    } else {
-      error.value = $t(`Something went wrong`)
-    }
-    console.log(errorResponse)
-  } finally {
-    loading.value = false
   }
 }
 </script>
