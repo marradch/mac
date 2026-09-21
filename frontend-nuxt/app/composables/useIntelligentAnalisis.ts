@@ -31,7 +31,7 @@ export function useIntelligentAnalisis() {
       } else if (status === 'unsafe') {
         showModalMessage('error', t('unsafe_query_title'), t('unsafe_query_message'))
       } else if (status === 'medical') {
-        showModalMessage('medical', t('medical_query_title'), t('medical_query_message'))
+        showModalMessage('info', t('medical_query_title'), t('medical_query_message'))
       }
 
       return intelligentAnalisisResult.value

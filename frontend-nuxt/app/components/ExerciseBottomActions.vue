@@ -1,11 +1,6 @@
 <template>
   <div class="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2">
 
-    <ExerciseHintError
-        v-if="error"
-        :error="error"
-        @close="emit('closeError')"
-    />
 
     <ExerciseLoadingHintButton
         :loading="loading"
@@ -16,10 +11,12 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  error: string
+const props = withDefaults(defineProps<{
+  error?: string
   loading: boolean
-}>()
+}>(), {
+  error: '',
+})
 
 const emit = defineEmits<{
   (e: 'closeError'): void

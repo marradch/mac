@@ -37,9 +37,7 @@
     <AddCardTile @click="addCard" />
   </div>
   <ExerciseBottomActions
-      :error="requestError"
       :loading="loading"
-      @closeError="requestError = ''"
       @hintButtonClick="getIntelligentAnalisisClick"
   />
   <MessageModal
