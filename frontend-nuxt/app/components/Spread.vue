@@ -47,7 +47,6 @@ const {decks, resetAvailableCardsState} = await useDecks()
 
 const query = ref<string>('')
 
-const intelligentHint = ref<any>({})
 const config = useRuntimeConfig()
 const deck = ref<string>(config.public.defaultDeckSlug)
 

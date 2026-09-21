@@ -28,21 +28,23 @@
             @remove="removeCardByIndex(index)"
         />
 
-        <!-- Intelligent Hint under card -->
-        <EmotionCardHintResults :hint="intelligentHint?.[card.stateSlug]" />
+        <div ref="analisisContentRef" class="scroll-mt-[100px]">
+          <EmotionCardHintResults :hint="intelligentAnalisisResult?.[card.stateSlug]" />
+        </div>
       </div>
     </div>
 
     <AddCardTile @click="addCardWithRandomState" hasMt/>
   </div>  
   <ExerciseBottomActions
-      :error="error"
       :loading="loading"
-      @closeError="error = ''"
-      @hintButtonClick="getIntelligentHint"
+      @hintButtonClick="getIntelligentHintClick"
   />
-
-
+  <MessageModal
+      v-if="modalMessage"
+      :modalMessage="modalMessage"
+      @close="clearModalMessage"
+  />
 </template>
 <script setup lang="ts">
 import type { PsychologicalState } from '~/types/PsychologicalState'
@@ -51,11 +53,12 @@ const { locale, t: $t } = useI18n()
 const { decks } = await useDecks()
 const { exercise } = useExercise('emotion-card-choice')
 
-const error = ref<string>('')
-const intelligentHint = ref<any[]>([])
 const config = useRuntimeConfig()
 const deck = ref<string>(config.public.defaultDeckSlug)
-const loading = ref<boolean>(false)
+
+const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
+const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
+const { isValidQuery } = useQueryValidation()
 
 const { data: psychologicalStates } = await useFetch<PsychologicalState[]>(
     () => `/psychological-states/${locale.value}`,
@@ -136,57 +139,39 @@ onMounted(() => {
   addCardWithRandomState()
 })
 
-const cardsContentRef = ref<HTMLElement | null>(null)
+const analisisContentRef = ref<HTMLElement | HTMLElement[] | null>(null)
 
 function hasEmptyCards() {
   return cards.value.some((card) => !card.imageUrl)
 }
 
-async function getIntelligentHint() {
-  error.value = ''
+async function getIntelligentHintClick() {
 
   if (hasEmptyCards()) {
-    error.value = $t('intelligent_hint_validation_all')
+    showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
     return
   }
 
-  try {
-    loading.value = true
+  //const origin = useRequestURL().origin
+  const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
 
-    //const origin = useRequestURL().origin
-    const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
+  await getIntelligentAnalisis('emotion-and-card', {
+    cards: cards.value.map(card => ({
+      stateSlug: card.stateSlug,
+      imageUrl: origin + card.imageUrl
+    }))
+  })
 
-    intelligentHint.value = await $fetch(`/emotion-and-card/${locale.value}`, {
-      baseURL: config.public.apiBase,
-      method: 'POST',
-      body: {
-        cards: cards.value.map(card => ({
-          stateSlug: card.stateSlug,
-          imageUrl: origin + card.imageUrl
-        }))
-      }
-    })
+  await nextTick()
 
-    console.log('intelligentHint.value', intelligentHint.value)
+  const firstHint = Array.isArray(analisisContentRef.value)
+  ? analisisContentRef.value[0]
+  : analisisContentRef.value
 
-    await nextTick()
-    
-    cardsContentRef.value?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    })
-  } catch (errorResponse: any) {
-    const responseData = errorResponse?.data ?? errorResponse?.response?._data
-
-    if (responseData?.type === 'retryable_error') {
-      error.value = $t('Something went wrong. Please, try again')
-    } else {
-      error.value = $t(`Something went wrong`)
-    }
-    console.log(errorResponse)
-  } finally {
-    loading.value = false
-  }
+  firstHint?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  })
 }
 
 </script>

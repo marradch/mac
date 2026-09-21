@@ -23,7 +23,9 @@
           <div class="card-container flex flex-col items-center justify-start">
             <TurnCard :deck="deck" class="" v-model="cards[0]" :key="0"/>
             <div ref="hintContentRef">
-              <UsualCardHintResults v-if="intelligentHint?.analisis_results?.[0]" :hint="intelligentHint?.analisis_results?.[0]" />
+              <div ref="analisisContentRef" class="scroll-mt-[100px]">
+              <UsualCardHintResults v-if="intelligentAnalisisResult?.analisis_results?.[0]" :hint="intelligentAnalisisResult?.analisis_results?.[0]" />
+              </div>
             </div>
           </div>
         </template>
@@ -32,7 +34,7 @@
             <div class="card-container flex flex-col items-center justify-start" :key="index" v-for="(n, index) in numberOfCards">
               <TurnCard :deck="deck" class="" v-model="cards[index]"/>
               <div ref="analisisContentRef" class="scroll-mt-[100px]">
-              <UsualCardHintResults v-if="intelligentAnalisisResult?.analisis_results?.[index]" :hint="intelligentHint?.analisis_results?.[index]" />
+              <UsualCardHintResults v-if="intelligentAnalisisResult?.analisis_results?.[index]" :hint="intelligentAnalisisResult?.analisis_results?.[index]" />
               </div>
             </div>
           </div>
