@@ -20,33 +20,40 @@
           :deck="deck"
           manuallySelectable
       ></TurnCard>
-      <SpreadHintResults v-if="intelligentHint?.analisis_results?.[card.slug]" :hint="intelligentHint?.analisis_results?.[card.slug]"/>
+      <div ref="analisisContentRef" class="scroll-mt-[100px]">
+        <SpreadHintResults v-if="intelligentAnalisisResult?.analisis_results?.[card.slug]" :hint="intelligentAnalisisResult?.analisis_results?.[card.slug]"/>
+      </div>
     </div>
   </div>
   <ExerciseBottomActions
-      :error="error"
       :loading="loading"
-      @closeError="error = ''"
-      @hintButtonClick="getIntelligentHint"
+      @hintButtonClick="getIntelligentHintClick"
+  />
+  <MessageModal
+      v-if="modalMessage"
+      :modalMessage="modalMessage"
+      @close="clearModalMessage"
   />
 </template>
 <script setup lang="ts">
-import type {Exercise} from "~/types/Exercise"
+import type { Exercise } from "~/types/Exercise"
 
 const props = defineProps<{
   exercise: Exercise
 }>()
 
-const {t, locale} = useI18n()
+const { t } = useI18n()
 const {decks, resetAvailableCardsState} = await useDecks()
 
 const query = ref<string>('')
-const error = ref<string>('')
+
 const intelligentHint = ref<any>({})
 const config = useRuntimeConfig()
 const deck = ref<string>(config.public.defaultDeckSlug)
-const loading = ref<boolean>(false)
-const isQueryUnsafe = ref(false)
+
+const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
+const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
+const { isValidQuery } = useQueryValidation()
 
 const cards = ref<Array<{
   slug: string
@@ -54,7 +61,7 @@ const cards = ref<Array<{
   imageUrl: string
 }>>([])
 
-const cardsContentRef = ref<HTMLElement | null>(null)
+const analisisContentRef = ref<HTMLElement | HTMLElement[] | null>(null)
 
 cards.value = props.exercise?.spread?.map(spreadItem => ({
   ...spreadItem,
@@ -70,56 +77,33 @@ function hasEmptyCards() {
   return cards.value.some((card) => !card.imageUrl)
 }
 
-async function getIntelligentHint() {
-  error.value = ''
-
-  if (!query.value || hasEmptyCards()) {
-    error.value = $t('intelligent_hint_validation_all')
+async function getIntelligentHintClick() {
+  if (!isValidQuery(query.value) || hasEmptyCards()) {
+    showModalMessage('warning', $t('invalid_input'), $t('intelligent_hint_validation_all'))
     return
   }
 
-  try {
-    loading.value = true
+  //const origin = useRequestURL().origin
+  const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
 
-    //const origin = useRequestURL().origin
-    const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
+  await getIntelligentAnalisis('spread', {
+    query: query.value,
+    cards: cards.value.map(card => ({
+      ...card,
+      imageUrl: origin + card.imageUrl
+    }))
+  })
 
-    intelligentHint.value = await $fetch(`/spread/${locale.value}`, {
-      baseURL: config.public.apiBase,
-      method: 'POST',
-      body: {
-        query: query.value,
-        cards: cards.value.map(card => ({
-          ...card,
-          imageUrl: origin + card.imageUrl
-        }))
-      }
-    })
+  await nextTick()
 
-    await nextTick()
+  const firstHint = Array.isArray(analisisContentRef.value)
+  ? analisisContentRef.value[0]
+  : analisisContentRef.value
 
-    if (intelligentHint.value?.query_status === 'valid') {
-      cardsContentRef.value?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      })
-    } else if (intelligentHint.value?.query_status === 'invalid') {
-      error.value = $t('intelligent_hint_invalid_query')
-    } else if (intelligentHint.value?.query_status === 'unsafe') {
-      isQueryUnsafe.value = true
-    }
-  } catch (errorResponse: any) {
-    const responseData = errorResponse?.data ?? errorResponse?.response?._data
-
-    if (responseData?.type === 'retryable_error') {
-      error.value = $t('Something went wrong. Please, try again')
-    } else {
-      error.value = $t(`Something went wrong`)
-    }
-    console.log(errorResponse)
-  } finally {
-    loading.value = false
-  }
+  firstHint?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  })
 }
 
 </script>

@@ -31,7 +31,7 @@
           <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div class="card-container flex flex-col items-center justify-start" :key="index" v-for="(n, index) in numberOfCards">
               <TurnCard :deck="deck" class="" v-model="cards[index]"/>
-              <div ref="analisisContentRef">
+              <div ref="analisisContentRef" class="scroll-mt-[100px]">
               <UsualCardHintResults v-if="intelligentAnalisisResult?.analisis_results?.[index]" :hint="intelligentHint?.analisis_results?.[index]" />
               </div>
             </div>

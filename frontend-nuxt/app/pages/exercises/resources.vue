@@ -11,7 +11,7 @@
       />      
     </div>
   </div>
-  <div ref="cardsContentRef" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
+  <div ref="cardsContentRef" class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-5">
     <div
         v-for="(card, index) in cards"
         :key="index"
@@ -26,7 +26,7 @@
             @remove="removeCardByIndex(index)"
         />
 
-        <div ref="analisisContentRef">
+        <div ref="analisisContentRef" class="scroll-mt-[100px]">
           <ResourcesHintResults
               v-if="intelligentAnalisisResult?.analisis_results?.[index]"
               :hint="intelligentAnalisisResult?.analisis_results?.[index]"
