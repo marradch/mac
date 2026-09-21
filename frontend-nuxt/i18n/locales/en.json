@@ -63,7 +63,15 @@
   "summary": "Summary",
   "show_more": "Show more",
   "show_less": "Show less",
-  "intelligent_analisis_invalid_query": "The query is invalid. Please, enter a valid query to get an intelligent hint",
-  "unsafe_query_modal_title": "The query is unsafe",
-  "unsafe_query_modal_message": "This type of request is not supported by this app. If you feel that you are in danger or may harm yourself or others, please contact your local emergency services or a qualified crisis professional"
+  "invalid_query_title": "Invalid Query",
+  "invalid_query_message": "The query is invalid. Please, enter a valid query to get an intelligent hint",
+  "unsafe_query_title": "The query is unsafe",
+  "unsafe_query_message": "This type of request is not supported by this app. If you feel that you are in danger or may harm yourself or others, please contact your local emergency services or a qualified crisis professional",
+  "retryable_error_title": "Try again",
+  "retryable_error_message": "Something went wrong. Please, try again",
+  "error_title": "Error",
+  "error_message": "Something went wrong. Please, try again",
+  "medical_query_title": "Medical Query",
+  "medical_query_message": "This application does not provide medical diagnosis, treatment, or prognosis. You can use it for self-reflection and general well-being.",
+  "invalid_input": "Invalid input"
 }

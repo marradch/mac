@@ -42,7 +42,11 @@
       @closeError="requestError = ''"
       @hintButtonClick="getIntelligentAnalisisClick"
   />
-  <UnsafeQueryModal :open="isQueryUnsafe" @close="isQueryUnsafe = false"/>
+  <MessageModal
+      v-if="modalMessage"
+      :modalMessage="modalMessage"
+      @close="clearModalMessage"
+  />
 </template>
 
 <script setup lang="ts">
@@ -55,7 +59,8 @@ const deck = ref(config.public.defaultDeckSlug)
 
 
 const query = ref('')
-const { loading, requestError, isQueryUnsafe, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
+const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
+const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
 
 type CardWithDeck = {
   imageUrl: string
@@ -85,10 +90,8 @@ onMounted(() => {
 })
 
 async function getIntelligentAnalisisClick() {
-  requestError.value = ''
-
   if (!query.value || hasEmptyCards() || !cards.value.length) {
-    requestError.value = $t('intelligent_analisis_validation_all')
+    showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
     return
   }
 

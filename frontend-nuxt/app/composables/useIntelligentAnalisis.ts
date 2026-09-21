@@ -5,17 +5,13 @@ export function useIntelligentAnalisis() {
   const { t, locale} = useI18n()
 
   const loading = ref(false)
-  const requestError = ref('')
-  const isQueryUnsafe = ref(false)
   const intelligentAnalisisResult = ref<Record<string, any>>({})
+  const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
 
   async function getIntelligentAnalisis(
     endpoint: string,
     body: object
   ) {
-    requestError.value = ''
-    isQueryUnsafe.value = false
-
     try {
       loading.value = true
 
@@ -31,11 +27,11 @@ export function useIntelligentAnalisis() {
       const status = intelligentAnalisisResult.value?.query_status
 
       if (status === 'invalid') {
-        requestError.value = t('intelligent_analisis_invalid_query')
-      }
-
-      if (status === 'unsafe') {
-        isQueryUnsafe.value = true
+        showModalMessage('warning', t('invalid_query_title'), t('invalid_query_message'))
+      } else if (status === 'unsafe') {
+        showModalMessage('error', t('unsafe_query_title'), t('unsafe_query_message'))
+      } else if (status === 'medical') {
+        showModalMessage('medical', t('medical_query_title'), t('medical_query_message'))
       }
 
       return intelligentAnalisisResult.value
@@ -45,9 +41,9 @@ export function useIntelligentAnalisis() {
         errorResponse?.response?._data
 
       if (responseData?.type === 'retryable_error') {
-        requestError.value = 'Something went wrong. Please, try again'
+        showModalMessage('warning', t('retryable_error_title'), t('retryable_error_message'))
       } else {
-        requestError.value = 'Something went wrong'
+        showModalMessage('error', t('error_title'), t('error_message'))
       }
 
       console.log(errorResponse)
@@ -60,8 +56,6 @@ export function useIntelligentAnalisis() {
 
   return {
     loading,
-    requestError,
-    isQueryUnsafe,
     intelligentAnalisisResult,
     getIntelligentAnalisis
   }

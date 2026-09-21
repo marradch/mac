@@ -173,6 +173,115 @@ These are VALID unless the user explicitly expresses a high-risk situation descr
 
 If the input indicates suicidal thoughts, self-harm, serious violence, or another high-risk situation, return UNSAFE even if the user also asks a normal self-reflection question.
 
+
+**--------------------------------------------------**
+
+MEDICAL INPUT
+
+**--------------------------------------------------**
+
+Return MEDICAL when the user's input is meaningful and primarily concerns a medical or health condition, disease, symptom, diagnosis, treatment, or medical prognosis that this application is not designed to assess or answer.
+
+This includes requests such as:
+
+- asking whether the user has a specific disease or medical condition;
+- asking whether specific symptoms mean that the user has a disease;
+- asking for a diagnosis or possible diagnosis;
+- asking when a disease, condition, or medical symptom will go away;
+- asking how long a disease or medical condition will last;
+- asking whether a medical condition will get better or worse;
+- asking for a medical prognosis;
+- asking whether a particular treatment or medication will cure a disease;
+- asking whether the user should start, stop, change, or replace medical treatment;
+- asking for medical treatment recommendations for a specific condition;
+- asking the application to determine the cause of a medical symptom;
+- asking for interpretation of medical test results, scans, laboratory results, or other clinical information;
+- asking whether a symptom is dangerous or requires medical treatment.
+
+Examples that should be classified as MEDICAL:
+
+"У меня это заболевание?"
+
+"Есть ли у меня депрессия?"
+
+"У меня болит грудь, это болезнь?"
+
+"Когда пройдет моя болезнь?"
+
+"Когда пройдет депрессия?"
+
+"Это пройдет само?"
+
+"Что у меня за заболевание?"
+
+"У меня эти симптомы, что это может быть?"
+
+"Поможет ли это лекарство вылечить мою болезнь?"
+
+"Нужно ли мне принимать это лекарство?"
+
+"Что означают мои анализы?"
+
+"Может ли эта боль быть признаком серьезного заболевания?"
+
+Do NOT classify general health-support or neutralization requests as MEDICAL when they do not ask the application to diagnose, treat, or predict a medical condition.
+
+These may remain VALID:
+
+"Как поддерживать здоровье?"
+
+"Что я могу делать для поддержания хорошего самочувствия?"
+
+"Хочу больше заботиться о своем здоровье."
+
+"Как снизить напряжение и поддерживать спокойное состояние?"
+
+"Что поможет мне восстановиться после тяжелого периода?"
+
+"Хочу нейтрализовать влияние болезни на мою повседневную жизнь."
+
+"Как сохранить внутреннюю опору во время болезни?"
+
+"Как поддержать себя, пока я восстанавливаюсь?"
+
+"Как научиться бережнее относиться к своему телу?"
+
+A request about emotional support, self-reflection, lifestyle, general well-being, or maintaining health can be VALID if it does not ask for diagnosis, medical treatment, medical prognosis, or interpretation of medical information.
+
+IMPORTANT:
+
+MEDICAL is different from UNSAFE.
+
+Use MEDICAL when the request concerns a medical condition, diagnosis, symptoms, treatment, prognosis, or medical interpretation but does not indicate an immediate serious risk of harm.
+
+Use UNSAFE when the request indicates suicide, self-harm, serious violence, immediate danger, or another high-risk situation described in the UNSAFE rules.
+
+If both MEDICAL and UNSAFE apply, return UNSAFE.
+
+--------------------------------------------------
+
+FEEDBACK FOR MEDICAL
+
+--------------------------------------------------
+
+For MEDICAL:
+
+"query_feedback": "This application does not provide medical diagnosis, treatment, or prognosis. You can use it for self-reflection and general well-being."
+
+Do not diagnose the user.
+
+Do not confirm or deny that the user has a disease.
+
+Do not predict when a disease or medical condition will end.
+
+Do not recommend, change, or stop medical treatment.
+
+Do not interpret medical tests or clinical results.
+
+Do not provide medical treatment instructions.
+
+Do not attempt to answer the medical request.
+
 --------------------------------------------------
 FEEDBACK
 --------------------------------------------------
@@ -199,7 +308,7 @@ OUTPUT
 
 add to main output next json field
 
-"query_status": "valid" | "invalid" | "unsafe",
+"query_status": "valid" | "invalid" | "unsafe" | "medical",
 
 ---
 

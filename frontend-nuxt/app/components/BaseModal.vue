@@ -20,11 +20,11 @@
         <div
             class="relative z-10 w-full h-full max-h-screen
                  p-3 lg:p-6 shadow-xl
-                 lg:rounded-xl
+                 sm:rounded-lg
                  overflow-y-auto flex flex-col"
             :class="[
               bgClass || 'bg-white',
-              hFull ? 'lg:max-h-[calc(100vh-40px)]' : 'lg:h-fit',
+              hFull ? 'lg:max-h-[calc(100vh-40px)]' : 'sm:h-fit',
               widthClass || 'md:max-w-[600px]'
             ]"
         >
