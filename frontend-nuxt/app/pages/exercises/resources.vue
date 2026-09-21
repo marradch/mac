@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-const { t, locale} = useI18n()
+const { t } = useI18n()
 const { exercise } = useExercise('resources')
 const { decks } = await useDecks()
 
@@ -59,6 +59,7 @@ const deck = ref(config.public.defaultDeckSlug)
 const query = ref('')
 const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
 const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
+const { isValidQuery } = useQueryValidation()
 
 type CardWithDeck = {
   imageUrl: string
@@ -88,7 +89,7 @@ onMounted(() => {
 })
 
 async function getIntelligentAnalisisClick() {
-  if (!query.value || hasEmptyCards() || !cards.value.length) {
+  if (!isValidQuery(query.value) || hasEmptyCards() || !cards.value.length) {
     showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
     return
   }

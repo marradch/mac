@@ -1,5 +1,3 @@
-type QueryStatus = 'valid' | 'invalid' | 'unsafe'
-
 export function useIntelligentAnalisis() {
   const config = useRuntimeConfig()
   const { t, locale} = useI18n()
