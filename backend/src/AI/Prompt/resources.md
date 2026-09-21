@@ -52,7 +52,7 @@ Return ONLY JSON:
       ],
       "selfReflectionQuestion": ""
     },
-    {{ other items, if they need by number of cards }}
+    { other items, if they need by number of cards }
   ]
 }
 ```

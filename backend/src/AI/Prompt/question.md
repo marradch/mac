@@ -67,15 +67,7 @@ Return ONLY JSON:
       ],
       "selfReflectionQuestion": ""
     },
-    {
-      "howCardHelps": "",
-      "affirmations": [
-        "",
-        "",
-        ""
-      ],
-      "selfReflectionQuestion": ""
-    }
+    { other items, if they need by number of cards }
   ]
 }
 ```

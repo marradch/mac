@@ -31,91 +31,73 @@
           <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div class="card-container flex flex-col items-center justify-start" :key="index" v-for="(n, index) in numberOfCards">
               <TurnCard :deck="deck" class="" v-model="cards[index]"/>
-              <div ref="hintContentRef">
-              <UsualCardHintResults v-if="intelligentHint?.analisis_results?.[index]" :hint="intelligentHint?.analisis_results?.[index]" />
+              <div ref="analisisContentRef">
+              <UsualCardHintResults v-if="intelligentAnalisisResult?.analisis_results?.[index]" :hint="intelligentHint?.analisis_results?.[index]" />
               </div>
             </div>
           </div>
         </template>
       </div>
       <ExerciseBottomActions
-          :error="error"
           :loading="loading"
-          @closeError="error = ''"
-          @hintButtonClick="getIntelligentHint"
+          @hintButtonClick="getIntelligentAnalisisClick"
+      />
+      <MessageModal
+          v-if="modalMessage"
+          :modalMessage="modalMessage"
+          @close="clearModalMessage"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const { t, locale} = useI18n()
+const { t } = useI18n()
 const { exercise } = useExercise('question-to-card')
 const { decks, resetAvailableCardsState } = await useDecks()
 const config = useRuntimeConfig()
 
-const loading = ref(false)
 const query = ref('')
 const numberOfCards = ref(1)
 const deck = ref(config.public.defaultDeckSlug)
 const cards = ref([''])
 
+const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
+const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
+const { isValidQuery } = useQueryValidation()
+
 const intelligentHint = ref<any>({})
-const hintContentRef = ref<HTMLElement | HTMLElement[] | null>(null)
-const error = ref('')
+const analisisContentRef = ref<HTMLElement | HTMLElement[] | null>(null)
 
 function hasEmptyCards() {
   return cards.value.some((card) => !card)
 }
 
-async function getIntelligentHint() {
-  error.value = ''
-
-  if (!query.value || hasEmptyCards()) {
-    error.value = $t('intelligent_hint_validation_all')
+async function getIntelligentAnalisisClick() {
+  if (!isValidQuery(query.value) || hasEmptyCards()) {
+    showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
     return
   }
 
-  try {
-    loading.value = true
+  const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
 
-    //const origin = useRequestURL().origin
-    const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
+  await getIntelligentAnalisis('question', {
+    query: query.value,
+    cards: cards.value.map(card => ({
+      'imageUrl': origin + card
+    })),
+  })
 
-    intelligentHint.value = await $fetch(`/question/${locale.value}`, {
-      baseURL: config.public.apiBase,
-      method: 'POST',
-      body: {
-        query: query.value,
-        cards: cards.value.map(card => ({
-          'imageUrl': origin + card
-        })),
-      }
-    })
+  await nextTick()
 
-    await nextTick()
+  const firstHint = Array.isArray(analisisContentRef.value)
+  ? analisisContentRef.value[0]
+  : analisisContentRef.value
 
-    const firstHint = Array.isArray(hintContentRef.value)
-    ? hintContentRef.value[0]
-    : hintContentRef.value
-
-    firstHint?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    })
-
-  } catch (errorResponse: any) {
-    const responseData = errorResponse?.data ?? errorResponse?.response?._data
-
-    if (responseData?.type === 'retryable_error') {
-      error.value = $t('Something went wrong. Please, try again')
-    } else {
-      error.value = $t(`Something went wrong`)
-    }
-    console.log(errorResponse)
-  } finally {
-    loading.value = false
-  }
+  firstHint?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  })
 }
 
 watch(numberOfCards, (val) => {
