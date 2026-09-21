@@ -68,7 +68,6 @@ const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntell
 const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
 const { isValidQuery } = useQueryValidation()
 
-const intelligentHint = ref<any>({})
 const analisisContentRef = ref<HTMLElement | HTMLElement[] | null>(null)
 
 function hasEmptyCards() {

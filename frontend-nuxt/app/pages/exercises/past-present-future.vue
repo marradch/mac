@@ -18,7 +18,7 @@
           </select>
         </div>
       </div>
-      <div class="grid grid-cols-1" :class="{
+      <div class="grid grid-cols-1 mb-3" :class="{
         'grid-cols-1': numberOfCards !== 1,
         'grid-cols-1 sm:grid-cols-3 gap-3': numberOfCards === 1
       }">
@@ -28,28 +28,33 @@
           <template v-if="numberOfCards === 1">
             <div class="card-container flex flex-col items-center justify-start">
                 <TurnCard :deck="deck" class="" v-model="cards[period][0]"/>
-                <UsualCardHintResults v-if="intelligentHint?.cards_analisis_results?.[period]?.[0]" :hint="intelligentHint?.cards_analisis_results?.[period]?.[0]" />
+                <div ref="analisisContentRef" class="scroll-mt-[100px]">
+                  <UsualCardHintResults v-if="intelligentAnalisisResult?.cards_analisis_results?.[period]?.[0]" :hint="intelligentAnalisisResult?.cards_analisis_results?.[period]?.[0]" />
+                </div>
             </div>
           </template>
           <template v-if="numberOfCards === 3">
             <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div class="card-container flex flex-col items-center justify-start" :key="index" v-for="(n, index) in numberOfCards">
                 <TurnCard :deck="deck" class="" v-model="cards[period][index]"/>
-                <UsualCardHintResults v-if="intelligentHint?.cards_analisis_results?.[period]?.[index]" :hint="intelligentHint?.cards_analisis_results?.[period]?.[index]" />
+                <div ref="analisisContentRef" class="scroll-mt-[100px]">
+                  <UsualCardHintResults v-if="intelligentAnalisisResult?.cards_analisis_results?.[period]?.[index]" :hint="intelligentAnalisisResult?.cards_analisis_results?.[period]?.[index]" />
+                </div>
               </div>
             </div>
           </template>
         </div>
       </div>
       <ExerciseBottomActions
-          :error="error"
           :loading="loading"
-          @closeError="error = ''"
-          @hintButtonClick="getIntelligentHint"
+          @hintButtonClick="getIntelligentHintClick"
       />
-      <div ref="hintContentRef">
-        <TimeSpreadHintResults :hint="intelligentHint" />
-      </div>
+      <MessageModal
+          v-if="modalMessage"
+          :modalMessage="modalMessage"
+          @close="clearModalMessage"
+      />
+      <TimeSpreadHintResults :hint="intelligentAnalisisResult" />
     </div>
   </div>
 </template>
@@ -57,12 +62,11 @@
 <script setup lang="ts">
 import TimeSpreadHintResults from '~/components/TimeSpreadHintResults.vue'
 
-const { t, locale} = useI18n()
+const { t } = useI18n()
 const { exercise } = useExercise('past-present-future')
 const { decks, resetAvailableCardsState } = await useDecks()
 const config = useRuntimeConfig()
 
-const loading = ref(false)
 const query = ref('')
 const numberOfCards = ref(1)
 const deck = ref(config.public.defaultDeckSlug)
@@ -71,9 +75,12 @@ const cards = ref({
   present: [''],
   future: ['']
 })
-const error = ref("")
-const intelligentHint = ref<Record<string, any>>({});
-const hintContentRef = ref<HTMLElement | null>(null);
+
+const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
+const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
+const { isValidQuery } = useQueryValidation()
+
+const analisisContentRef = ref<HTMLElement | HTMLElement[] | null>(null)
 
 type Period = 'past' | 'present' | 'future'
 const periods: Period[] = ['past', 'present', 'future']
@@ -84,56 +91,37 @@ function hasEmptyCards() {
   })
 }
 
-async function getIntelligentHint() {
-  error.value = ""
-
-  if (!query.value || hasEmptyCards()) {
-    error.value = $t('intelligent_hint_validation_all')
+async function getIntelligentHintClick() {
+  if (!isValidQuery(query.value) || hasEmptyCards()) {
+    showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
     return
   }
 
-  try {
-    loading.value = true;
+  const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
 
-    //const origin = useRequestURL().origin
-    const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
+  await getIntelligentAnalisis('time-spread', {
+    query: query.value,
+    past: cards.value.past.map(card => ({
+      'imageUrl': origin + card
+    })),
+    present: cards.value.present.map(card => ({
+      'imageUrl': origin + card
+    })),
+    future: cards.value.future.map(card => ({
+      'imageUrl': origin + card
+    })),
+  })
 
-    intelligentHint.value = await $fetch(`/time-spread/${locale.value}`, {
-      baseURL: config.public.apiBase,
-      method: 'POST',
-      body: {
-        query: query.value,
-        past: cards.value.past.map(card => ({
-          'imageUrl': origin + card
-        })),
-        present: cards.value.present.map(card => ({
-          'imageUrl': origin + card
-        })),
-        future: cards.value.future.map(card => ({
-          'imageUrl': origin + card
-        })),
-      }
-    })
+  await nextTick()
 
-    await nextTick()
+  const firstHint = Array.isArray(analisisContentRef.value)
+  ? analisisContentRef.value[0]
+  : analisisContentRef.value
 
-    hintContentRef.value?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    })
-
-  } catch (errorResponse: any) {
-    const responseData = errorResponse?.data ?? errorResponse?.response?._data
-
-    if (responseData?.type === 'retryable_error') {
-      error.value = $t('Something went wrong. Please, try again')
-    } else {
-      error.value = $t(`Something went wrong`)
-    }
-    console.log(errorResponse)
-  } finally {
-    loading.value = false;
-  }
+  firstHint?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  })
 }
 
 watch(numberOfCards, (val) => {
