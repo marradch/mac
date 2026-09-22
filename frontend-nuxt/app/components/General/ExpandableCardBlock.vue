@@ -31,12 +31,17 @@
         {{ isExpanded ? t('show_less') : t('show_more') }}
       </span>
       <!-- Chevron icon -->
-      <GeneralIconChevron :is-rotated="isExpanded" size="w-3 h-3 text-gray-600" />
+      <Chevron
+        class="w-3 h-3 text-gray-600 transition-transform duration-300"
+        :class="isExpanded ? '-rotate-90' : 'rotate-90'"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import Chevron from '~/assets/icons/chevron.svg'
+
 interface Props {
   maxHeight?: number
   bgClass?: string
