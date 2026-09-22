@@ -25,7 +25,7 @@
             :class="[
               bgClass || 'bg-white',
               hFull ? 'lg:max-h-[calc(100vh-40px)]' : 'sm:h-fit',
-              widthClass || 'md:max-w-[600px]'
+              widthClass || 'sm:w-fit'
             ]"
         >
           <!-- Close button -->

@@ -2,6 +2,7 @@
     <BaseModal
         :open="!!modalMessage"
         :bg-class="backgroundClass"
+        :widthClass="'sm:max-w-[600px]'"
         @close="$emit('close')"
     >
         <template #header>
@@ -15,8 +16,8 @@
             <div
                 class="flex h-[96px] w-[96px] shrink-0 items-center justify-center
                     rounded-full border-[6px]
-                    text-4xl font-bold"
-                :class="iconClass"
+                    font-bold"
+                :class="[iconClass, textSize]"
                 aria-hidden="true"
             >
                 {{ icon }}
@@ -70,6 +71,18 @@ const iconClass = computed(() => {
         case 'info':
         default:
             return 'border-blue-400 text-blue-400'
+    }
+})
+
+const textSize = computed(() => {
+    switch (props.modalMessage?.type) {
+        
+        case 'medical':
+            return 'text-7xl'
+
+        case 'info':
+        default:
+            return 'text-4xl'
     }
 })
 
