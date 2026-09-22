@@ -47,7 +47,7 @@
       </div>
       <ExerciseBottomActions
           :loading="loading"
-          @hintButtonClick="getIntelligentHintClick"
+          @hintButtonClick="intellgentAnalisisConfirm"
       />
       <GeneralMessageModal
           v-if="modalMessage"
@@ -55,6 +55,11 @@
           @close="clearModalMessage"
       />
       <HintResultsTimeSpread :hint="intelligentAnalisisResult" />
+      <ExerciseHintConfirmationModal
+          :open="isConfirmationModalOpen"
+          @close="isConfirmationModalOpen = false"
+          @confirm="getIntelligentHintClick"
+      />
     </div>
   </div>
 </template>
@@ -74,6 +79,8 @@ const cards = ref({
   future: ['']
 })
 
+const isConfirmationModalOpen = ref(false)
+
 const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
 const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
 const { isValidQuery } = useQueryValidation()
@@ -89,7 +96,17 @@ function hasEmptyCards() {
   })
 }
 
+function intellgentAnalisisConfirm() {
+  if (!isValidQuery(query.value) || hasEmptyCards()) {
+    showModalMessage('warning', t('invalid_input'), t('intelligent_analisis_validation_all'))
+    return
+  }
+  isConfirmationModalOpen.value = true
+}
+
 async function getIntelligentHintClick() {
+  isConfirmationModalOpen.value = false
+
   if (!isValidQuery(query.value) || hasEmptyCards()) {
     showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
     return

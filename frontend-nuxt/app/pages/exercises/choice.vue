@@ -60,7 +60,7 @@
       </div>
       <ExerciseBottomActions
           :loading="loading"
-          @hintButtonClick="getIntelligentHint"
+          @hintButtonClick="intellgentAnalisisConfirm"
       />
       <HintResultsChoice :hint="intelligentAnalisisResult" />
       <GeneralMessageModal
@@ -68,12 +68,17 @@
           :modalMessage="modalMessage"
           @close="clearModalMessage"
       />
+      <ExerciseHintConfirmationModal
+          :open="isConfirmationModalOpen"
+          @close="isConfirmationModalOpen = false"
+          @confirm="getIntelligentHintClick"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const { t, locale} = useI18n()
+const { t } = useI18n()
 const { exercise } = useExercise('choice')
 const { decks, resetAvailableCardsState } = await useDecks()
 const config = useRuntimeConfig()
@@ -83,6 +88,7 @@ const option1Text = ref('')
 const option2Text = ref('')
 const numberOfCards = ref(1)
 const deck = ref(config.public.defaultDeckSlug)
+const isConfirmationModalOpen = ref(false)
 
 const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
 const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
@@ -104,7 +110,17 @@ function hasEmptyCards() {
   })
 }
 
-async function getIntelligentHint() {
+function intellgentAnalisisConfirm() {
+  if (!isValidQuery(query.value) || !isValidQuery(option1Text.value) || !isValidQuery(option2Text.value) || hasEmptyCards()) {
+    showModalMessage('warning', t('invalid_input'), t('intelligent_analisis_validation_all'))
+    return
+  }
+  isConfirmationModalOpen.value = true
+}
+
+async function getIntelligentHintClick() {
+  isConfirmationModalOpen.value = false
+
   if (!isValidQuery(query.value) || !isValidQuery(option1Text.value) || !isValidQuery(option2Text.value) || hasEmptyCards()) {
     showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
     return

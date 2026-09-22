@@ -27,12 +27,17 @@
   </div>
   <ExerciseBottomActions
       :loading="loading"
-      @hintButtonClick="getIntelligentHintClick"
+      @hintButtonClick="intellgentAnalisisConfirm"
   />
   <GeneralMessageModal
       v-if="modalMessage"
       :modalMessage="modalMessage"
       @close="clearModalMessage"
+  />
+  <ExerciseHintConfirmationModal
+      :open="isConfirmationModalOpen"
+      @close="isConfirmationModalOpen = false"
+      @confirm="getIntelligentAnalisisClick"
   />
 </template>
 <script setup lang="ts">
@@ -49,6 +54,7 @@ const query = ref<string>('')
 
 const config = useRuntimeConfig()
 const deck = ref<string>(config.public.defaultDeckSlug)
+const isConfirmationModalOpen = ref(false)
 
 const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
 const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
@@ -76,7 +82,17 @@ function hasEmptyCards() {
   return cards.value.some((card) => !card.imageUrl)
 }
 
-async function getIntelligentHintClick() {
+function intellgentAnalisisConfirm() {
+  if (!isValidQuery(query.value) || hasEmptyCards()) {
+    showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
+    return
+  }
+  isConfirmationModalOpen.value = true
+}
+
+async function getIntelligentAnalisisClick() {
+  isConfirmationModalOpen.value = false
+
   if (!isValidQuery(query.value) || hasEmptyCards()) {
     showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
     return

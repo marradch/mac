@@ -38,27 +38,32 @@
   </div>  
   <ExerciseBottomActions
       :loading="loading"
-      @hintButtonClick="getIntelligentHintClick"
+      @hintButtonClick="intellgentAnalisisConfirm"
   />
   <GeneralMessageModal
       v-if="modalMessage"
       :modalMessage="modalMessage"
       @close="clearModalMessage"
   />
+  <ExerciseHintConfirmationModal
+      :open="isConfirmationModalOpen"
+      @close="isConfirmationModalOpen = false"
+      @confirm="getIntelligentHintClick"
+  />
 </template>
 <script setup lang="ts">
 import type { PsychologicalState } from '~/types/PsychologicalState'
 
-const { locale, t: $t } = useI18n()
+const { locale, t } = useI18n()
 const { decks } = await useDecks()
 const { exercise } = useExercise('emotion-card-choice')
 
 const config = useRuntimeConfig()
 const deck = ref<string>(config.public.defaultDeckSlug)
+const isConfirmationModalOpen = ref(false)
 
 const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
 const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
-const { isValidQuery } = useQueryValidation()
 
 const { data: psychologicalStates } = await useFetch<PsychologicalState[]>(
     () => `/psychological-states/${locale.value}`,
@@ -143,6 +148,16 @@ const analisisContentRef = ref<HTMLElement | HTMLElement[] | null>(null)
 
 function hasEmptyCards() {
   return cards.value.some((card) => !card.imageUrl)
+}
+
+function intellgentAnalisisConfirm() {
+  isConfirmationModalOpen.value = true
+
+  if (hasEmptyCards()) {
+    showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
+    return
+  }
+  isConfirmationModalOpen.value = true
 }
 
 async function getIntelligentHintClick() {
