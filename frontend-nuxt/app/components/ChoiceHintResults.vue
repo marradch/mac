@@ -48,10 +48,6 @@
       </div>
     </ExpandableCardBlock>
   </div>
-
-  <div v-else-if="hint?.is_query_valid === false" class="order-5">
-    <WrongQuestionFeedback :hint="hint" />
-  </div>
 </template>
 
 <script setup>

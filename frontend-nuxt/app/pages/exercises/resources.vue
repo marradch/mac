@@ -27,7 +27,7 @@
         />
 
         <div ref="analisisContentRef" class="scroll-mt-[100px]">
-          <ResourcesHintResults
+          <UsualCardHintResults
               v-if="intelligentAnalisisResult?.analisis_results?.[index]"
               :hint="intelligentAnalisisResult?.analisis_results?.[index]"
           />

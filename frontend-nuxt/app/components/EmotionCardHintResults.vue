@@ -110,21 +110,6 @@
           </p>
         </div>
 
-        <!-- Summary -->
-        <div
-            v-if="hint.summary"
-            class="space-y-2 pt-2 border-t border-orange-200"
-        >
-          <h3 class="flex items-center gap-2 font-semibold text-gray-700">
-            <span class="text-lg">📝</span>
-            {{$t('summary')}}
-          </h3>
-
-          <p class="text-gray-600 text-sm leading-relaxed">
-            {{ hint.summary }}
-          </p>
-        </div>
-
       </div>
     </ExpandableCardBlock>
   </div>

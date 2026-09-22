@@ -21,7 +21,7 @@
           manuallySelectable
       ></TurnCard>
       <div ref="analisisContentRef" class="scroll-mt-[100px]">
-        <SpreadHintResults v-if="intelligentAnalisisResult?.analisis_results?.[card.slug]" :hint="intelligentAnalisisResult?.analisis_results?.[card.slug]"/>
+        <UsualCardHintResults v-if="intelligentAnalisisResult?.analisis_results?.[card.slug]" :hint="intelligentAnalisisResult?.analisis_results?.[card.slug]"/>
       </div>
     </div>
   </div>
