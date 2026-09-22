@@ -1,2 +1,5 @@
 backend/.env
 .idea
+.vscode
+.agents
+.codex
