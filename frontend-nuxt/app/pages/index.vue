@@ -3,7 +3,7 @@
     <h1 class="text-3xl font-bold mb-3 text-primary">{{ t('seo.h1') }}!</h1>
     <p class="text-md text-gray-600">{{ t('seo.main_seo_text') }}</p>
   </div>
-  <ExercisesList />
+  <ExerciseList />
 </template>
 <script setup>
 const { t } = useI18n()

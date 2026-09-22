@@ -1,5 +1,5 @@
 <template>
-<Spread v-if="exercise" :exercise="exercise" />
+<ExerciseSpread v-if="exercise" :exercise="exercise" />
 </template>
 
 <script setup lang="ts">

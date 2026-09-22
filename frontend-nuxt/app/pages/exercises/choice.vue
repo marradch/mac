@@ -2,7 +2,7 @@
   <ExerciseHeader :exercise="exercise" />
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px]">
-      <ChooseDeck :decks="decks" v-model="deck"/>
+      <ExerciseDeckSelection :decks="decks" v-model="deck"/>
       <textarea
           v-model="query"
           :placeholder="$t('query_placeholder')"
@@ -39,9 +39,9 @@
           <h2 class="text-3xl font-bold my-3 text-primary text-center">{{$t("variant")}} {{i}}</h2>
           <template v-if="numberOfCards === 1">
             <div class="card-container flex flex-col items-center justify-start">
-              <TurnCard :deck="deck" class="" v-model="cards[getOptionKey(i)][0]"/>
+              <ExerciseTurnCard :deck="deck" class="" v-model="cards[getOptionKey(i)][0]"/>
               <div ref="analisisContentRef" class="scroll-mt-[100px]">
-                <UsualCardHintResults v-if="intelligentAnalisisResult?.cards_analisis_results?.[getOptionKey(i)]?.[0]" :hint="intelligentAnalisisResult?.cards_analisis_results?.[getOptionKey(i)]?.[0]" />
+                <HintResultsUsualCard v-if="intelligentAnalisisResult?.cards_analisis_results?.[getOptionKey(i)]?.[0]" :hint="intelligentAnalisisResult?.cards_analisis_results?.[getOptionKey(i)]?.[0]" />
               </div>
             </div>
           </template>
@@ -49,9 +49,9 @@
             <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div class="card-container flex flex-col items-center justify-start" :key="index" v-for="(n, index) in numberOfCards">
                 {{ getOptionKey(i) }}
-                <TurnCard :deck="deck" class="" v-model="cards[getOptionKey(i)][index]"/>
+                <ExerciseTurnCard :deck="deck" class="" v-model="cards[getOptionKey(i)][index]"/>
                 <div ref="analisisContentRef" class="scroll-mt-[100px]">  
-                  <UsualCardHintResults v-if="intelligentAnalisisResult?.cards_analisis_results?.[getOptionKey(i)]?.[index]" :hint="intelligentAnalisisResult?.cards_analisis_results?.[getOptionKey(i)]?.[index]" />
+                  <HintResultsUsualCard v-if="intelligentAnalisisResult?.cards_analisis_results?.[getOptionKey(i)]?.[index]" :hint="intelligentAnalisisResult?.cards_analisis_results?.[getOptionKey(i)]?.[index]" />
                 </div>
               </div>
             </div>
@@ -62,8 +62,8 @@
           :loading="loading"
           @hintButtonClick="getIntelligentHint"
       />
-      <ChoiceHintResults :hint="intelligentAnalisisResult" />
-      <MessageModal
+      <HintResultsChoice :hint="intelligentAnalisisResult" />
+      <GeneralMessageModal
           v-if="modalMessage"
           :modalMessage="modalMessage"
           @close="clearModalMessage"

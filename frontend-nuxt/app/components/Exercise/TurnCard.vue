@@ -73,17 +73,17 @@
     </div>
   </div>
 
-  <BaseModal
+  <GeneralBaseModal
       :open="isModalOpen"
       h-full
       @close="isModalOpen = false"
   >
-    <CardSelection :deck="deck" @selected="(value) => selectCard(value)"/>
+    <ExerciseCardSelection :deck="deck" @selected="(value: string) => selectCard(value)"/>
 
     <template #header>
       {{ $t('choose_card') }}
     </template>
-  </BaseModal>
+  </GeneralBaseModal>
 </template>
 
 <script setup lang="ts">

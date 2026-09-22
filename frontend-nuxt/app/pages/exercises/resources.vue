@@ -2,7 +2,7 @@
   <ExerciseHeader :exercise="exercise" />
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px] justify-center">
-      <ChooseDeck :decks="decks" v-model="deck"/>
+      <ExerciseDeckSelection :decks="decks" v-model="deck"/>
       <textarea
           v-model="query"
           :placeholder="$t('query_placeholder')"
@@ -18,7 +18,7 @@
         class="flex flex-col gap-3 items-center justify-start"
     >
       <div class="w-full md:max-w-[400px]">
-        <TurnCard
+        <ExerciseTurnCard
             v-model="card.imageUrl"
             :deck="card.deck"
             manuallySelectable
@@ -27,20 +27,20 @@
         />
 
         <div ref="analisisContentRef" class="scroll-mt-[100px]">
-          <UsualCardHintResults
+          <HintResultsUsualCard
               v-if="intelligentAnalisisResult?.analisis_results?.[index]"
               :hint="intelligentAnalisisResult?.analisis_results?.[index]"
           />
         </div>
       </div>
     </div>
-    <AddCardTile @click="addCard" />
+    <ExerciseAddCardTile @click="addCard" />
   </div>
   <ExerciseBottomActions
       :loading="loading"
       @hintButtonClick="getIntelligentAnalisisClick"
   />
-  <MessageModal
+  <GeneralMessageModal
       v-if="modalMessage"
       :modalMessage="modalMessage"
       @close="clearModalMessage"

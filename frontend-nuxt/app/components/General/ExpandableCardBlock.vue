@@ -31,7 +31,7 @@
         {{ isExpanded ? t('show_less') : t('show_more') }}
       </span>
       <!-- Chevron icon -->
-      <IconChevron :is-rotated="isExpanded" size="w-3 h-3 text-gray-600" />
+      <GeneralIconChevron :is-rotated="isExpanded" size="w-3 h-3 text-gray-600" />
     </div>
   </div>
 </template>

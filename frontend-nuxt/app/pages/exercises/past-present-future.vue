@@ -2,7 +2,7 @@
   <ExerciseHeader :exercise="exercise" />
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px]">
-      <ChooseDeck :decks="decks" v-model="deck"/>
+      <ExerciseDeckSelection :decks="decks" v-model="deck"/>
       <textarea
           v-model="query"
           :placeholder="$t('query_placeholder')"
@@ -27,18 +27,18 @@
           <h2 class="text-3xl font-bold my-3 text-primary text-center">{{$t(period)}}</h2>
           <template v-if="numberOfCards === 1">
             <div class="card-container flex flex-col items-center justify-start">
-                <TurnCard :deck="deck" class="" v-model="cards[period][0]"/>
+                <ExerciseTurnCard :deck="deck" class="" v-model="cards[period][0]"/>
                 <div ref="analisisContentRef" class="scroll-mt-[100px]">
-                  <UsualCardHintResults v-if="intelligentAnalisisResult?.cards_analisis_results?.[period]?.[0]" :hint="intelligentAnalisisResult?.cards_analisis_results?.[period]?.[0]" />
+                  <HintResultsUsualCard v-if="intelligentAnalisisResult?.cards_analisis_results?.[period]?.[0]" :hint="intelligentAnalisisResult?.cards_analisis_results?.[period]?.[0]" />
                 </div>
             </div>
           </template>
           <template v-if="numberOfCards === 3">
             <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div class="card-container flex flex-col items-center justify-start" :key="index" v-for="(n, index) in numberOfCards">
-                <TurnCard :deck="deck" class="" v-model="cards[period][index]"/>
+                <ExerciseTurnCard :deck="deck" class="" v-model="cards[period][index]"/>
                 <div ref="analisisContentRef" class="scroll-mt-[100px]">
-                  <UsualCardHintResults v-if="intelligentAnalisisResult?.cards_analisis_results?.[period]?.[index]" :hint="intelligentAnalisisResult?.cards_analisis_results?.[period]?.[index]" />
+                  <HintResultsUsualCard v-if="intelligentAnalisisResult?.cards_analisis_results?.[period]?.[index]" :hint="intelligentAnalisisResult?.cards_analisis_results?.[period]?.[index]" />
                 </div>
               </div>
             </div>
@@ -49,19 +49,17 @@
           :loading="loading"
           @hintButtonClick="getIntelligentHintClick"
       />
-      <MessageModal
+      <GeneralMessageModal
           v-if="modalMessage"
           :modalMessage="modalMessage"
           @close="clearModalMessage"
       />
-      <TimeSpreadHintResults :hint="intelligentAnalisisResult" />
+      <HintResultsTimeSpread :hint="intelligentAnalisisResult" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import TimeSpreadHintResults from '~/components/TimeSpreadHintResults.vue'
-
 const { t } = useI18n()
 const { exercise } = useExercise('past-present-future')
 const { decks, resetAvailableCardsState } = await useDecks()

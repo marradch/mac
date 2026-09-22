@@ -1,6 +1,6 @@
 <template>
   <div v-if="hint?.is_query_valid === true" class="order-5 mb-3">
-    <ExpandableCardBlock
+    <GeneralExpandableCardBlock
         :max-height="600"
         bg-class="bg-orange-50"
         border-class="border border-orange-200"
@@ -79,7 +79,7 @@
           </ul>
         </div>
       </div>
-    </ExpandableCardBlock>
+    </GeneralExpandableCardBlock>
   </div>
 </template>
 

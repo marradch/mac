@@ -2,7 +2,7 @@
   <ExerciseHeader :exercise="exercise"/>
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px] justify-center">
-      <ChooseDeck :decks="decks" v-model="deck"/>
+      <ExerciseDeckSelection :decks="decks" v-model="deck"/>
 
       <textarea
           v-model="query"
@@ -15,13 +15,13 @@
   <div ref="cardsContentRef" class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-5">
     <div v-for="(card, index) in cards" :key="card.slug" class="flex flex-col gap-3 items-center justify-start">
       <p class="text-gray-600 text-center lg:truncate w-full" :title="card.title">{{ card.title }}</p>
-      <TurnCard
+      <ExerciseTurnCard
           v-model="card.imageUrl"
           :deck="deck"
           manuallySelectable
-      ></TurnCard>
+      ></ExerciseTurnCard>
       <div ref="analisisContentRef" class="scroll-mt-[100px]">
-        <UsualCardHintResults v-if="intelligentAnalisisResult?.analisis_results?.[card.slug]" :hint="intelligentAnalisisResult?.analisis_results?.[card.slug]"/>
+        <HintResultsUsualCard v-if="intelligentAnalisisResult?.analisis_results?.[card.slug]" :hint="intelligentAnalisisResult?.analisis_results?.[card.slug]"/>
       </div>
     </div>
   </div>
@@ -29,7 +29,7 @@
       :loading="loading"
       @hintButtonClick="getIntelligentHintClick"
   />
-  <MessageModal
+  <GeneralMessageModal
       v-if="modalMessage"
       :modalMessage="modalMessage"
       @close="clearModalMessage"

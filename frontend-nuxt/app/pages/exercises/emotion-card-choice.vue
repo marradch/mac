@@ -2,7 +2,7 @@
   <ExerciseHeader :exercise="exercise"/>
   <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
     <div class="flex-1 flex flex-col gap-[20px] justify-center">
-      <ChooseDeck :decks="decks" v-model="deck"/>
+      <ExerciseDeckSelection :decks="decks" v-model="deck"/>
     </div>
   </div>
   <div ref="cardsContentRef" class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-5">
@@ -20,7 +20,7 @@
           {{ card.stateTitle }}
         </p>
 
-        <TurnCard
+        <ExerciseTurnCard
             v-model="card.imageUrl"
             :deck="card.deck"
             manuallySelectable
@@ -29,18 +29,18 @@
         />
 
         <div ref="analisisContentRef" class="scroll-mt-[100px]">
-          <EmotionCardHintResults :hint="intelligentAnalisisResult?.[card.stateSlug]" />
+          <HintResultsEmotionCard :hint="intelligentAnalisisResult?.[card.stateSlug]" />
         </div>
       </div>
     </div>
 
-    <AddCardTile @click="addCardWithRandomState" hasMt/>
+    <ExerciseAddCardTile @click="addCardWithRandomState" hasMt/>
   </div>  
   <ExerciseBottomActions
       :loading="loading"
       @hintButtonClick="getIntelligentHintClick"
   />
-  <MessageModal
+  <GeneralMessageModal
       v-if="modalMessage"
       :modalMessage="modalMessage"
       @close="clearModalMessage"

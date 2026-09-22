@@ -1,5 +1,5 @@
 <template>
-    <BaseModal
+    <GeneralBaseModal
         :open="!!modalMessage"
         :bg-class="backgroundClass"
         :widthClass="'sm:max-w-[600px]'"
@@ -28,7 +28,7 @@
                 {{ modalMessage?.message }}
             </p>
         </div>
-    </BaseModal>
+    </GeneralBaseModal>
 </template>
 
 <script setup lang="ts">

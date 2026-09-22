@@ -1,6 +1,6 @@
 <template>
   <div v-if="hint" class="mt-3">
-    <ExpandableCardBlock
+    <GeneralExpandableCardBlock
         :max-height="250"
         bg-class="bg-orange-50"
         border-class="border border-orange-200"
@@ -111,7 +111,7 @@
         </div>
 
       </div>
-    </ExpandableCardBlock>
+    </GeneralExpandableCardBlock>
   </div>
 </template>
 
