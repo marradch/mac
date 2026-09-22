@@ -30,17 +30,19 @@
           </select>
         </div>
       </div>
-      <div class="grid grid-cols-1" :class="{
+      <div class="grid grid-cols-1 mb-4" :class="{
         'grid-cols-1': numberOfCards !== 1,
         'grid-cols-1 sm:grid-cols-2 gap-3': numberOfCards === 1
       }">
         <div class="option-cards-container" v-for="i in 2"
-             :key="i">
+              :key="i">
           <h2 class="text-3xl font-bold my-3 text-primary text-center">{{$t("variant")}} {{i}}</h2>
           <template v-if="numberOfCards === 1">
             <div class="card-container flex flex-col items-center justify-start">
               <TurnCard :deck="deck" class="" v-model="cards[getOptionKey(i)][0]"/>
-              <UsualCardHintResults v-if="intelligentHint?.cards_analisis_results?.[getOptionKey(i)]?.[0]" :hint="intelligentHint?.cards_analisis_results?.[getOptionKey(i)]?.[0]" />
+              <div ref="analisisContentRef" class="scroll-mt-[100px]">
+                <UsualCardHintResults v-if="intelligentAnalisisResult?.cards_analisis_results?.[getOptionKey(i)]?.[0]" :hint="intelligentAnalisisResult?.cards_analisis_results?.[getOptionKey(i)]?.[0]" />
+              </div>
             </div>
           </template>
           <template v-if="numberOfCards === 3">
@@ -48,21 +50,24 @@
               <div class="card-container flex flex-col items-center justify-start" :key="index" v-for="(n, index) in numberOfCards">
                 {{ getOptionKey(i) }}
                 <TurnCard :deck="deck" class="" v-model="cards[getOptionKey(i)][index]"/>
-                <UsualCardHintResults v-if="intelligentHint?.cards_analisis_results?.[getOptionKey(i)]?.[index]" :hint="intelligentHint?.cards_analisis_results?.[getOptionKey(i)]?.[index]" />
+                <div ref="analisisContentRef" class="scroll-mt-[100px]">  
+                  <UsualCardHintResults v-if="intelligentAnalisisResult?.cards_analisis_results?.[getOptionKey(i)]?.[index]" :hint="intelligentAnalisisResult?.cards_analisis_results?.[getOptionKey(i)]?.[index]" />
+                </div>
               </div>
             </div>
           </template>
         </div>
       </div>
       <ExerciseBottomActions
-          :error="error"
           :loading="loading"
-          @closeError="error = ''"
           @hintButtonClick="getIntelligentHint"
       />
-      <div ref="hintContentRef">
-        <ChoiceHintResults :hint="intelligentHint" />
-      </div>
+      <ChoiceHintResults :hint="intelligentAnalisisResult" />
+      <MessageModal
+          v-if="modalMessage"
+          :modalMessage="modalMessage"
+          @close="clearModalMessage"
+      />
     </div>
   </div>
 </template>
@@ -73,12 +78,15 @@ const { exercise } = useExercise('choice')
 const { decks, resetAvailableCardsState } = await useDecks()
 const config = useRuntimeConfig()
 
-const loading = ref(false)
 const query = ref('')
 const option1Text = ref('')
 const option2Text = ref('')
 const numberOfCards = ref(1)
 const deck = ref(config.public.defaultDeckSlug)
+
+const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
+const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
+const { isValidQuery } = useQueryValidation()
 
 type OptionKey = 'option_1' | 'option_2'
 const options: OptionKey[] = ['option_1', 'option_2']
@@ -88,9 +96,7 @@ const cards = ref<Record<OptionKey, string[]>>({
   option_2: [''],
 })
 
-const intelligentHint = ref<any>({})
-const hintContentRef = ref<HTMLElement | null>(null)
-const error = ref('')
+const analisisContentRef = ref<HTMLElement | HTMLElement[] | null>(null)
 
 function hasEmptyCards() {
   return options.some((option: OptionKey) => {
@@ -99,54 +105,35 @@ function hasEmptyCards() {
 }
 
 async function getIntelligentHint() {
-  error.value = ''
-
-  if (!query.value || !option1Text.value || !option2Text.value || hasEmptyCards()) {
-    error.value = $t('intelligent_hint_validation_all')
+  if (!isValidQuery(query.value) || !isValidQuery(option1Text.value) || !isValidQuery(option2Text.value) || hasEmptyCards()) {
+    showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
     return
   }
 
-  try {
-    loading.value = true
+  const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
 
-    //const origin = useRequestURL().origin
-    const origin = 'https://raw.githubusercontent.com/marradch/mac/master/frontend-nuxt/public/'
+  await getIntelligentAnalisis('choice', {
+    query: query.value,
+    option1Text: option1Text.value,
+    option2Text: option2Text.value,
+    option1Cards: cards.value.option_1?.map(card => ({
+      'imageUrl': origin + card
+    })),
+    option2Cards: cards.value.option_2?.map(card => ({
+      'imageUrl': origin + card
+    })),
+  })
 
-    intelligentHint.value = await $fetch(`/choice/${locale.value}`, {
-      baseURL: config.public.apiBase,
-      method: 'POST',
-      body: {
-        query: query.value,
-        option1Text: option1Text.value,
-        option2Text: option2Text.value,
-        option1Cards: cards.value.option_1?.map(card => ({
-          'imageUrl': origin + card
-        })),
-        option2Cards: cards.value.option_2?.map(card => ({
-          'imageUrl': origin + card
-        })),
-      }
-    })
+  await nextTick()
 
-    await nextTick()
+  const firstHint = Array.isArray(analisisContentRef.value)
+  ? analisisContentRef.value[0]
+  : analisisContentRef.value
 
-    hintContentRef.value?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    })
-
-  } catch (errorResponse: any) {
-    const responseData = errorResponse?.data ?? errorResponse?.response?._data
-
-    if (responseData?.type === 'retryable_error') {
-      error.value = $t('Something went wrong. Please, try again')
-    } else {
-      error.value = $t(`Something went wrong`)
-    }
-    console.log(errorResponse)
-  } finally {
-    loading.value = false
-  }
+  firstHint?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  })
 }
 
 watch(numberOfCards, (val) => {

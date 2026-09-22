@@ -27,18 +27,10 @@ You receive a JSON payload with:
 
 Evaluate **option1.text** and **option2.text**.
 
-Each option_text must be classified as:
-
-**VALID (full analysis allowed)**
-
-- contains meaning, emotions, state descriptions, or metaphor
-
-**INVALID (analysis prohibited)**
-
-- meaningless text
-- technical text
-- empty or random symbols
-- short / abstract / symbolic text (e.g. "A", "M", "1", "path", "choice")
+For each option you should use same validation rules as for query.
+Calculate statuses for option 1, option 2, query.
+Choose most negative status from option 1, option 2, query.
+Put this status to output field "query_status".
 
 ---
 
@@ -81,15 +73,7 @@ Return ONLY JSON:
       ],
       "selfReflectionQuestion": ""
     },
-    {
-      "howCardHelps": "",
-      "affirmations": [
-        "",
-        "",
-        ""
-      ],
-      "selfReflectionQuestion": ""
-    }
+    { other items, if they need by number of cards }
   }],
   "comparison": "",
   "recommendations": "",

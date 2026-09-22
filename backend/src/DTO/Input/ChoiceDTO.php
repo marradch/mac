@@ -8,12 +8,30 @@ class ChoiceDTO implements InterpretDTOInterface
 {
     public function __construct(
         #[Assert\NotBlank(message: 'Query is required')]
+        #[Assert\Length(min: 3, minMessage: 'Query must be at least 3 characters long')]
+        #[Assert\Regex(
+            pattern: '/^(.)\1*$/u',
+            match: false,
+            message: 'Query must not contain only repeated characters'
+        )]
         public ?string $query,
 
         #[Assert\NotBlank(message: 'Option 1 text is required')]
+        #[Assert\Length(min: 3, minMessage: 'Query must be at least 3 characters long')]
+        #[Assert\Regex(
+            pattern: '/^(.)\1*$/u',
+            match: false,
+            message: 'Query must not contain only repeated characters'
+        )]
         public ?string $option1Text,
 
         #[Assert\NotBlank(message: 'Option 2 text is required')]
+        #[Assert\Length(min: 3, minMessage: 'Query must be at least 3 characters long')]
+        #[Assert\Regex(
+            pattern: '/^(.)\1*$/u',
+            match: false,
+            message: 'Query must not contain only repeated characters'
+        )]
         public ?string $option2Text,
 
         #[Assert\Valid]

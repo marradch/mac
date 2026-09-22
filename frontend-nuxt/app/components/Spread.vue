@@ -78,7 +78,7 @@ function hasEmptyCards() {
 
 async function getIntelligentHintClick() {
   if (!isValidQuery(query.value) || hasEmptyCards()) {
-    showModalMessage('warning', $t('invalid_input'), $t('intelligent_hint_validation_all'))
+    showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
     return
   }
 
