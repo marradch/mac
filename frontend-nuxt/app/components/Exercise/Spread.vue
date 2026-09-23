@@ -109,16 +109,18 @@ async function getIntelligentAnalisisClick() {
     }))
   })
 
-  await nextTick()
+  if (intelligentAnalisisResult.value?.query_status === 'valid') {
+    await nextTick()
+    
+    const firstHint = Array.isArray(analisisContentRef.value)
+    ? analisisContentRef.value[0]
+    : analisisContentRef.value
 
-  const firstHint = Array.isArray(analisisContentRef.value)
-  ? analisisContentRef.value[0]
-  : analisisContentRef.value
-
-  firstHint?.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  })
+    firstHint?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    })
+  }
 }
 
 </script>
