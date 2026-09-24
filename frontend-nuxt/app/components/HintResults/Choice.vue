@@ -1,5 +1,5 @@
 <template>
-  <div v-if="hint?.is_query_valid === true" class="order-5 mt-3">
+  <div v-if="hint?.query_status === 'valid'" class="order-5 mt-3">
     <ExpandableCardBlock
         :max-height="600"
         bg-class="bg-orange-50"

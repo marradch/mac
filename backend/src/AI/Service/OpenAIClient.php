@@ -7,6 +7,10 @@ use App\Exception\RetryableException;
 
 class OpenAIClient
 {
+    private const string API_URL = 'https://api.openai.com/v1/chat/completions';
+    //private string $model = 'gpt-4o-mini';
+    private string $model = 'gpt-5.6-luna';
+
     public function __construct(
         private HttpClientInterface $httpClient,
         private string $apiKey
@@ -19,7 +23,7 @@ class OpenAIClient
         for ($i = 0; $i < $maxRetries; $i++) {
             try {
                 $response = $this->httpClient->request('POST',
-                    'https://api.openai.com/v1/chat/completions',
+                    self::API_URL,
                     [
                         'timeout' => 60,
 
@@ -29,7 +33,7 @@ class OpenAIClient
                         ],
 
                         'json' => [
-                            'model' => 'gpt-4o-mini',
+                            'model' => $this->model,
                             'messages' => $messages,
                         ],
                     ]
@@ -71,7 +75,7 @@ class OpenAIClient
                         statusCode: 503,
                         retryAfterSeconds: 2,
                         context: [
-                            'model' => 'gpt-4o-mini',
+                            'model' => $this->model,
                         ]
                     );
                 }

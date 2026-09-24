@@ -25,6 +25,10 @@
       </div>
     </div>
   </div>
+  <HintResultsMeditation 
+    v-if="intelligentAnalisisResult?.meditation" 
+    :meditation="intelligentAnalisisResult?.meditation"
+    class="mb-3"/>
   <ExerciseBottomActions
       :loading="loading"
       @hintButtonClick="intellgentAnalisisConfirm"
