@@ -8,6 +8,8 @@ class SpreadMessagesBuilder extends AbstractInterpreterMessagesBuilder
 {
     protected string $promptFilename = 'spread.md';
 
+    protected bool $hasMeditation = true;
+
     public function build(string $locale, InterpretDTOInterface $dto): array
     {
         $content = [
