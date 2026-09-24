@@ -28,7 +28,6 @@ Write a metaphorical interpretation for each card
 2. Create 3 short, natural affirmations based specifically on the relationship between the card and card`s slug meaning.
 3. Create one meaningful but simple question that the person can ask themselves while looking at the card in the context of card`s slug meaning.
 
-<!--
 ## CREATE FINAL MEDITATION
 
 Generate a complete 10-minute guided meditation based on the user's query and ALL cards in the spread.
@@ -104,7 +103,6 @@ Do not diagnose.
 Do not claim that the cards reveal objective truth.
 
 Present the cards as metaphors and invitations for personal reflection.
--->
 
 # Output Format
 
