@@ -8,6 +8,8 @@ class ResourcesMessagesBuilder extends AbstractInterpreterMessagesBuilder
 {
     protected string $promptFilename = 'resources.md';
 
+    protected bool $hasMeditation = true;
+
     public function build(string $locale, InterpretDTOInterface $dto): array
     {
         return [

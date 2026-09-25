@@ -35,7 +35,7 @@
       </div>
     </div>
     <ExerciseAddCardTile @click="addCard" />
-  </div>
+  </div>  
   <ExerciseBottomActions
       :loading="loading"
       @hintButtonClick="getIntelligentAnalisisConfirm"
@@ -50,6 +50,10 @@
       @close="isConfirmationModalOpen = false"
       @confirm="getIntelligentAnalisisClick"
   />
+  <HintResultsMeditation 
+      v-if="intelligentAnalisisResult?.meditation" 
+      :meditation="intelligentAnalisisResult?.meditation"
+      class="mb-3"/>
 </template>
 
 <script setup lang="ts">

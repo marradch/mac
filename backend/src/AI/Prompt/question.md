@@ -85,6 +85,7 @@ Return ONLY JSON:
       "selfReflectionQuestion": ""
     },
     { other items, if they need by number of cards }
-  ]
+  ],
+  "meditation": ["sentense1", ... "sentense N"]
 }
 ```

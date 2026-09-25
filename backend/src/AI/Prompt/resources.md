@@ -35,6 +35,21 @@ The question should encourage self-reflection rather than provide an obvious ans
 
 ---
 
+## CREATE FINAL MEDITATION
+
+Create one continuous guided meditation based on:
+
+**User query** — the central topic the user wants to explore.
+**Card imagery** — provides the visual and metaphorical material for reflection.
+
+Priority: **user query → card**.
+
+Do not treat cards as predictions, diagnoses, facts, or objective answers. They are metaphors and invitations for self-reflection.
+
+To create meditation clearly you should read GENERAL MEDITATION INSTRUCTIONS
+
+---
+
 ## Output Format
 
 Return ONLY JSON:
@@ -53,6 +68,7 @@ Return ONLY JSON:
       "selfReflectionQuestion": ""
     },
     { other items, if they need by number of cards }
-  ]
+  ],
+  "meditation": ["sentense1", ... "sentense N"]
 }
 ```
