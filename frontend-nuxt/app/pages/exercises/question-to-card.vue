@@ -1,60 +1,62 @@
 <template>
   <ExerciseHeader :exercise="exercise" />
-  <div class="flex flex-1 flex-col md:flex-row gap-[20px]">
-    <div class="flex-1 flex flex-col gap-[20px]">
-      <ExerciseDeckSelection :decks="decks" v-model="deck"/>
-      <textarea
-          v-model="query"
-          :placeholder="$t('query_placeholder')"
-          rows="1"
-          class="w-full min-h-[3cm] lg:min-h-[2cm] max-h-40 overflow-y-auto px-4 py-2 border rounded-lg resize-none shadow-sm"
-      />
-      <div class="flex flex-col sm:flex-row gap-3 items-center">
-        <div class="text-start text-gray-600">{{$t('cards-number')}}</div>
-        <div class="w-full sm:w-[100px]">
-          <select v-model.number="numberOfCards" class="w-full px-2 py-1 border rounded">
-            <option value="1">1</option>
-            <option value="3">3</option>
-          </select>
-        </div>
+  <div class="flex-1 flex flex-col gap-[20px] mb-3">
+    <ExerciseDeckSelection :decks="decks" v-model="deck"/>
+    <textarea
+        v-model="query"
+        :placeholder="$t('query_placeholder')"
+        rows="1"
+        class="w-full min-h-[3cm] lg:min-h-[2cm] max-h-40 overflow-y-auto px-4 py-2 border rounded-lg resize-none shadow-sm"
+    />
+    <div class="flex flex-col sm:flex-row gap-3 items-center">
+      <div class="text-start text-gray-600">{{$t('cards-number')}}</div>
+      <div class="w-full sm:w-[100px]">
+        <select v-model.number="numberOfCards" class="w-full px-2 py-1 border rounded">
+          <option value="1">1</option>
+          <option value="3">3</option>
+        </select>
       </div>
-      <div class="cards-container">
-        <template v-if="numberOfCards === 1">
-          <div class="card-container flex flex-col items-center justify-start">
-            <ExerciseTurnCard :deck="deck" class="" v-model="cards[0]" :key="0"/>
-            <div ref="hintContentRef">
-              <div ref="analisisContentRef" class="scroll-mt-[100px]">
-              <HintResultsUsualCard v-if="intelligentAnalisisResult?.analisis_results?.[0]" :hint="intelligentAnalisisResult?.analisis_results?.[0]" />
-              </div>
-            </div>
-          </div>
-        </template>
-        <template v-if="numberOfCards === 3">
-          <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div class="card-container flex flex-col items-center justify-start" :key="index" v-for="(n, index) in numberOfCards">
-              <ExerciseTurnCard :deck="deck" class="" v-model="cards[index]"/>
-              <div ref="analisisContentRef" class="scroll-mt-[100px]">
-              <HintResultsUsualCard v-if="intelligentAnalisisResult?.analisis_results?.[index]" :hint="intelligentAnalisisResult?.analisis_results?.[index]" />
-              </div>
-            </div>
-          </div>
-        </template>
-      </div>
-      <ExerciseBottomActions
-          :loading="loading"
-          @hintButtonClick="intellgentAnalisisConfirm"
-      />
-      <GeneralMessageModal
-          v-if="modalMessage"
-          :modalMessage="modalMessage"
-          @close="clearModalMessage"
-      />
-      <ExerciseHintConfirmationModal
-          :open="isConfirmationModalOpen"
-          @close="isConfirmationModalOpen = false"
-          @confirm="getIntelligentAnalisisClick"
-      />
     </div>
+    <div class="cards-container">
+      <template v-if="numberOfCards === 1">
+        <div class="card-container flex flex-col items-center justify-start">
+          <ExerciseTurnCard :deck="deck" class="" v-model="cards[0]" :key="0"/>
+          <div ref="hintContentRef">
+            <div ref="analisisContentRef" class="scroll-mt-[100px]">
+            <HintResultsUsualCard v-if="intelligentAnalisisResult?.analisis_results?.[0]" :hint="intelligentAnalisisResult?.analisis_results?.[0]" />
+            </div>
+          </div>
+        </div>
+      </template>
+      <template v-if="numberOfCards === 3">
+        <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="card-container flex flex-col items-center justify-start" :key="index" v-for="(n, index) in numberOfCards">
+            <ExerciseTurnCard :deck="deck" class="" v-model="cards[index]"/>
+            <div ref="analisisContentRef" class="scroll-mt-[100px]">
+            <HintResultsUsualCard v-if="intelligentAnalisisResult?.analisis_results?.[index]" :hint="intelligentAnalisisResult?.analisis_results?.[index]" />
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+    <ExerciseBottomActions
+        :loading="loading"
+        @hintButtonClick="intellgentAnalisisConfirm"
+    />
+    <GeneralMessageModal
+        v-if="modalMessage"
+        :modalMessage="modalMessage"
+        @close="clearModalMessage"
+    />
+    <ExerciseHintConfirmationModal
+        :open="isConfirmationModalOpen"
+        @close="isConfirmationModalOpen = false"
+        @confirm="getIntelligentAnalisisClick"
+    />
+    <HintResultsMeditation 
+      v-if="intelligentAnalisisResult?.meditation" 
+      :meditation="intelligentAnalisisResult?.meditation"
+      class="mb-3"/>
   </div>
 </template>
 

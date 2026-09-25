@@ -8,6 +8,8 @@ class QuestionToCardMessagesBuilder extends AbstractInterpreterMessagesBuilder
 {
     protected string $promptFilename = 'question.md';
 
+    protected bool $hasMeditation = true;
+
     public function build(string $locale, InterpretDTOInterface $dto): array
     {
         return [
