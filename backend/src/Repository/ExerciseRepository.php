@@ -16,6 +16,13 @@ class ExerciseRepository extends ServiceEntityRepository
         parent::__construct($registry, Exercise::class);
     }
 
+    public function findOneBySlug(string $slug): ?Exercise
+    {
+        return $this->findOneBy([
+            'slug' => $slug,
+        ]);
+    }
+
     /**
      * @return Exercise[]
      */

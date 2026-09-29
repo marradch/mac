@@ -2,7 +2,7 @@
 
 return [
     'slug' => 'man-woman-pair',
-    'show' => true,
+    'show' => false,
     'orderInList' => 50,
     'translations' => [
         'ru' => [

@@ -34,7 +34,6 @@ class SpreadCard
 
     public function __construct()
     {
-        $this->locale = new ArrayCollection();
         $this->spreadCardTranslations = new ArrayCollection();
     }
 

@@ -21,7 +21,7 @@ class Spread
     /**
      * @var Collection<int, SpreadCard>
      */
-    #[ORM\OneToMany(targetEntity: SpreadCard::class, mappedBy: 'Ñspread', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: SpreadCard::class, mappedBy: 'spread', orphanRemoval: true)]
     private Collection $spreadCards;
 
     #[ORM\OneToOne(mappedBy: 'spread', cascade: ['persist', 'remove'])]
@@ -61,7 +61,7 @@ class Spread
     {
         if (!$this->spreadCards->contains($spreadCard)) {
             $this->spreadCards->add($spreadCard);
-            $spreadCard->setÑspread($this);
+            $spreadCard->setSpread($this);
         }
 
         return $this;
@@ -71,8 +71,8 @@ class Spread
     {
         if ($this->spreadCards->removeElement($spreadCard)) {
             // set the owning side to null (unless already changed)
-            if ($spreadCard->getÑspread() === $this) {
-                $spreadCard->setÑspread(null);
+            if ($spreadCard->getSpread() === $this) {
+                $spreadCard->setSpread(null);
             }
         }
 

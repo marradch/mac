@@ -40,11 +40,6 @@ class ExerciseTranslation
     #[ORM\Column(length: 500, options: ['default' => ''])]
     private ?string $seo_description = "";
 
-    public function __construct()
-    {
-        $this->createdAt = new \DateTimeImmutable();
-    }
-
     public function getId(): ?int
     {
         return $this->id;

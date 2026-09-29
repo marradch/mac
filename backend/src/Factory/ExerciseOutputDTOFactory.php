@@ -14,8 +14,10 @@ class ExerciseOutputDTOFactory {
         $dto = new ExerciseOutputDTO();
         $dto->id = $exercise->getId();
         $dto->slug = $exercise->getSlug();
-        $dto->title = $translation?->getTitle();
-        $dto->description = $translation?->getShortDescription();
+        if ($translation) {
+            $dto->title = $translation?->getTitle();
+            $dto->description = $translation?->getShortDescription();
+        }
 
         return $dto;
     }
