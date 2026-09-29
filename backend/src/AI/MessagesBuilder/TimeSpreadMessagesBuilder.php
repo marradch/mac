@@ -2,13 +2,13 @@
 
 namespace App\AI\MessagesBuilder;
 
-use App\DTO\Input\{TimeSpreadDTO, InterpretDTOInterface};
+use App\DTO\Input\TimeSpreadDTO;
 
-class TimeSpreadMessagesBuilder extends AbstractInterpreterMessagesBuilder
+class TimeSpreadMessagesBuilder extends AbstractMessagesBuilder
 {
     protected string $promptFilename = 'time-spread.md';
 
-    public function build(string $locale, InterpretDTOInterface $dto): array
+    public function build(string $locale, object $dto): array
     {
         /** @var TimeSpreadDTO $dto */
 

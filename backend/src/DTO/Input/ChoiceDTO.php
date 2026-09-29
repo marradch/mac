@@ -4,7 +4,7 @@ namespace App\DTO\Input;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ChoiceDTO implements InterpretDTOInterface
+class ChoiceDTO
 {
     public function __construct(
         #[Assert\NotBlank(message: 'Query is required')]

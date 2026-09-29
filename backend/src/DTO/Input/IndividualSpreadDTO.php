@@ -4,7 +4,7 @@ namespace App\DTO\Input;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class QuestionDTO
+class IndividualSpreadDTO
 {
     public function __construct(
         #[Assert\NotBlank(message: 'Query is required')]
@@ -14,10 +14,6 @@ class QuestionDTO
             match: false,
             message: 'Query must not contain only repeated characters'
         )]
-        public ?string $query,
-
-        #[Assert\Valid]
-        #[Assert\Count(min: 1, max: 3, minMessage: 'At least one card required', maxMessage: 'Max 3 cards allowed')]
-        public array $cards = [],
+        public ?string $query
     ) {}
 }

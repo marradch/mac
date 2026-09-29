@@ -5,7 +5,7 @@ namespace App\AI\Service\Interpreter;
 use App\AI\DTO\MetaphoricalCard;
 use App\AI\MessagesBuilder\EmotionAndCardMessagesBuilder;
 use App\AI\Service\OpenAIClient;
-use App\DTO\Input\InterpretDTOInterface;
+use App\DTO\Input\EmotionAndCardDTO;
 
 class EmotionAndCardInterpreterService implements InterpreterInterface
 {
@@ -14,8 +14,10 @@ class EmotionAndCardInterpreterService implements InterpreterInterface
         private OpenAIClient $openAIClient
     ) {}
 
-    public function interpret(string $locale, InterpretDTOInterface $dto): array
+    public function interpret(string $locale, object $dto): array
     {
+        /** @var EmotionAndCardDTO $dto */
+        
         // Convert each incoming item's card to MetaphoricalCard object
         $dto->cards = array_map(function ($item) {
             $image = $item['imageUrl'] ?? $item['image_url'] ?? null;

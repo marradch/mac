@@ -3,13 +3,12 @@
 namespace App\AI\MessagesBuilder;
 
 use App\DTO\Input\EmotionAndCardDTO;
-use App\DTO\Input\InterpretDTOInterface;
 
-class EmotionAndCardMessagesBuilder extends AbstractInterpreterMessagesBuilder
+class EmotionAndCardMessagesBuilder extends AbstractMessagesBuilder
 {
     protected string $promptFilename = 'emotion-and-card.md';
 
-    public function build(string $locale, InterpretDTOInterface $dto): array
+    public function build(string $locale, object $dto): array
     {
         /** @var EmotionAndCardDTO $dto */
 

@@ -6,5 +6,5 @@ use App\DTO\Input\InterpretDTOInterface;
 
 interface InterpreterInterface
 {
-    public function interpret(string $locale, InterpretDTOInterface $dto): array;
+    public function interpret(string $locale, object $dto): array;
 }

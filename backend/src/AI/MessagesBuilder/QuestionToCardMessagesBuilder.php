@@ -2,16 +2,18 @@
 
 namespace App\AI\MessagesBuilder;
 
-use App\DTO\Input\InterpretDTOInterface;
+use App\DTO\Input\QuestionToCardDTO;
 
-class QuestionToCardMessagesBuilder extends AbstractInterpreterMessagesBuilder
+class QuestionToCardMessagesBuilder extends AbstractMessagesBuilder
 {
     protected string $promptFilename = 'question.md';
 
     protected bool $hasMeditation = true;
 
-    public function build(string $locale, InterpretDTOInterface $dto): array
+    public function build(string $locale, object $dto): array
     {
+        /** @var QuestionToCardDTO $dto */
+        
         return [
             [
                 'role' => 'system',
@@ -24,7 +26,7 @@ class QuestionToCardMessagesBuilder extends AbstractInterpreterMessagesBuilder
         ];
     }
 
-    private function buildCardsContent(string $locale, InterpretDTOInterface $dto): array
+    private function buildCardsContent(string $locale, object $dto): array
     {
         $result = [];
 

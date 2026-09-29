@@ -2,16 +2,17 @@
 
 namespace App\AI\MessagesBuilder;
 
-use App\DTO\Input\InterpretDTOInterface;
+use App\DTO\Input\SpreadDTO;
 
-class SpreadMessagesBuilder extends AbstractInterpreterMessagesBuilder
+class SpreadMessagesBuilder extends AbstractMessagesBuilder
 {
     protected string $promptFilename = 'spread.md';
 
     protected bool $hasMeditation = true;
 
-    public function build(string $locale, InterpretDTOInterface $dto): array
+    public function build(string $locale, object $dto): array
     {
+        /** @var SpreadDTO $dto */
         $content = [
             [
                 'type' => 'text',

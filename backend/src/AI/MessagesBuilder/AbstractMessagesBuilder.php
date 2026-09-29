@@ -4,11 +4,11 @@ namespace App\AI\MessagesBuilder;
 
 use App\DTO\Input\InterpretDTOInterface;
 
-abstract class AbstractInterpreterMessagesBuilder
+abstract class AbstractMessagesBuilder
 {
     protected bool $hasMeditation = false;
 
-    abstract public function build(string $locale, InterpretDTOInterface $dto): array;
+    abstract public function build(string $locale, object $dto): array;
 
     protected function loadPrompt(): string
     {

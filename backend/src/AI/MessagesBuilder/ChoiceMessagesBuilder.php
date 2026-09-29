@@ -2,13 +2,13 @@
 
 namespace App\AI\MessagesBuilder;
 
-use App\DTO\Input\{ChoiceDTO, InterpretDTOInterface};
+use App\DTO\Input\ChoiceDTO;
 
-class ChoiceMessagesBuilder extends AbstractInterpreterMessagesBuilder
+class ChoiceMessagesBuilder extends AbstractMessagesBuilder
 {
     protected string $promptFilename = 'choice.md';
 
-    public function build(string $locale, InterpretDTOInterface $dto): array
+    public function build(string $locale, object $dto): array
     {
         /** @var ChoiceDTO $dto */
 

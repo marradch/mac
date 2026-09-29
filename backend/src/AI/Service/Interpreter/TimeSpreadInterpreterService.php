@@ -5,19 +5,19 @@ namespace App\AI\Service\Interpreter;
 use App\AI\DTO\MetaphoricalCard;
 use App\AI\MessagesBuilder\TimeSpreadMessagesBuilder;
 use App\AI\Service\OpenAIClient;
-use App\Factory\TimeSpreadCardsFactory;
-use App\DTO\Input\InterpretDTOInterface;
+use App\DTO\Input\TimeSpreadDTO;
 
 class TimeSpreadInterpreterService implements InterpreterInterface
 {
     public function __construct(
         private TimeSpreadMessagesBuilder $messageBuilder,
-        private OpenAIClient $openAIClient,
-        private TimeSpreadCardsFactory $cardsFactory
+        private OpenAIClient $openAIClient
     ) {}
 
-    public function interpret(string $locale, InterpretDTOInterface $dto): array
+    public function interpret(string $locale, object $dto): array
     {
+        /** @var TimeSpreadDTO $dto */
+        
         foreach (['past', 'present', 'future'] as $timeRange) {
             $optionCards = $dto->{$timeRange};
 

@@ -2,16 +2,17 @@
 
 namespace App\AI\MessagesBuilder;
 
-use App\DTO\Input\InterpretDTOInterface;
+use App\DTO\Input\ResourcesDTO;
 
-class ResourcesMessagesBuilder extends AbstractInterpreterMessagesBuilder
+class ResourcesMessagesBuilder extends AbstractMessagesBuilder
 {
     protected string $promptFilename = 'resources.md';
 
     protected bool $hasMeditation = true;
 
-    public function build(string $locale, InterpretDTOInterface $dto): array
+    public function build(string $locale, object $dto): array
     {
+        /** @var ResourcesDTO $dto */
         return [
             [
                 'role' => 'system',
@@ -24,7 +25,7 @@ class ResourcesMessagesBuilder extends AbstractInterpreterMessagesBuilder
         ];
     }
 
-    private function buildCardsContent(string $locale, InterpretDTOInterface $dto): array
+    private function buildCardsContent(string $locale, object $dto): array
     {
         $result = [];
 
