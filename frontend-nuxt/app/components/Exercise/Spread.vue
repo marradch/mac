@@ -73,6 +73,9 @@ const query = ref<string>('')
 const config = useRuntimeConfig()
 const deck = ref<string>(config.public.defaultDeckSlug)
 const isConfirmationModalOpen = ref(false)
+const isQueryAndCardsActual = ref(true)
+const isQueryActual = ref(true)
+const shouldValidateQueryActuality = ref(false)
 
 const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
 const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
@@ -95,6 +98,21 @@ if (!props.individual) {
   })) ?? []
 }
 
+watch(
+  [cards, query],
+  ([newCards, newQuery], [oldCards, oldQuery]) => {
+    isQueryAndCardsActual.value = true
+  },
+  { deep: true }
+)
+
+watch(
+  [query],
+  ([newQuery], [oldQuery]) => {
+    isQueryActual.value = true
+  }
+)
+
 watch(deck, () => {
   cards.value.forEach(card => (card.imageUrl = ''))
   resetAvailableCardsState()
@@ -105,6 +123,14 @@ function hasEmptyCards() {
 }
 
 function intellgentAnalisisConfirm() {
+  if (shouldValidateQueryActuality.value && !isQueryActual.value) {
+    showModalMessage('warning', t('dublicate_query'), t('dublicate_query_message'))
+    return
+  }
+  if (!isQueryAndCardsActual.value) {
+    showModalMessage('warning', $t('dublicate_input'), $t('dublicate_input_message'))
+    return
+  }
   if (!isValidQuery(query.value) || hasEmptyCards() || !cards.value.length) {
     showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
     return
@@ -130,6 +156,10 @@ async function getIntelligentAnalisisClick() {
       imageUrl: origin + card.imageUrl
     }))
   })
+
+  isQueryAndCardsActual.value = false
+  isQueryActual.value = false
+  shouldValidateQueryActuality.value = (intelligentAnalisisResult.value?.query_status !== 'valid')  
 
   if (intelligentAnalisisResult.value?.query_status === 'valid') {
     await nextTick()

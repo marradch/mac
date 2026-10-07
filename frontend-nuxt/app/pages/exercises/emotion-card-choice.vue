@@ -61,6 +61,7 @@ const { exercise } = useExercise('emotion-card-choice')
 const config = useRuntimeConfig()
 const deck = ref<string>(config.public.defaultDeckSlug)
 const isConfirmationModalOpen = ref(false)
+const isQueryAndCardsActual = ref(true)
 
 const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
 const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
@@ -146,13 +147,23 @@ onMounted(() => {
 
 const analisisContentRef = ref<HTMLElement | HTMLElement[] | null>(null)
 
+watch(
+  [cards],
+  ([newCards], [oldCards]) => {
+    isQueryAndCardsActual.value = true
+  },
+  { deep: true }
+)
+
 function hasEmptyCards() {
   return cards.value.some((card) => !card.imageUrl)
 }
 
 function intellgentAnalisisConfirm() {
-  isConfirmationModalOpen.value = true
-
+  if (!isQueryAndCardsActual.value) {
+    showModalMessage('warning', t('dublicate_input'), t('dublicate_input_message'))
+    return
+  }
   if (hasEmptyCards()) {
     showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
     return
@@ -161,6 +172,7 @@ function intellgentAnalisisConfirm() {
 }
 
 async function getIntelligentHintClick() {
+  isConfirmationModalOpen.value = false
 
   if (hasEmptyCards()) {
     showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
@@ -176,6 +188,8 @@ async function getIntelligentHintClick() {
       imageUrl: origin + card.imageUrl
     }))
   })
+
+  isQueryAndCardsActual.value = false
 
   if (intelligentAnalisisResult.value?.query_status === 'valid') {
     await nextTick()

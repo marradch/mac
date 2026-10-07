@@ -89,6 +89,9 @@ const option2Text = ref('')
 const numberOfCards = ref(1)
 const deck = ref(config.public.defaultDeckSlug)
 const isConfirmationModalOpen = ref(false)
+const isQueryAndCardsActual = ref(true)
+const isQueryActual = ref(true)
+const shouldValidateQueryActuality = ref(false)
 
 const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
 const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
@@ -104,6 +107,21 @@ const cards = ref<Record<OptionKey, string[]>>({
 
 const analisisContentRef = ref<HTMLElement | HTMLElement[] | null>(null)
 
+watch(
+  [cards, query, option1Text, option2Text],
+  ([newCards, newQuery, newOpt1, newOpt2], [oldCards, oldQuery, oldOpt1, oldOpt2]) => {
+    isQueryAndCardsActual.value = true
+  },
+  { deep: true }
+)
+
+watch(
+  [query, option1Text, option2Text],
+  ([newQuery, newOpt1, newOpt2], [oldQuery, oldOpt1, oldOpt2]) => {
+    isQueryActual.value = true
+  }
+)
+
 function hasEmptyCards() {
   return options.some((option: OptionKey) => {
     return cards.value[option].some((card) => !card)
@@ -111,6 +129,14 @@ function hasEmptyCards() {
 }
 
 function intellgentAnalisisConfirm() {
+  if (shouldValidateQueryActuality.value && !isQueryActual.value) {
+    showModalMessage('warning', t('dublicate_query'), t('dublicate_query_message'))
+    return
+  }
+  if (!isQueryAndCardsActual.value) {
+    showModalMessage('warning', t('dublicate_input'), t('dublicate_input_message'))
+    return
+  }
   if (!isValidQuery(query.value) || !isValidQuery(option1Text.value) || !isValidQuery(option2Text.value) || hasEmptyCards()) {
     showModalMessage('warning', t('invalid_input'), t('intelligent_analisis_validation_all'))
     return
@@ -140,7 +166,12 @@ async function getIntelligentHintClick() {
     })),
   })
 
-    if (intelligentAnalisisResult.value?.query_status === 'valid') {
+  isQueryAndCardsActual.value = false
+  isQueryActual.value = false
+  shouldValidateQueryActuality.value = (intelligentAnalisisResult.value?.query_status !== 'valid')  
+
+  if (intelligentAnalisisResult.value?.query_status === 'valid') {
+
     await nextTick()
     
     const firstHint = Array.isArray(analisisContentRef.value)

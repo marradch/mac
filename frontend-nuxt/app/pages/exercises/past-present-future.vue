@@ -45,6 +45,10 @@
           </template>
         </div>
       </div>
+      <HintResultsMeditation 
+        v-if="intelligentAnalisisResult?.meditation" 
+        :meditation="intelligentAnalisisResult?.meditation"
+        class="mb-3"/>
       <ExerciseBottomActions
           :loading="loading"
           @hintButtonClick="intellgentAnalisisConfirm"
@@ -80,6 +84,9 @@ const cards = ref({
 })
 
 const isConfirmationModalOpen = ref(false)
+const isQueryAndCardsActual = ref(true)
+const isQueryActual = ref(true)
+const shouldValidateQueryActuality = ref(false)
 
 const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
 const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
@@ -90,6 +97,21 @@ const analisisContentRef = ref<HTMLElement | HTMLElement[] | null>(null)
 type Period = 'past' | 'present' | 'future'
 const periods: Period[] = ['past', 'present', 'future']
 
+watch(
+  [cards, query],
+  ([newCards, newQuery], [oldCards, oldQuery]) => {
+    isQueryAndCardsActual.value = true
+  },
+  { deep: true }
+)
+
+watch(
+  [query],
+  ([newQuery], [oldQuery]) => {
+    isQueryActual.value = true
+  }
+)
+
 function hasEmptyCards() {
   return periods.some((period: Period) => {
     return cards.value[period].some((card) => !card)
@@ -97,6 +119,14 @@ function hasEmptyCards() {
 }
 
 function intellgentAnalisisConfirm() {
+  if (shouldValidateQueryActuality.value && !isQueryActual.value) {
+    showModalMessage('warning', t('dublicate_query'), t('dublicate_query_message'))
+    return
+  }
+  if (!isQueryAndCardsActual.value) {
+    showModalMessage('warning', t('dublicate_input'), t('dublicate_input_message'))
+    return
+  }
   if (!isValidQuery(query.value) || hasEmptyCards()) {
     showModalMessage('warning', t('invalid_input'), t('intelligent_analisis_validation_all'))
     return
@@ -126,6 +156,10 @@ async function getIntelligentHintClick() {
       'imageUrl': origin + card
     })),
   })
+
+  isQueryAndCardsActual.value = false
+  isQueryActual.value = false
+  shouldValidateQueryActuality.value = (intelligentAnalisisResult.value?.query_status !== 'valid')
 
   if (intelligentAnalisisResult.value?.query_status === 'valid') {
     await nextTick()
