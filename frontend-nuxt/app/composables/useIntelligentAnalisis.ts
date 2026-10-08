@@ -1,8 +1,9 @@
 export function useIntelligentAnalisis() {
   const config = useRuntimeConfig()
-  const { t, locale} = useI18n()
+  const { t, locale } = useI18n()
 
   const loading = ref(false)
+  const isSuccessfull = ref(false)
   const intelligentAnalisisResult = ref<Record<string, any>>({})
   const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
 
@@ -10,6 +11,8 @@ export function useIntelligentAnalisis() {
     endpoint: string,
     body: object
   ) {
+    isSuccessfull.value = false
+
     try {
       loading.value = true
 
@@ -21,6 +24,8 @@ export function useIntelligentAnalisis() {
           body
         }
       )
+
+      isSuccessfull.value = true
 
       const status = intelligentAnalisisResult.value?.query_status
 
@@ -34,6 +39,8 @@ export function useIntelligentAnalisis() {
 
       return intelligentAnalisisResult.value
     } catch (errorResponse: any) {
+      isSuccessfull.value = false
+
       const responseData =
         errorResponse?.data ??
         errorResponse?.response?._data
@@ -54,6 +61,7 @@ export function useIntelligentAnalisis() {
 
   return {
     loading,
+    isSuccessfull,
     intelligentAnalisisResult,
     getIntelligentAnalisis
   }

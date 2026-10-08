@@ -88,7 +88,7 @@ const isQueryAndCardsActual = ref(true)
 const isQueryActual = ref(true)
 const shouldValidateQueryActuality = ref(false)
 
-const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
+const { loading, intelligentAnalisisResult, getIntelligentAnalisis, isSuccessfull } = useIntelligentAnalisis()
 const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
 const { isValidQuery } = useQueryValidation()
 
@@ -157,16 +157,20 @@ async function getIntelligentHintClick() {
     })),
   })
 
+  if (!isSuccessfull.value) {
+    return
+  }
+
   isQueryAndCardsActual.value = false
   isQueryActual.value = false
   shouldValidateQueryActuality.value = (intelligentAnalisisResult.value?.query_status !== 'valid')
 
   if (intelligentAnalisisResult.value?.query_status === 'valid') {
     await nextTick()
-    
+
     const firstHint = Array.isArray(analisisContentRef.value)
-    ? analisisContentRef.value[0]
-    : analisisContentRef.value
+      ? analisisContentRef.value[0]
+      : analisisContentRef.value
 
     firstHint?.scrollIntoView({
       behavior: 'smooth',

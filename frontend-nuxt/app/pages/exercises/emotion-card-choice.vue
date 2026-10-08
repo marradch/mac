@@ -63,7 +63,7 @@ const deck = ref<string>(config.public.defaultDeckSlug)
 const isConfirmationModalOpen = ref(false)
 const isQueryAndCardsActual = ref(true)
 
-const { loading, intelligentAnalisisResult, getIntelligentAnalisis } = useIntelligentAnalisis()
+const { loading, intelligentAnalisisResult, getIntelligentAnalisis, isSuccessfull } = useIntelligentAnalisis()
 const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
 
 const { data: psychologicalStates } = await useFetch<PsychologicalState[]>(
@@ -189,14 +189,18 @@ async function getIntelligentHintClick() {
     }))
   })
 
+  if (!isSuccessfull.value) {
+    return
+  }
+
   isQueryAndCardsActual.value = false
 
   if (intelligentAnalisisResult.value?.query_status === 'valid') {
     await nextTick()
-    
+
     const firstHint = Array.isArray(analisisContentRef.value)
-    ? analisisContentRef.value[0]
-    : analisisContentRef.value
+      ? analisisContentRef.value[0]
+      : analisisContentRef.value
 
     firstHint?.scrollIntoView({
       behavior: 'smooth',
