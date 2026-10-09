@@ -22,7 +22,7 @@
             hover:bg-primary-hover
           "
           :class="isFlipped ? 'left-[20px]' : 'right-[20px]'"
-          @click="emit('remove')"
+          @click.stop="removeCard"
       >
         ✕
       </div>
@@ -131,6 +131,7 @@ const toggle = () => {
     isFlipped.value = false
 
     availableCardsState.value?.[deckRef.value]?.push(randomCardIndex.value)
+    console.log('test push')
     //randomCardIndex.value = ''
     emit('update:modelValue', '')
   } else {
@@ -188,5 +189,20 @@ function selectCard(val: string) {
     randomCardIndex.value = Number(match[2])
     isModalOpen.value = false
   }
+}
+
+function removeCard() {
+  // Возвращаем удалённую карту в доступные карты её колоды
+  if (randomCardIndex.value > 0) {
+    const available = availableCardsState.value[deckRef.value] ?? []
+
+    if (!available.includes(randomCardIndex.value)) {
+      available.push(randomCardIndex.value)
+    }
+
+    availableCardsState.value[deckRef.value] = available
+  }
+
+  emit('remove')
 }
 </script>

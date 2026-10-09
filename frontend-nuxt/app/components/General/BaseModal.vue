@@ -24,7 +24,7 @@
                  overflow-y-auto flex flex-col"
             :class="[
               bgClass || 'bg-white',
-              hFull ? 'lg:max-h-[calc(100vh-40px)]' : 'sm:h-fit',
+              hFull ? 'md:max-h-[calc(100vh-40px)]' : 'sm:h-fit',
               widthClass || 'sm:w-fit'
             ]"
         >
