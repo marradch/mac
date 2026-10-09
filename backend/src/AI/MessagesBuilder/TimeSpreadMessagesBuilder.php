@@ -8,6 +8,8 @@ class TimeSpreadMessagesBuilder extends AbstractMessagesBuilder
 {
     protected string $promptFilename = 'time-spread.md';
 
+    protected bool $hasMeditation = true;
+
     public function build(string $locale, object $dto): array
     {
         /** @var TimeSpreadDTO $dto */

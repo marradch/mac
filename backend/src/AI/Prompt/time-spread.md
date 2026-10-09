@@ -59,6 +59,32 @@ For each card:
 
 ---
 
+## CREATE FINAL MEDITATION
+
+Create one continuous guided meditation based on:
+
+1. **User query** — the central topic the user wants to explore.
+2. **Time Layer** — defines what role the card plays in relation to the query.
+spred position you can see in card title text. Position can be past, present or future
+3. **Card imagery** — provides the visual and metaphorical material for reflection.
+
+Priority: **user query → spread position → card**.
+
+Do not treat cards as predictions, diagnoses, facts, or objective answers. They are metaphors and invitations for self-reflection.
+
+To create meditation clearly you should read GENERAL MEDITATION INSTRUCTIONS
+
+special instructions for current exercise meditation
+
+Meditation text should be devided for 3 time layers: Past, Present and Future
+
+MAIN RULE FOR MEDITATIN SEQUENCE, WHICH IS MOST PREFERABLE, THAN GENERAL
+Create one continuous journey:
+
+**Past → Present → Future**
+
+---
+
 ## Output Format
 
 Return ONLY JSON:
@@ -72,6 +98,7 @@ Return ONLY JSON:
   "cross_layer_patterns": "",
   "overall_narrative": "",
   "affirmations": [],
+  "meditation": ["sentense1", ... "sentense N"]
   "cards_analisis_results": {
     "past": [
       {
