@@ -20,7 +20,7 @@
       </div>      
     </div>
   </div>
-  <div ref="cardsContentRef" class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-5">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 my-5">
     <div v-for="(card, index) in cards" :key="card.slug" class="flex flex-col gap-3 items-center justify-end">
       <p class="text-gray-600 text-center w-full" :title="card.title">{{ card.title }}</p>
       <ExerciseTurnCard

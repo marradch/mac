@@ -48,7 +48,6 @@
           <template v-if="numberOfCards === 3">
             <div class="cards-row-container grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div class="card-container flex flex-col items-center justify-start" :key="index" v-for="(n, index) in numberOfCards">
-                {{ getOptionKey(i) }}
                 <ExerciseTurnCard :deck="deck" class="" v-model="cards[getOptionKey(i)][index]"/>
                 <div ref="analisisContentRef" class="scroll-mt-[100px]">  
                   <HintResultsUsualCard v-if="intelligentAnalisisResult?.cards_analisis_results?.[getOptionKey(i)]?.[index]" :hint="intelligentAnalisisResult?.cards_analisis_results?.[getOptionKey(i)]?.[index]" />
