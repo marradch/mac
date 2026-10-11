@@ -14,7 +14,7 @@
             {{$t('card_interpretation')}}
           </h3>
 
-          <p class="text-gray-600 text-sm leading-relaxed">
+          <p class="text-gray-600 text-md leading-relaxed">
             {{ hint.interpretation }}
           </p>
         </div>
@@ -26,7 +26,7 @@
             {{$t('how_card_helps')}}
           </h3>
 
-          <p class="text-gray-600 text-sm leading-relaxed">
+          <p class="text-gray-600 text-md leading-relaxed">
             {{ hint.howCardHelps }}
           </p>
         </div>
@@ -45,7 +45,7 @@
             <li
                 v-for="(affirmation, index) in hint.affirmations"
                 :key="index"
-                class="flex items-start gap-2 text-sm text-gray-600"
+                class="flex items-start gap-2 text-md text-gray-600"
             >
               <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-orange-400 shrink-0"></span>
               <span>{{ affirmation }}</span>
@@ -63,7 +63,7 @@
             {{$t('self_reflection_question')}}
           </h3>
 
-          <p class="text-gray-600 text-sm leading-relaxed">
+          <p class="text-gray-600 text-md leading-relaxed">
             {{ hint.selfReflectionQuestion }}
           </p>
         </div>

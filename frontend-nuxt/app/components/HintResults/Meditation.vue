@@ -8,7 +8,7 @@
         <div
             class="space-y-2"
         >
-          <h3 class="flex items-center gap-2 font-semibold text-gray-700">
+          <h3 class="text-md flex items-center gap-2 font-semibold text-gray-700">
             <span class="text-lg">✨</span>
             {{$t('meditation')}}
           </h3>
@@ -16,7 +16,7 @@
           <div class="space-y-2">
             <p v-for="(step, index) in meditation"
                 :key="index"
-                class="text-gray-600 text-sm leading-relaxed list-disc list-inside space-y-1">
+                class="text-gray-600 text-md leading-relaxed list-disc list-inside space-y-1">
               {{ step }}
             </p>
           </div>

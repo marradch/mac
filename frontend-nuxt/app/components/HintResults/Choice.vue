@@ -1,6 +1,6 @@
 <template>
   <div v-if="hint?.query_status === 'valid'" class="order-5 mt-3">
-    <ExpandableCardBlock
+    <GeneralExpandableCardBlock
         :max-height="600"
         bg-class="bg-orange-50"
         border-class="border border-orange-200"
@@ -12,7 +12,7 @@
             {{ $t('comparison') }}
           </h3>
 
-          <p class="text-sm leading-relaxed text-gray-600">
+          <p class="text-md leading-relaxed text-gray-600">
             {{ hint.comparison }}
           </p>
         </div>
@@ -23,7 +23,7 @@
             {{ $t('recommendations') }}
           </h3>
 
-          <p class="text-sm leading-relaxed text-gray-600">
+          <p class="text-md leading-relaxed text-gray-600">
             {{ hint.recommendations }}
           </p>
         </div>
@@ -38,7 +38,7 @@
             <li
                 v-for="(affirmation, i) in hint.affirmations"
                 :key="i"
-                class="flex items-start gap-2 text-sm text-gray-600"
+                class="flex items-start gap-2 text-md text-gray-600"
             >
               <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-400"></span>
               <span>{{ affirmation }}</span>
@@ -46,7 +46,7 @@
           </ul>
         </div>
       </div>
-    </ExpandableCardBlock>
+    </GeneralExpandableCardBlock>
   </div>
 </template>
 

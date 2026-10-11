@@ -1,5 +1,5 @@
 <template>
-  <div v-if="hint?.is_query_valid === true" class="order-5 mb-3">
+  <div v-if="hint?.query_status === 'valid'" class="order-5 mb-3">
     <GeneralExpandableCardBlock
         :max-height="600"
         bg-class="bg-orange-50"
@@ -12,7 +12,7 @@
             {{ $t('past') }}
           </h3>
 
-          <p class="text-sm leading-relaxed text-gray-600">
+          <p class="text-md leading-relaxed text-gray-600">
             {{ hint.past_interpretation }}
           </p>
         </div>
@@ -23,7 +23,7 @@
             {{ $t('present') }}
           </h3>
 
-          <p class="text-sm leading-relaxed text-gray-600">
+          <p class="text-md leading-relaxed text-gray-600">
             {{ hint.present_interpretation }}
           </p>
         </div>
@@ -34,7 +34,7 @@
             {{ $t('future') }}
           </h3>
 
-          <p class="text-sm leading-relaxed text-gray-600">
+          <p class="text-md leading-relaxed text-gray-600">
             {{ hint.future_interpretation }}
           </p>
         </div>
@@ -45,7 +45,7 @@
             {{ $t('cross_layer_patterns') }}
           </h3>
 
-          <p class="text-sm leading-relaxed text-gray-600">
+          <p class="text-md leading-relaxed text-gray-600">
             {{ hint.cross_layer_patterns }}
           </p>
         </div>
@@ -56,7 +56,7 @@
             {{ $t('overall_narrative') }}
           </h3>
 
-          <p class="text-sm leading-relaxed text-gray-600">
+          <p class="text-md leading-relaxed text-gray-600">
             {{ hint.overall_narrative }}
           </p>
         </div>
@@ -71,7 +71,7 @@
             <li
                 v-for="(affirmation, i) in hint.affirmations"
                 :key="i"
-                class="flex items-start gap-2 text-sm text-gray-600"
+                class="flex items-start gap-2 text-md text-gray-600"
             >
               <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-400"></span>
               <span>{{ affirmation }}</span>
