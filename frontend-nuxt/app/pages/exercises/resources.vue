@@ -18,7 +18,8 @@
         class="flex flex-col gap-3 items-center justify-start rounded-xl transition"
         :class="{
           'opacity-60': draggedIndex === index,
-          'ring-2 ring-[#ff435d]/25 bg-[#ff435d0f] -translate-y-2': dragOverIndex === index,
+          //'ring-2 ring-[#ff435d]/25 bg-[#ff435d0f] -translate-y-2': dragOverIndex === index,
+          '-translate-y-2': dragOverIndex === index,
         }"
         draggable="true"
         @dragstart="onDragStart(index, $event)"
