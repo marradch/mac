@@ -21,7 +21,7 @@
     <div class="hidden md:flex justify-between items-center w-full ml-6">
 
       <div class="flex">
-        <NuxtLink to="/" class="p-4 text-white hover:bg-primary-hover">
+        <NuxtLink to="/exercises" class="p-4 text-white hover:bg-primary-hover">
           {{ t('header.exercises') }}
         </NuxtLink>
 

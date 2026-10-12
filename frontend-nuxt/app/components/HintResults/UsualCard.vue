@@ -1,5 +1,5 @@
 <template>
-  <div v-if="hint" class="mt-3">
+  <div v-if="hint && Object.keys(hint).length > 0" class="mt-3">
     <GeneralExpandableCardBlock
         :max-height="250"
         bg-class="bg-orange-50"

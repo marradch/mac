@@ -14,8 +14,17 @@
   <div ref="cardsContentRef" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 my-5">
     <div
         v-for="(card, index) in cards"
-        :key="card.imageUrl"
-        class="flex flex-col gap-3 items-center justify-start"
+        :key="card.id"
+        class="flex flex-col gap-3 items-center justify-start rounded-xl transition"
+        :class="{
+          'opacity-60 scale-[0.98]': draggedIndex === index,
+          'ring-2 ring-[#ff435d]/25 bg-[#ff435d0f] -translate-y-2': dragOverIndex === index,
+        }"
+        draggable="true"
+        @dragstart="onDragStart(index, $event)"
+        @dragover="onDragOver(index, $event)"
+        @drop="onDrop(index, $event)"
+        @dragend="onDragEnd"
     >
       <div class="w-full md:max-w-[400px]">
         <ExerciseTurnCard
@@ -75,10 +84,13 @@ const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
 const { isValidQuery } = useQueryValidation()
 
 type CardWithDeck = {
+  id: string
   imageUrl: string
   deck: string
 }
 const cards = ref<CardWithDeck[]>([])
+const draggedIndex = ref<number | null>(null)
+const dragOverIndex = ref<number | null>(null)
 
 const analisisContentRef = ref<HTMLElement | HTMLElement[] | null>(null)
 
@@ -92,9 +104,72 @@ function hasEmptyCards() {
 
 function addCard() {
   cards.value = [...cards.value, {
+    id: crypto.randomUUID(),
     imageUrl: '',
     deck: deck.value,
   }]
+
+  if (intelligentAnalisisResult.value?.analisis_results) {
+    intelligentAnalisisResult.value.analisis_results.push({})
+  }
+}
+
+function onDragStart(index: number, event: DragEvent) {
+  draggedIndex.value = index
+
+  if (event.dataTransfer) {
+    event.dataTransfer.effectAllowed = 'move'
+    event.dataTransfer.setData('text/plain', String(index))
+  }
+}
+
+function onDragOver(index: number, event: DragEvent) {
+  event.preventDefault()
+
+  if (draggedIndex.value !== null && draggedIndex.value !== index) {
+    dragOverIndex.value = index
+  }
+}
+
+function onDrop(index: number, event: DragEvent) {
+  event.preventDefault()
+
+  const fromIndex = draggedIndex.value
+
+  if (fromIndex === null || fromIndex === index) {
+    resetDrag()
+    return
+  }
+
+  const updatedCards = [...cards.value]
+  const [movedCard] = updatedCards.splice(fromIndex, 1)
+
+  updatedCards.splice(index, 0, movedCard)
+  cards.value = updatedCards
+
+  const analysisResults = intelligentAnalisisResult.value?.analisis_results
+
+  if (Array.isArray(analysisResults)) {
+    const updatedAnalysisResults = [...analysisResults]
+    const [movedAnalysisResult] = updatedAnalysisResults.splice(fromIndex, 1)
+
+    updatedAnalysisResults.splice(index, 0, movedAnalysisResult)
+    intelligentAnalisisResult.value = {
+      ...intelligentAnalisisResult.value,
+      analisis_results: updatedAnalysisResults,
+    }
+  }
+
+  resetDrag()
+}
+
+function onDragEnd() {
+  resetDrag()
+}
+
+function resetDrag() {
+  draggedIndex.value = null
+  dragOverIndex.value = null
 }
 
 onMounted(() => {
