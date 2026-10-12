@@ -57,7 +57,7 @@ class PsychologicalStateGeneratorService
 
             $englishTitle = $this->normalizeTitle($item['en'] ?? null);
             $russianTitle = $this->normalizeTitle($item['ru'] ?? null);
-            $ukrainianTitle = $this->normalizeTitle($item['ua'] ?? null);
+            $ukrainianTitle = $this->normalizeTitle($item['uk'] ?? null);
 
             if ($englishTitle === '' || $russianTitle === '' || $ukrainianTitle === '') {
                 echo sprintf('Missing data for item "%s."', $slug) . PHP_EOL;
@@ -74,7 +74,7 @@ class PsychologicalStateGeneratorService
             $state->setSlug($slug);
             $state->addTranslation($this->createTranslation('en', $englishTitle));
             $state->addTranslation($this->createTranslation('ru', $russianTitle));
-            $state->addTranslation($this->createTranslation('ua', $ukrainianTitle));
+            $state->addTranslation($this->createTranslation('uk', $ukrainianTitle));
 
             $this->entityManager->persist($state);
             $saved++;
