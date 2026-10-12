@@ -17,7 +17,7 @@
         :key="card.id"
         class="flex flex-col gap-3 items-center justify-start rounded-xl transition"
         :class="{
-          'opacity-60 scale-[0.98]': draggedIndex === index,
+          'opacity-60': draggedIndex === index,
           'ring-2 ring-[#ff435d]/25 bg-[#ff435d0f] -translate-y-2': dragOverIndex === index,
         }"
         draggable="true"
@@ -143,6 +143,11 @@ function onDrop(index: number, event: DragEvent) {
 
   const updatedCards = [...cards.value]
   const [movedCard] = updatedCards.splice(fromIndex, 1)
+
+  if (!movedCard) {
+    resetDrag()
+    return
+  }
 
   updatedCards.splice(index, 0, movedCard)
   cards.value = updatedCards
