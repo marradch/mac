@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      apiBase: '',
       defaultDeckSlug: 'nature-reflections'
     }
   },
@@ -31,7 +31,6 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
 
   i18n: {
-    lazy: true,
     langDir: 'locales',
     locales: [
       { code: 'en', name: 'English', file: "en.json" },
