@@ -22,7 +22,7 @@ return [
                 'What qualities do they reflect? How do they manifest in relationships, within you, or in a situation? ' .
                 'Notice their interaction: support, conflict, distance, or attraction.',
         ],
-        'ua' => [
+        'uk' => [
             'title' => 'Підбір пари',
             'short_description' => 'Дослідження взаємодії чоловічого та жіночого архетипів.',
             'description' =>

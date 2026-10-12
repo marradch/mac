@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\AI\Service\PsychologicalStateService;
+use App\AI\Service\Generator\PsychologicalStateGeneratorService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class GeneratePsychologicalStatesCommand extends Command
 {
     public function __construct(
-        private PsychologicalStateService $psychologicalStateService,
+        private PsychologicalStateGeneratorService $psychologicalStateGeneratorService,
     ) {
         parent::__construct();
     }
@@ -34,7 +34,7 @@ class GeneratePsychologicalStatesCommand extends Command
         $io->section('Regenerating psychological states');
 
         try {
-            $count = $this->psychologicalStateService->regenerateFromOpenAI($io);
+            $count = $this->psychologicalStateGeneratorService->generate($io);
         } catch (\Throwable $e) {
             $io->error('Failed to regenerate psychological states: ' . $e->getMessage());
             return Command::FAILURE;

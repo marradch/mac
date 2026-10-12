@@ -25,7 +25,7 @@ return [
             'description' =>
                 'The “Choice” exercise with metaphorical associative cards helps explore inner conflicts, doubts, and possible decision-making paths through images and associations. The participant formulates a question or situation that requires a choice and then draws cards for different options or scenarios. Each card helps reveal emotions, hidden motivations, fears, resources, and possible consequences of a particular decision. This practice allows you to see the situation from a new perspective, better understand your inner needs, and make a more conscious choice. In the advanced mode, several cards can be used for each option, allowing for a deeper and more layered analysis. The exercise is suitable for self-discovery, coaching, and psychological work.',
         ],
-        'ua' => [
+        'uk' => [
             'title' => 'Вибір',
             'seo_title' => 'Вибір — вправа з метафоричними картами МАК для прийняття рішень',
             'seo_description' =>

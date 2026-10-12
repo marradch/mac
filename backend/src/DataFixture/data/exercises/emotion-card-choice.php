@@ -27,7 +27,7 @@ return [
             'seo_title' => 'Choose a Card for an Emotion — Metaphorical Cards',
             'seo_description' => 'Explore your emotions with metaphorical cards. Get a random emotion and choose the card that best represents your feelings and associations.',
         ],
-        'ua' => [
+        'uk' => [
             'title' => 'Емоція і карта',
             'short_description' => 'Оберіть карту, яка найкраще відображає задану емоцію.',
             'description' =>

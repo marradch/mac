@@ -27,7 +27,7 @@ return [
             'seo_title' => 'Individual Spread — Metaphorical Cards',
             'seo_description' => 'A personal metaphorical card spread for exploring your question, situation, feelings, and personal associations.',
         ],
-        'ua' => [
+        'uk' => [
             'title' => 'Індивідуальний розклад',
             'short_description' => 'Отримайте персональний розклад для дослідження свого питання або ситуації.',
             'description' =>

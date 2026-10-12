@@ -23,7 +23,7 @@ return [
             'description' =>
                 'The “Question to the Card” exercise is a simple way to work with metaphorical associative cards (MAC). First, enter your question into the text field so the system can generate a hint for you. Then choose a card by clicking on its back side. The image on the card triggers associations and helps you see the situation from a new perspective. This approach helps you better understand your feelings and inner processes. The practice is suitable for self-discovery, coaching, and psychological work.',
         ],
-        'ua' => [
+        'uk' => [
             'title' => 'Запит до карти',
             'seo_title' => 'Запит до карти — вправа з метафоричними картами МАК для самопізнання',
             'seo_description' =>

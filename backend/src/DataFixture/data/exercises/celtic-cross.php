@@ -23,7 +23,7 @@ return [
 
 The spread helps create a broader perspective, discover new insights, and identify internal resources and opportunities for growth.',
         ],
-        'ua' => [
+        'uk' => [
             'title' => 'Кельтський хрест',
             'seo_title' => 'Кельтський хрест — глибокий розклад МАК для дослідження життєвої ситуації',
             'seo_description' => 'Розклад «Кельтський хрест» з метафоричними асоціативними картами допомагає глибоко дослідити ситуацію, побачити приховані впливи, ресурси, перешкоди та можливий напрямок розвитку.',
@@ -40,7 +40,7 @@ The spread helps create a broader perspective, discover new insights, and identi
             'translations' => [
                 'ru' => ['title' => 'Текущая ситуация'],
                 'en' => ['title' => 'Current Situation'],
-                'ua' => ['title' => 'Поточна ситуація'],
+                'uk' => ['title' => 'Поточна ситуація'],
             ],
         ],
         [
@@ -49,7 +49,7 @@ The spread helps create a broader perspective, discover new insights, and identi
             'translations' => [
                 'ru' => ['title' => 'Что препятствует или влияет'],
                 'en' => ['title' => 'Challenge or Influencing Factor'],
-                'ua' => ['title' => 'Що впливає або створює перешкоди'],
+                'uk' => ['title' => 'Що впливає або створює перешкоди'],
             ],
         ],
         [
@@ -58,7 +58,7 @@ The spread helps create a broader perspective, discover new insights, and identi
             'translations' => [
                 'ru' => ['title' => 'Осознанная цель или намерение'],
                 'en' => ['title' => 'Conscious Goal or Intention'],
-                'ua' => ['title' => 'Усвідомлена мета або намір'],
+                'uk' => ['title' => 'Усвідомлена мета або намір'],
             ],
         ],
         [
@@ -67,7 +67,7 @@ The spread helps create a broader perspective, discover new insights, and identi
             'translations' => [
                 'ru' => ['title' => 'Корни ситуации'],
                 'en' => ['title' => 'Roots of the Situation'],
-                'ua' => ['title' => 'Коріння ситуації'],
+                'uk' => ['title' => 'Коріння ситуації'],
             ],
         ],
         [
@@ -76,7 +76,7 @@ The spread helps create a broader perspective, discover new insights, and identi
             'translations' => [
                 'ru' => ['title' => 'Влияние прошлого'],
                 'en' => ['title' => 'Past Influence'],
-                'ua' => ['title' => 'Вплив минулого'],
+                'uk' => ['title' => 'Вплив минулого'],
             ],
         ],
         [
@@ -85,7 +85,7 @@ The spread helps create a broader perspective, discover new insights, and identi
             'translations' => [
                 'ru' => ['title' => 'Вероятное развитие'],
                 'en' => ['title' => 'Likely Development'],
-                'ua' => ['title' => 'Ймовірний розвиток'],
+                'uk' => ['title' => 'Ймовірний розвиток'],
             ],
         ],
         [
@@ -94,7 +94,7 @@ The spread helps create a broader perspective, discover new insights, and identi
             'translations' => [
                 'ru' => ['title' => 'Ваше отношение к ситуации'],
                 'en' => ['title' => 'Your Attitude Toward the Situation'],
-                'ua' => ['title' => 'Ваше ставлення до ситуації'],
+                'uk' => ['title' => 'Ваше ставлення до ситуації'],
             ],
         ],
         [
@@ -103,7 +103,7 @@ The spread helps create a broader perspective, discover new insights, and identi
             'translations' => [
                 'ru' => ['title' => 'Влияние окружения'],
                 'en' => ['title' => 'External Influences'],
-                'ua' => ['title' => 'Вплив оточення'],
+                'uk' => ['title' => 'Вплив оточення'],
             ],
         ],
         [
@@ -112,7 +112,7 @@ The spread helps create a broader perspective, discover new insights, and identi
             'translations' => [
                 'ru' => ['title' => 'Надежды и опасения'],
                 'en' => ['title' => 'Hopes and Fears'],
-                'ua' => ['title' => 'Надії та побоювання'],
+                'uk' => ['title' => 'Надії та побоювання'],
             ],
         ],
         [
@@ -121,7 +121,7 @@ The spread helps create a broader perspective, discover new insights, and identi
             'translations' => [
                 'ru' => ['title' => 'Потенциальный результат'],
                 'en' => ['title' => 'Potential Outcome'],
-                'ua' => ['title' => 'Потенційний результат'],
+                'uk' => ['title' => 'Потенційний результат'],
             ],
         ],
     ],

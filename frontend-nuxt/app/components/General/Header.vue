@@ -105,7 +105,7 @@
 
 <script setup lang="ts">
 const { t, locale, locales, setLocale } = useI18n()
-type LocaleCode = 'en' | 'ua' | 'ru'
+type LocaleCode = 'en' | 'uk' | 'ru'
 
 const localesOpen = ref<boolean>(false)
 const mobileOpen = ref<boolean>(false)

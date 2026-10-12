@@ -14,7 +14,7 @@ final class OpenAIClient
     public function __construct(
         private readonly Client $client,
         private readonly LoggerInterface $logger,
-        private string $model = 'gpt-5.6-luna',//gpt-4o-mini
+        private string $model = 'gpt-4o-mini',//gpt-5.6-luna
     ) {}
 
     public function ask(array $messages): array

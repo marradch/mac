@@ -35,7 +35,7 @@ Additionally, the exercise can provide an intellectual insight — an interpreta
 
 This practice is suitable for self-help, coaching, therapeutic work, and developing awareness.',
         ],
-        'ua' => [
+        'uk' => [
             'title' => 'Підбір ресурсу',
             'seo_title' => 'Підбір ресурсу — метафоричні карти МАК для пошуку внутрішньої опори та підтримки запиту',
             'seo_description' =>

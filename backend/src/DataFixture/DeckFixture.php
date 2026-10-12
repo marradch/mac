@@ -31,7 +31,7 @@ class DeckFixture extends Fixture implements FixtureGroupInterface
                         'title' => 'Nature Reflections',
                         'description' => 'A deck based on nature imagery that reflects your inner state through natural metaphors.'
                     ],
-                    'ua' => [
+                    'uk' => [
                         'title' => 'Відображення природи',
                         'description' => 'Колода, що базується на образах природи та допомагає побачити внутрішній стан через природні метафори.'
                     ],
@@ -51,7 +51,7 @@ class DeckFixture extends Fixture implements FixtureGroupInterface
                         'title' => 'Blossom of Wisdom',
                         'description' => 'A deck that раскрывает inner wisdom through symbols of growth, blooming, and awareness.'
                     ],
-                    'ua' => [
+                    'uk' => [
                         'title' => 'Квітка мудрості',
                         'description' => 'Колода, що розкриває внутрішню мудрість через образи зростання, розквіту та усвідомлення.'
                     ],
@@ -71,7 +71,7 @@ class DeckFixture extends Fixture implements FixtureGroupInterface
                         'title' => 'Sakura',
                         'description' => 'A deck inspired by sakura — a symbol of transience, beauty, and new beginnings.'
                     ],
-                    'ua' => [
+                    'uk' => [
                         'title' => 'Сакура',
                         'description' => 'Колода, натхненна сакурою — символом швидкоплинності, краси та нових початків.'
                     ],

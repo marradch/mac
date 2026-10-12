@@ -6,7 +6,7 @@ Language mapping:
 
 en → write the entire response in English.
 ru → write the entire response in Russian.
-ua → write the entire response in Ukrainian.
+uk → write the entire response in Ukrainian.
 
 IMPORTANT:
 

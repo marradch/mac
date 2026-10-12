@@ -25,7 +25,7 @@ return [
             'description' =>
                 'The “Past, Present and Future” exercise with metaphorical associative cards helps you explore your life journey and inner states through images and associations. The participant works with three time zones: past, present, and future, drawing cards for each of them and interpreting them based on personal experience. The past helps to understand key events and their impact, the present reflects current states and resources, while the future opens possible directions and goals. The exercise also includes an advanced mode where you can use not one but three cards for each time period, allowing for a deeper and more layered analysis of the situation. This practice is suitable for self-discovery, coaching, and psychological work.',
         ],
-        'ua' => [
+        'uk' => [
             'title' => 'Минуле • Теперішнє • Майбутнє',
             'seo_title' => 'Минуле, Теперішнє та Майбутнє — вправа з метафоричними картами МАК для аналізу життя',
             'seo_description' =>
