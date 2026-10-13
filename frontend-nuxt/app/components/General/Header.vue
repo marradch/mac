@@ -3,6 +3,7 @@
 
     <!-- БУРГЕР (mobile) -->
     <button
+        ref="mobileButtonRef"
         class="md:hidden text-white text-lg"
         @click="mobileOpen = !mobileOpen"
     >
@@ -73,6 +74,7 @@
 
     <!-- MOBILE MENU -->
     <div
+        ref="mobileMenuRef"
         v-if="mobileOpen"
         class="text-lg fixed top-12 left-0 right-0 w-full bg-primary md:hidden flex flex-col"
     >
@@ -112,17 +114,35 @@ const mobileOpen = ref<boolean>(false)
 const dropdownRef = ref<HTMLElement| null>(null)
 const currentLocale = locale
 
+const mobileMenuRef = ref<HTMLElement | null>(null)
+const mobileButtonRef = ref<HTMLElement | null>(null)
+
+const handleClickOutside = (event: MouseEvent) => {
+  const target = event.target
+
+  if (!(target instanceof Node)) {
+    return
+  }
+
+  // Клик вне языкового dropdown
+  if (dropdownRef.value && !dropdownRef.value.contains(target)) {
+    localesOpen.value = false
+  }
+
+  // Клик вне мобильного меню
+  if (
+  mobileMenuRef.value &&
+    !mobileMenuRef.value.contains(target) &&
+    !mobileButtonRef.value?.contains(target)
+  ) {
+    mobileOpen.value = false
+  }
+}
+
 const changeLocale = async (code: LocaleCode) => {
   await setLocale(code)
   localesOpen.value = false
-}
-
-const handleClickOutside = (event: MouseEvent) => {
-  if (dropdownRef.value &&
-      event.target instanceof Node &&
-      !dropdownRef.value.contains(event.target)) {
-    localesOpen.value = false
-  }
+  mobileOpen.value = false
 }
 
 onMounted(() => {
