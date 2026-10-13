@@ -7,7 +7,7 @@ const { t } = useI18n()
     <div class="max-w-screen-2xl mx-auto px-4 md:px-8 xl:px-12">
       <footer class="flex flex-col md:flex-row justify-start py-5 gap-4 md:gap-8 text-white text-sm">
         <ul class="leading-relaxed">
-            <li class="font-bold uppercase mb-3">{{ t('footer.legal') }}</li>
+            <li class="font-bold uppercase mb-1 md:mb-2">{{ t('footer.legal') }}</li>
             <li>
                 <NuxtLink to="/privacy-policy" class="text-red-200 hover:text-red-100 transition-colors">
                     {{ t('footer.privacy_policy') }}
@@ -20,7 +20,7 @@ const { t } = useI18n()
             </li>
         </ul>
         <ul class="leading-relaxed">
-            <li class="font-bold uppercase mb-3">{{ t('footer.company') }}</li>
+            <li class="font-bold uppercase mb-1 md:mb-2">{{ t('footer.company') }}</li>
             <li>
                 <NuxtLink to="/contacts" class="text-red-200 hover:text-red-100 transition-colors">
                   {{ t('footer.contacts') }}
