@@ -44,6 +44,7 @@
     "forming_result": "Формуємо результат..."
   },
   "intelligent_analisis_validation_all": "Для отримання інтелектуальної підказки необхідно обрати всі карти та ввести запит",
+  "intelligent_analisis_validation_cards": "Для отримання інтелектуальної підказки необхідно обрати всі карти",
   "variant_1_placeholder": "Введіть опис першого варіанту",
   "variant_2_placeholder": "Введіть опис другого варіанту",
   "cards-number-per-option": "Кількість карт на кожний варіант",

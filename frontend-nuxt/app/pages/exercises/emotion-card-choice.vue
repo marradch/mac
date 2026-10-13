@@ -165,7 +165,7 @@ function intellgentAnalisisConfirm() {
     return
   }
   if (hasEmptyCards()) {
-    showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
+    showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_cards'))
     return
   }
   isConfirmationModalOpen.value = true
@@ -175,7 +175,7 @@ async function getIntelligentHintClick() {
   isConfirmationModalOpen.value = false
 
   if (hasEmptyCards()) {
-    showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_all'))
+    showModalMessage('warning', $t('invalid_input'), $t('intelligent_analisis_validation_cards'))
     return
   }
 
