@@ -15,10 +15,40 @@
     "faq": "Frequently Asked Questions"
   },
   "seo": {
-    "title": "Metaphorical Cards Exercises — Techniques & Practices (MAC)",
-    "description": "Explore exercises with metaphorical associative cards (MAC): practices for self-discovery, psychology, and coaching.",
-    "h1": "Discover Yourself Through Metaphorical Cards",
-    "main_seo_text": "Metaphorical cards are a language of images that helps you hear yourself more deeply than words.\nWelcome to a space where symbols become clues, and a random card can reveal an important meaning.\n\nThis site is created for those who seek answers within, who want to better understand their feelings, relationships, and life situations through metaphors and imagery."
+    "home": {
+      "title": "Metaphorical Cards Exercises — Techniques & Practices (MAC)",
+      "description": "Explore exercises with metaphorical associative cards (MAC): practices for self-discovery, psychology, and coaching.",
+      "h1": "Discover Yourself Through Metaphorical Cards",
+      "main_hero_text": "Metaphorical cards help you better understand your feelings, find answers within yourself, and gain a new perspective on a situation.",
+      "second_hero_text": "This site is created for those who seek answers within, who want to better understand their feelings, relationships, and life situations through metaphors and imagery."
+    },
+    "exercises": {
+      "title": "Metaphorical Cards Exercises — Techniques & Practices (MAC)",
+      "description": "Explore exercises with metaphorical associative cards (MAC): practices for self-discovery, psychology, and coaching.",
+      "h1": "Discover Yourself Through Metaphorical Cards",
+      "main_seo_text": "Metaphorical cards are a language of images that helps you hear yourself more deeply than words.\nWelcome to a space where symbols become clues, and a random card can reveal an important meaning.\n\nThis site is created for those who seek answers within, who want to better understand their feelings, relationships, and life situations through metaphors and imagery."
+    }
+  },
+  "home": {
+    "card_alt": "Metaphorical card {number}",
+    "start_exercise": "Start an exercise",
+    "quick_practice": "Quick practice",
+    "how_it_works": "How does it work?",
+    "pro_title": "MAC Pro",
+    "pro_description": "Unlock the platform's extended capabilities.",
+    "try_pro": "Try Pro",
+    "steps": {
+      "choose": "Choose a state or topic",
+      "card": "Get a card and a question",
+      "answer": "Answer intuitively",
+      "insight": "Get an insight and a new perspective"
+    },
+    "benefits": {
+      "access": "Access to all exercises",
+      "decks": "Access to all decks",
+      "history": "Saved progress and history",
+      "meditations": "Audio meditations"
+    }
   },
   "query_placeholder": "Enter your query, it will be used for intelligent suggestions",
   "exercise_hint": {
