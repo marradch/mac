@@ -38,8 +38,8 @@
     "pro_description": "Unlock the platform's extended capabilities.",
     "try_pro": "Try Pro",
     "steps": {
-      "choose": "Choose a state or topic",
-      "card": "Get a card and a question",
+      "choose": "Choose the topic and question",
+      "card": "Get a card and hint",
       "answer": "Answer intuitively",
       "insight": "Get an insight and a new perspective"
     },
