@@ -16,7 +16,7 @@ final class TopicController extends AbstractController
     ) {
     }
 
-    #[Route('/api/topics/{locale}', 'api_topics_list', methods: ['GET'])]
+    #[Route('/api/topics-home/{locale}', 'api_topics_list', methods: ['GET'])]
     public function list(string $locale): JsonResponse
     {
         $topics = $this->topicService->findAllForHomepageByLocale($locale);

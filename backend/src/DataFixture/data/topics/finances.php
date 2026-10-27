@@ -3,7 +3,7 @@
 return [
     'slug' => 'finances',
     'show_on_homepage' => true,
-    'homepage_order' => 2,
+    'homepage_order' => 50,
     'translations' => [
         'ru' => [
             'title' => 'Финансы',

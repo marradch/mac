@@ -3,7 +3,7 @@
 return [
     'slug' => 'card-of-the-day',
     'show_on_homepage' => true,
-    'homepage_order' => 1,
+    'homepage_order' => 10,
     'translations' => [
         'ru' => [
             'title' => 'Карта дня',

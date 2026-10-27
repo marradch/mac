@@ -2,8 +2,8 @@
 
 return [
     'slug' => 'calling',
-    'show_on_homepage' => true,
-    'homepage_order' => 3,
+    'show_on_homepage' => false,
+    'homepage_order' => 0,
     'translations' => [
         'ru' => [
             'title' => 'Призвание',

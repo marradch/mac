@@ -3,7 +3,7 @@
 return [
     'slug' => 'relationships',
     'show_on_homepage' => true,
-    'homepage_order' => 4,
+    'homepage_order' => 40,
     'translations' => [
         'ru' => [
             'title' => 'Отношения',

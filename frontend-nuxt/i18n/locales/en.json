@@ -48,6 +48,10 @@
       "decks": "Access to all decks",
       "history": "Saved progress and history",
       "meditations": "Audio meditations"
+    },
+    "topics": {
+      "title": "Select Topic",
+      "all_link": "All Topics"
     }
   },
   "query_placeholder": "Enter your query, it will be used for intelligent suggestions",

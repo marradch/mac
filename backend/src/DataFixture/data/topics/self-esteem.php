@@ -2,8 +2,8 @@
 
 return [
     'slug' => 'self-esteem',
-    'show_on_homepage' => false,
-    'homepage_order' => 0,
+    'show_on_homepage' => true,
+    'homepage_order' => 60,
     'translations' => [
         'ru' => [
             'title' => 'Самооценка',

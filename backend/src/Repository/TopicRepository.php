@@ -21,15 +21,26 @@ class TopicRepository extends ServiceEntityRepository
      */
     public function findAllForHomepageByLocale(string $locale): array
     {
-        return $this->createQueryBuilder('topic')
+        return $this->findAllByLocale($locale, true);
+    }
+
+    /**
+     * @return list<Topic>
+     */
+    public function findAllByLocale(string $locale, bool $homepage = false): array
+    {
+        $qb = $this->createQueryBuilder('topic')
             ->leftJoin('topic.translations', 'translation', 'WITH', 'translation.locale = :locale')
             ->addSelect('translation')
-            ->andWhere('topic.showOnHomepage = true')
             ->setParameter('locale', $locale)
             ->orderBy('topic.homepageOrder', 'ASC')
-            ->addOrderBy('topic.id', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ->addOrderBy('topic.id', 'ASC');
+
+        if ($homepage) {
+            $qb->andWhere('topic.showOnHomepage = true');
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     public function findOneBySlugAndLocale(string $slug, string $locale): ?Topic

@@ -10,7 +10,7 @@
             <HomeProPayment class="md:flex-1 lg:flex-none" />
           </aside>
 
-          <section class="order-1 lg:order-2 lg:flex-[3]">
+          <section class="order-1 lg:order-2 lg:flex-[3] flex flex-col gap-5">
             <slot />
           </section>
         </div>
