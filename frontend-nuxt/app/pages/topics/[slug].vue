@@ -28,7 +28,7 @@
               class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-white transition group:bg-primary-hover group:shadow-md"
               :aria-label="`Ask question: ${question.text || question.slug}`"              
             >
-              <ArrowRight class="h-5 w-5 bg-orange-50 group:bg-orange-100" />
+              <ArrowRight class="h-5 w-5" />
             </button>
           </div>
         </div>
