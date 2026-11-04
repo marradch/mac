@@ -3,6 +3,7 @@
 return [
     'slug' => 'emotions',
     'show_on_homepage' => true,
+    'show' => true,
     'homepage_order' => 20,
     'translations' => [
         'ru' => [

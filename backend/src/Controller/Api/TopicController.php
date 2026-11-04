@@ -20,6 +20,15 @@ final class TopicController extends AbstractController
     public function list(string $locale): JsonResponse
     {
         $topics = $this->topicService->findAllForHomepageByLocale($locale);
+        $dtos = $this->topicOutputDTOFactory->makeTopicHomeOutputDTOs($topics);
+
+        return $this->json($dtos);
+    }
+
+    #[Route('/api/topics/{locale}', 'api_topics_all', methods: ['GET'])]
+    public function listAll(string $locale): JsonResponse
+    {
+        $topics = $this->topicService->findAllByLocale($locale);
         $dtos = $this->topicOutputDTOFactory->makeTopicOutputDTOs($topics);
 
         return $this->json($dtos);

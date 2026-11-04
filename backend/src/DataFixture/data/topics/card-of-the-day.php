@@ -3,6 +3,7 @@
 return [
     'slug' => 'card-of-the-day',
     'show_on_homepage' => true,
+    'show' => true,
     'homepage_order' => 10,
     'translations' => [
         'ru' => [

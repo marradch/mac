@@ -33,6 +33,7 @@ class TopicRepository extends ServiceEntityRepository
             ->leftJoin('topic.translations', 'translation', 'WITH', 'translation.locale = :locale')
             ->addSelect('translation')
             ->setParameter('locale', $locale)
+            ->andWhere('topic.show = true')
             ->orderBy('topic.homepageOrder', 'ASC')
             ->addOrderBy('topic.id', 'ASC');
 
@@ -53,6 +54,7 @@ class TopicRepository extends ServiceEntityRepository
             ->leftJoin('question.translations', 'questionTranslation', 'WITH', 'questionTranslation.locale = :locale')
             ->addSelect('questionTranslation')
             ->andWhere('topic.slug = :slug')
+            ->andWhere('topic.show = true')
             ->setParameter('slug', $slug)
             ->setParameter('locale', $locale)
             ->getQuery()

@@ -3,6 +3,7 @@
 return [
     'slug' => 'self-esteem',
     'show_on_homepage' => true,
+    'show' => true,
     'homepage_order' => 60,
     'translations' => [
         'ru' => [

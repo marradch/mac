@@ -23,6 +23,9 @@ class Topic
     #[ORM\Column(name: 'show_on_homepage', options: ['default' => false])]
     private bool $showOnHomepage = false;
 
+    #[ORM\Column(options: ['default' => true])]
+    private bool $show = true;
+
     #[ORM\Column(name: 'homepage_order', options: ['default' => 0])]
     private int $homepageOrder = 0;
 
@@ -79,6 +82,18 @@ class Topic
     public function setShowOnHomepage(bool $showOnHomepage): static
     {
         $this->showOnHomepage = $showOnHomepage;
+
+        return $this;
+    }
+
+    public function isShow(): bool
+    {
+        return $this->show;
+    }
+
+    public function setShow(bool $show): static
+    {
+        $this->show = $show;
 
         return $this;
     }

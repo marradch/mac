@@ -8,8 +8,9 @@ class TopicOutputDTO
     public string $slug;
     public ?string $title;
     public ?string $description;
-    public ?string $seo_title;
-    public ?string $seo_description;
+    public ?string $seoTitle;
+    public ?string $seoDescription;
+    public ?bool $showOnHomepage;
 
     /** @var list<array{slug: string, text: string|null}>|null */
     public ?array $questions;

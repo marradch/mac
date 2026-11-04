@@ -62,6 +62,7 @@ class TopicFixture extends Fixture implements FixtureGroupInterface
 
         $topic->setSlug($item['slug']);
         $topic->setShowOnHomepage($item['show_on_homepage']);
+        $topic->setShow($item['show'] ?? true);
         $topic->setHomepageOrder($item['homepage_order']);
         $manager->persist($topic);
 

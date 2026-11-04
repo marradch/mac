@@ -72,6 +72,27 @@ const deck = ref(config.public.defaultDeckSlug)
 const cards = ref([''])
 const isConfirmationModalOpen = ref(false)
 
+onMounted(() => {
+  if (!import.meta.client) {
+    return
+  }
+
+  const raw = sessionStorage.getItem('question_to_card_query')
+  if (!raw) {
+    return
+  }
+
+  try {
+    const payload = JSON.parse(raw) as { question?: string }
+    if (payload.question) {
+      query.value = payload.question
+      sessionStorage.setItem('question_to_card_query', JSON.stringify({}))
+    }
+  } catch {
+    // ignore invalid session payload
+  }
+})
+
 const isQueryAndCardsActual = ref(true)
 const isQueryActual = ref(true)
 const shouldValidateQueryActuality = ref(false)

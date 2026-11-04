@@ -3,6 +3,7 @@
 return [
     'slug' => 'plans-and-goals',
     'show_on_homepage' => true,
+    'show' => true,
     'homepage_order' => 30,
     'translations' => [
         'ru' => [

@@ -3,6 +3,7 @@
 return [
     'slug' => 'relationships',
     'show_on_homepage' => true,
+    'show' => true,
     'homepage_order' => 40,
     'translations' => [
         'ru' => [

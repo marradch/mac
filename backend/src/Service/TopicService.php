@@ -6,6 +6,7 @@ use App\DTO\Output\TopicOutputDTO;
 use App\Factory\TopicOutputDTOFactory;
 use App\Repository\TopicRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Entity\Topic;
 
 class TopicService
 {
@@ -15,10 +16,16 @@ class TopicService
     ) {
     }
 
-    /** @return list<\App\Entity\Topic> */
+    /** @return list<Topic> */
     public function findAllForHomepageByLocale(string $locale): array
     {
         return $this->topicRepository->findAllForHomepageByLocale($locale);
+    }
+
+    /** @return list<Topic> */
+    public function findAllByLocale(string $locale): array
+    {
+        return $this->topicRepository->findAllByLocale($locale);
     }
 
     public function findOneBySlugAndLocale(string $slug, string $locale): TopicOutputDTO

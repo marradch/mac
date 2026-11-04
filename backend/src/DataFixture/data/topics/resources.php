@@ -3,6 +3,7 @@
 return [
     'slug' => 'resources',
     'show_on_homepage' => false,
+    'show' => true,
     'homepage_order' => 0,
     'translations' => [
         'ru' => [

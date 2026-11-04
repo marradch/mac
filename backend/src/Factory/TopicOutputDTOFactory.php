@@ -15,6 +15,7 @@ class TopicOutputDTOFactory
         $dto = new TopicOutputDTO();
         $dto->slug = $topic->getSlug();
         $dto->title = $translation?->getTitle();
+        $dto->showOnHomepage = $topic->isShowOnHomepage();
 
         return $dto;
     }
@@ -31,6 +32,29 @@ class TopicOutputDTOFactory
         );
     }
 
+    public function makeTopicHomeOutputDTO(Topic $topic): TopicOutputDTO
+    {
+        $translation = $topic->getTranslations()->first();
+
+        $dto = new TopicOutputDTO();
+        $dto->slug = $topic->getSlug();
+        $dto->title = $translation?->getTitle();
+
+        return $dto;
+    }
+
+    /**
+     * @param list<Topic> $topics
+     * @return list<TopicOutputDTO>
+     */
+    public function makeTopicHomeOutputDTOs(array $topics): array
+    {
+        return array_map(
+            fn (Topic $topic): TopicOutputDTO => $this->makeTopicHomeOutputDTO($topic),
+            $topics
+        );
+    }
+
     public function makeTopicPageOutputDTO(Topic $topic): TopicOutputDTO
     {
         $translation = $topic->getTranslations()->first();
@@ -40,8 +64,9 @@ class TopicOutputDTOFactory
         $dto->slug = $topic->getSlug();
         $dto->title = $translation?->getTitle();
         $dto->description = $translation?->getDescription();
-        $dto->seo_title = $translation?->getSeoTitle();
-        $dto->seo_description = $translation?->getSeoDescription();
+        $dto->seoTitle = $translation?->getSeoTitle();
+        $dto->seoDescription = $translation?->getSeoDescription();
+        $dto->showOnHomepage = $topic->isShowOnHomepage();
         $dto->questions = array_map(
             static function (TopicQuestion $question): array {
                 $translation = $question->getTranslations()->first();
