@@ -11,7 +11,7 @@
             {{ t('seo.home.main_hero_text') }}
           </p>
 
-          <p class="hidden xl:block whitespace-pre-line text-sm leading-relaxed text-slate-600 md:text-base">
+          <p class="hidden lg:block whitespace-pre-line text-sm leading-relaxed text-slate-600 md:text-base">
             {{ t('seo.home.second_hero_text') }}
           </p>
         </div>        
