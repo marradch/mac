@@ -52,6 +52,31 @@
     "topics": {
       "title": "Select Topic",
       "all_link": "All Topics"
+    },
+    "mini_exercise": {
+      "try_now": "Try it now",
+      "title": "Mini exercise",
+      "description": "Look at the card and answer the question. There are no right or wrong answers here — what matters is your personal association.",
+      "question_title": "What do you see on this card?",
+      "question_prompt": "What feelings or thoughts does this image evoke in you?",
+      "self_reflection_note": "Your reaction to the card is a clue for self-discovery, not a judgment.",
+      "short_explanation": "This takes less than a minute and helps you understand yourself better.",
+      "feeling_question": "What do you feel?",
+      "answers": {
+        "freedom": "Freedom and ease",
+        "loneliness": "Loneliness",
+        "flight_dreams": "Flight and dreams",
+        "other": "Other..."
+      },
+      "submit": "Answer",
+      "card_back_alt": "Card back",
+      "card_alt": "Card face",
+      "modal": {
+        "success_title": "Thank you for your answer",
+        "success_message": "Thank you for completing this mini exercise!",
+        "required_title": "Choose an answer",
+        "required_message": "Select at least one option to continue."
+      }
     }
   },
   "query_placeholder": "Enter your query, it will be used for intelligent suggestions",

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-3">
     <p class="mb-1 text-sm font-semibold text-slate-800">
-      Что вы чувствуете?
+      {{ t('home.mini_exercise.feeling_question') }}
     </p>
 
     <button
@@ -46,48 +46,54 @@
              hover:bg-primary-hover"
       @click="submitAnswer"
     >
-      Ответить
+      {{ t('home.mini_exercise.submit') }}
     </button>
   </div>
 
   <GeneralMessageModal
-      v-if="modalMessage"
-      :modalMessage="modalMessage"
-      @close="clearModalMessage"
+    v-if="modalMessage"
+    :modalMessage="modalMessage"
+    @close="clearModalMessage"
   />
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import CheckIcon from '~/assets/icons/check.svg'
 
+const { t } = useI18n()
 const { showModalMessage, modalMessage, clearModalMessage } = useModalMessage()
 
-const answers = [
-  'Свобода и лёгкость',
-  'Одиночество',
-  'Полёт и мечты',
-  'Другое...',
-]
+const answers = computed(() => [
+  t('home.mini_exercise.answers.freedom'),
+  t('home.mini_exercise.answers.loneliness'),
+  t('home.mini_exercise.answers.flight_dreams'),
+  t('home.mini_exercise.answers.other'),
+])
 
 const selectedAnswers = ref<string[]>([])
 
 const toggleAnswer = (answer: string) => {
   if (selectedAnswers.value.includes(answer)) {
-    selectedAnswers.value = selectedAnswers.value.filter(
-      (item) => item !== answer,
-    )
+    selectedAnswers.value = selectedAnswers.value.filter((item) => item !== answer)
   } else {
     selectedAnswers.value.push(answer)
   }
 }
 
-
 const submitAnswer = () => {
   if (selectedAnswers.value.length) {
-    showModalMessage('warning', $t('thanks_for_answer'), $t('greatings_for_exercise_performance'))
+    showModalMessage(
+      'warning',
+      t('home.mini_exercise.modal.success_title'),
+      t('home.mini_exercise.modal.success_message'),
+    )
   } else {
-    showModalMessage('warning', $t('input_required'), $t('choose_at_least_one_answer'))
+    showModalMessage(
+      'warning',
+      t('home.mini_exercise.modal.required_title'),
+      t('home.mini_exercise.modal.required_message'),
+    )
   }
 }
 </script>
