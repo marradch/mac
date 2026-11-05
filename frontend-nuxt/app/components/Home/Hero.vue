@@ -17,19 +17,21 @@
         </div>        
 
         <div class="hidden md:block overflow-visible whitespace-nowrap">
-          <NuxtLink
-            to="/exercises"
+          <button
+            type="button"
             class="inline-block min-h-11 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-hover mr-3"
+            @click="goToHeroQuestion"
           >
             {{ t('home.start_exercise') }}
-          </NuxtLink>
+          </button>
 
-          <NuxtLink
-            to="/exercises/resources"
+          <button
+            type="button"
             class="inline-block min-h-11 rounded-lg border border-primary bg-white px-5 py-3 text-sm font-bold text-primary transition hover:bg-pink-50"
+            @click="scrollToMiniExercise"
           >
             {{ t('home.quick_practice') }}
-          </NuxtLink>
+          </button>
         </div>
       </div>
 
@@ -45,18 +47,20 @@
       </div>
 
       <div class="d-block md:hidden order-3 flex flex-col gap-3 sm:flex-row justify-center">
-        <NuxtLink
-          to="/exercises"
+        <button
+          type="button"
           class="inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-hover"
+          @click="goToHeroQuestion"
         >
           {{ t('home.start_exercise') }}
-        </NuxtLink>
-        <NuxtLink
-          to="/exercises/resources"
+        </button>
+        <button
+          type="button"
           class="inline-flex min-h-11 items-center justify-center rounded-lg border border-primary bg-white px-5 py-3 text-sm font-bold text-primary transition hover:bg-pink-50"
+          @click="scrollToMiniExercise"
         >
           {{ t('home.quick_practice') }}
-        </NuxtLink>
+        </button>
       </div>
     </div>
   </section>
@@ -64,12 +68,41 @@
 
 <script setup lang="ts">
 const { t } = useI18n()
+const router = useRouter()
 
 const cards = [
   { src: '/design/path-2.png', position: 'hero-card--left' },
   { src: '/design/light.png', position: 'hero-card--center' },
   { src: '/design/tree-2.png', position: 'hero-card--right' }
 ]
+
+function goToHeroQuestion() {
+  const sessionKey = 'question_to_card_query'
+  const payload = {
+    question: t('home.hero_question'),
+    topicSlug: '',
+    topicTitle: ''
+  }
+
+  if (import.meta.client) {
+    sessionStorage.setItem(sessionKey, JSON.stringify(payload))
+  }
+
+  router.push('/exercises/question-to-card')
+}
+
+function scrollToMiniExercise() {
+  const section = document.getElementById('mini-exercise')
+
+  if (section) {
+    const top = section.getBoundingClientRect().top + window.scrollY - 70
+
+    window.scrollTo({
+      top,
+      behavior: 'smooth'
+    })
+  }
+}
 </script>
 
 <style scoped>

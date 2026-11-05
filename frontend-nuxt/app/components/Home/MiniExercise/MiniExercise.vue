@@ -1,5 +1,6 @@
 <template>
   <section
+    id="mini-exercise"
     class="relative overflow-hidden rounded-xl border border-orange-200
            bg-orange-50 px-5 py-7 shadow-sm sm:px-8 sm:py-9 lg:px-10"
   >
