@@ -1,12 +1,37 @@
 <template>
   <div class="flex flex-col gap-7 pb-10">
-    <div class="mx-auto w-full rounded-xl border border-orange-200 bg-orange-50 p-5 shadow-sm md:p-8">
-      <h1 class="mb-3 text-3xl font-bold text-primary">
-        {{ topic?.title ?? route.params.slug }}
-      </h1>
+    <div class="mx-auto sm:hidden w-full rounded-xl border border-orange-200 bg-orange-50 p-5 shadow-sm md:p-8">
+      <div class="mb-3 flex items-center gap-2">
+        <h1 class="text-3xl font-bold text-primary">
+          {{ topic?.title ?? route.params.slug }}
+        </h1>
+        <component
+          :is="getTopicIcon(String(route.params.slug))"
+          v-if="getTopicIcon(String(route.params.slug))"
+          class="h-10 w-10 shrink-0 text-primary"
+          aria-hidden="true"
+        />
+      </div>
       <p class="text-md text-gray-600">
         {{ topic?.description }}
       </p>
+    </div>
+
+    <div class="hidden sm:flex gap-3 mx-auto w-full rounded-xl border border-orange-200 bg-orange-50 p-5 shadow-sm md:p-8">
+      <component
+        :is="getTopicIcon(String(route.params.slug))"
+        v-if="getTopicIcon(String(route.params.slug))"
+        class="h-20 w-20 shrink-0 text-primary"
+        aria-hidden="true"
+      />
+      <div class="flex flex-col gap-1">
+        <h1 class="text-3xl font-bold text-primary">
+          {{ topic?.title ?? route.params.slug }}
+        </h1>
+        <p class="mt-3 text-md text-gray-600">
+          {{ topic?.description }}
+        </p>
+      </div>
     </div>
 
     <div class="flex flex-col gap-4">
@@ -39,6 +64,18 @@
 <script setup lang="ts">
 import ArrowRight from '~/assets/icons/arrow-right.svg'
 import type { Topic } from '~/types/Topic'
+
+const iconModules = import.meta.glob(
+  '~/assets/icons/topics/*.svg',
+  {
+    eager: true,
+    import: 'default',
+  },
+)
+
+function getTopicIcon(slug: string) {
+  return iconModules[`/assets/icons/topics/${slug}.svg`]
+}
 
 definePageMeta({
   layout: 'payment'
