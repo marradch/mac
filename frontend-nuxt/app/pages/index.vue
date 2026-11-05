@@ -18,7 +18,8 @@
 const { t } = useI18n()
 
 definePageMeta({
-  layout: 'payment'
+  layout: 'payment',
+  layoutLgBreakpointIncrease: true
 })
 
 useHead({
