@@ -3,7 +3,11 @@
 return [
     'slug' => 'celtic-cross',
     'show' => true,
-    'orderInList' => 40,
+    'order_in_list' => 40,
+    'show_on_homepage' => false,
+    'min_execution_min' => 20,
+    'max_execution_min' => 40,
+    'difficulty' => 'complex',
     'translations' => [
         'ru' => [
             'title' => 'Кельтский крест',
@@ -36,7 +40,7 @@ The spread helps create a broader perspective, discover new insights, and identi
     'card_positions' => [
         [
             'slug' => 'current_situation',
-            'orderInList' => 1,
+            'order_in_list' => 1,
             'translations' => [
                 'ru' => ['title' => 'Текущая ситуация'],
                 'en' => ['title' => 'Current Situation'],
@@ -45,7 +49,7 @@ The spread helps create a broader perspective, discover new insights, and identi
         ],
         [
             'slug' => 'challenge',
-            'orderInList' => 2,
+            'order_in_list' => 2,
             'translations' => [
                 'ru' => ['title' => 'Что препятствует или влияет'],
                 'en' => ['title' => 'Challenge or Influencing Factor'],
@@ -54,7 +58,7 @@ The spread helps create a broader perspective, discover new insights, and identi
         ],
         [
             'slug' => 'conscious_goal',
-            'orderInList' => 3,
+            'order_in_list' => 3,
             'translations' => [
                 'ru' => ['title' => 'Осознанная цель или намерение'],
                 'en' => ['title' => 'Conscious Goal or Intention'],
@@ -63,7 +67,7 @@ The spread helps create a broader perspective, discover new insights, and identi
         ],
         [
             'slug' => 'root_cause',
-            'orderInList' => 4,
+            'order_in_list' => 4,
             'translations' => [
                 'ru' => ['title' => 'Корни ситуации'],
                 'en' => ['title' => 'Roots of the Situation'],
@@ -72,7 +76,7 @@ The spread helps create a broader perspective, discover new insights, and identi
         ],
         [
             'slug' => 'past_influence',
-            'orderInList' => 5,
+            'order_in_list' => 5,
             'translations' => [
                 'ru' => ['title' => 'Влияние прошлого'],
                 'en' => ['title' => 'Past Influence'],
@@ -81,7 +85,7 @@ The spread helps create a broader perspective, discover new insights, and identi
         ],
         [
             'slug' => 'near_future',
-            'orderInList' => 6,
+            'order_in_list' => 6,
             'translations' => [
                 'ru' => ['title' => 'Вероятное развитие'],
                 'en' => ['title' => 'Likely Development'],
@@ -90,7 +94,7 @@ The spread helps create a broader perspective, discover new insights, and identi
         ],
         [
             'slug' => 'self_perception',
-            'orderInList' => 7,
+            'order_in_list' => 7,
             'translations' => [
                 'ru' => ['title' => 'Ваше отношение к ситуации'],
                 'en' => ['title' => 'Your Attitude Toward the Situation'],
@@ -99,7 +103,7 @@ The spread helps create a broader perspective, discover new insights, and identi
         ],
         [
             'slug' => 'environment',
-            'orderInList' => 8,
+            'order_in_list' => 8,
             'translations' => [
                 'ru' => ['title' => 'Влияние окружения'],
                 'en' => ['title' => 'External Influences'],
@@ -108,7 +112,7 @@ The spread helps create a broader perspective, discover new insights, and identi
         ],
         [
             'slug' => 'hopes_and_fears',
-            'orderInList' => 9,
+            'order_in_list' => 9,
             'translations' => [
                 'ru' => ['title' => 'Надежды и опасения'],
                 'en' => ['title' => 'Hopes and Fears'],
@@ -117,7 +121,7 @@ The spread helps create a broader perspective, discover new insights, and identi
         ],
         [
             'slug' => 'outcome',
-            'orderInList' => 10,
+            'order_in_list' => 10,
             'translations' => [
                 'ru' => ['title' => 'Потенциальный результат'],
                 'en' => ['title' => 'Potential Outcome'],

@@ -17,6 +17,11 @@ class ExerciseService
         private ExerciseOutputDTOFactory $dtoFactory
     ) {}
 
+    public function findAllForHomepageByLocale(string $locale): array
+    {
+        return $this->exerciseRepository->findAllForHomepageByLocale($locale);
+    }
+
     public function findAllByLocale(string $locale): array
     {
         return $this->exerciseRepository->findAllByLocale($locale);

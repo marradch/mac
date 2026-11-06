@@ -12,6 +12,16 @@
   </section>
 
   <HomeMiniExercise />
+
+  <section>
+    <div class="flex justify-between mb-2 items-center">
+      <h2 class="text-slate-600 text-lg font-bold">{{ t('home.recommendations.title') }}</h2>
+      <NuxtLink to="/exercises" class="text-md text-primary hover:text-black font-semibold">
+        {{ t('home.recommendations.all_link') }}
+      </NuxtLink>
+    </div>
+    <ExerciseList for-home />
+  </section>
 </template>
 
 <script setup lang="ts">

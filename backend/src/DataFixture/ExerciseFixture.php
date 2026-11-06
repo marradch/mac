@@ -51,7 +51,7 @@ class ExerciseFixture extends Fixture implements FixtureGroupInterface
         usort(
             $items,
             static fn (array $a, array $b): int =>
-                $a['orderInList'] <=> $b['orderInList']
+                $a['order_in_list'] <=> $b['order_in_list']
         );
 
         return $items;
@@ -77,8 +77,12 @@ class ExerciseFixture extends Fixture implements FixtureGroupInterface
             $this->clearExercise($manager, $exercise);
         }
 
-        $exercise->setOrderInList($item['orderInList']);
+        $exercise->setOrderInList($item['order_in_list']);
         $exercise->setShow($item['show']);
+        $exercise->setShowOnHomepage($item['show_on_homepage'] ?? false);
+        $exercise->setMinExecutionMin($item['min_execution_min'] ?? 5);
+        $exercise->setMaxExecutionMin($item['max_execution_min'] ?? 30);
+        $exercise->setDifficulty($item['difficulty'] ?? 'easy');
 
         $this->persistExerciseTranslations(
             $manager,
@@ -188,7 +192,7 @@ class ExerciseFixture extends Fixture implements FixtureGroupInterface
             $spreadCard = new SpreadCard();
 
             $spreadCard->setSlug($cardPosition['slug']);
-            $spreadCard->setOrderInList($cardPosition['orderInList']);
+            $spreadCard->setOrderInList($cardPosition['order_in_list']);
             $spreadCard->setSpread($spread);
 
             $manager->persist($spreadCard);

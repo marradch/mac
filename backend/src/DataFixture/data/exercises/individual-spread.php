@@ -3,7 +3,11 @@
 return [
     'slug' => 'individual-spread',
     'show' => true,
-    'orderInList' => 70,
+    'order_in_list' => 70,
+    'show_on_homepage' => false,
+    'min_execution_min' => 15,
+    'max_execution_min' => 30,
+    'difficulty' => 'middle',
     'translations' => [
         'ru' => [
             'title' => 'Индивидуальный расклад',

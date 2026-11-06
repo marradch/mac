@@ -3,7 +3,11 @@
 return [
     'slug' => 'man-woman-pair',
     'show' => false,
-    'orderInList' => 50,
+    'order_in_list' => 50,
+    'show_on_homepage' => false,
+    'min_execution_min' => 10,
+    'max_execution_min' => 20,
+    'difficulty' => 'middle',
     'translations' => [
         'ru' => [
             'title' => 'Подбор пары',

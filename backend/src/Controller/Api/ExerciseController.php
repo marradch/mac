@@ -31,5 +31,14 @@ final class ExerciseController extends AbstractController
 
         return $this->json($dto);
     }
+
+    #[Route('/api/exercises-home/{locale}', 'api_exercises_home', methods: ['GET'])]
+    public function homeList(string $locale): JsonResponse
+    {
+        $exercises = $this->service->findAllForHomepageByLocale($locale);
+        $dtos = $this->factory->makeExerciseOutputDTOs($exercises);
+
+        return $this->json($dtos);
+    }
 }
 

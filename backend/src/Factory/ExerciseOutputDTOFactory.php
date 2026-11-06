@@ -14,6 +14,10 @@ class ExerciseOutputDTOFactory {
         $dto = new ExerciseOutputDTO();
         $dto->id = $exercise->getId();
         $dto->slug = $exercise->getSlug();
+        $dto->minExecutionMin = $exercise->getMinExecutionMin();
+        $dto->maxExecutionMin = $exercise->getMaxExecutionMin();
+        $dto->difficulty = $exercise->getDifficulty()->value;
+
         if ($translation) {
             $dto->title = $translation?->getTitle();
             $dto->description = $translation?->getShortDescription();
@@ -36,8 +40,11 @@ class ExerciseOutputDTOFactory {
         $dto->slug = $exercise->getSlug();
         $dto->title = $translation?->getTitle();
         $dto->description = $translation?->getDescription();
-        $dto->seo_title = $translation?->getSeoTitle();
-        $dto->seo_description = $translation?->getSeoDescription();
+        $dto->seoTitle = $translation?->getSeoTitle();
+        $dto->seoDescription = $translation?->getSeoDescription();
+        $dto->minExecutionMin = $exercise->getMinExecutionMin();
+        $dto->maxExecutionMin = $exercise->getMaxExecutionMin();
+        $dto->difficulty = $exercise->getDifficulty()->value;
         $dto->spread = array_map(function (SpreadCard $card) {
             $translation = $card->getSpreadCardTranslations()->first();
 

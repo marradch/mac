@@ -23,10 +23,10 @@
       "second_hero_text": "This site is created for those who seek answers within, who want to better understand their feelings, relationships, and life situations through metaphors and imagery."
     },
     "exercises": {
-      "title": "Metaphorical Cards Exercises — Techniques & Practices (MAC)",
-      "description": "Explore exercises with metaphorical associative cards (MAC): practices for self-discovery, psychology, and coaching.",
-      "h1": "Discover Yourself Through Metaphorical Cards",
-      "main_seo_text": "Metaphorical cards are a language of images that helps you hear yourself more deeply than words.\nWelcome to a space where symbols become clues, and a random card can reveal an important meaning.\n\nThis site is created for those who seek answers within, who want to better understand their feelings, relationships, and life situations through metaphors and imagery."
+      "title": "Self-discovery exercises",
+      "description": "Choose exercises with metaphorical cards, explore your feelings, thoughts, and inner resources at a pace that feels comfortable for you.",
+      "h1": "Self-discovery exercises",
+      "main_seo_text": "Choose exercises with metaphorical cards, explore your feelings, thoughts, and inner resources at a pace that feels comfortable for you."
     }
   },
   "home": {
@@ -53,6 +53,10 @@
     "topics": {
       "title": "Select Topic",
       "all_link": "All Topics"
+    },
+    "recommendations": {
+      "title": "Recommendations",
+      "all_link": "All exercises"
     },
     "mini_exercise": {
       "try_now": "Try it now",
@@ -152,5 +156,14 @@
   "dublicate_input": "Duplicate submission",
   "dublicate_input_message": "You have already received a hint for this query and cards. To get another hint, please change your query or select new cards.",
   "dublicate_query": "Duplicate query",
-  "dublicate_query_message": "You have already received a hint for this query. To get another hint, please change your query."
+  "dublicate_query_message": "You have already received a hint for this query. To get another hint, please change your query.",
+  "exercise": {
+    "min": "min",
+    "free": "Free",
+    "difficulty": {
+      "easy": "Easy",
+      "middle": "Medium",
+      "complex": "Complex"
+    }
+  }
 }

@@ -26,16 +26,28 @@ class ExerciseRepository extends ServiceEntityRepository
     /**
      * @return Exercise[]
      */
-    public function findAllByLocale(string $locale): array
+    public function findAllForHomepageByLocale(string $locale): array
     {
-        return $this->createQueryBuilder('e')
+        return $this->findAllByLocale($locale, true);
+    }
+
+    /**
+     * @return Exercise[]
+     */
+    public function findAllByLocale(string $locale, bool $homepage = false): array
+    {
+        $qb = $this->createQueryBuilder('e')
             ->leftJoin('e.translations', 't', 'WITH', 't.locale = :locale')
             ->addSelect('t')
             ->andWhere('e.show = true')
             ->setParameter('locale', $locale)
-            ->orderBy('e.orderInList', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('e.orderInList', 'ASC');
+
+        if ($homepage) {
+            $qb->andWhere('e.showOnHomepage = true');
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     public function findOneBySlugAndLocale(string $locale, string $slug): ?Exercise

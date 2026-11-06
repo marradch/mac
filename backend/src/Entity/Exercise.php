@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\Difficulty;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,6 +20,18 @@ class Exercise
 
     #[ORM\Column(length: 120)]
     private string $slug;
+
+    #[ORM\Column(name: 'show_on_homepage', options: ['default' => false])]
+    private bool $showOnHomepage = false;
+
+    #[ORM\Column(name: 'min_execution_min', options: ['default' => 5])]
+    private int $minExecutionMin = 5;
+
+    #[ORM\Column(name: 'max_execution_min', options: ['default' => 30])]
+    private int $maxExecutionMin = 30;
+
+    #[ORM\Column(type: 'string', length: 20, enumType: Difficulty::class, options: ['default' => 'easy'])]
+    private Difficulty $difficulty = Difficulty::EASY;
 
     #[ORM\OneToMany(
     mappedBy: 'exercise',
@@ -55,6 +68,54 @@ class Exercise
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
+    }
+
+    public function isShowOnHomepage(): bool
+    {
+        return $this->showOnHomepage;
+    }
+
+    public function setShowOnHomepage(bool $showOnHomepage): static
+    {
+        $this->showOnHomepage = $showOnHomepage;
+
+        return $this;
+    }
+
+    public function getMinExecutionMin(): int
+    {
+        return $this->minExecutionMin;
+    }
+
+    public function setMinExecutionMin(int $minExecutionMin): static
+    {
+        $this->minExecutionMin = $minExecutionMin;
+
+        return $this;
+    }
+
+    public function getMaxExecutionMin(): int
+    {
+        return $this->maxExecutionMin;
+    }
+
+    public function setMaxExecutionMin(int $maxExecutionMin): static
+    {
+        $this->maxExecutionMin = $maxExecutionMin;
+
+        return $this;
+    }
+
+    public function getDifficulty(): Difficulty
+    {
+        return $this->difficulty;
+    }
+
+    public function setDifficulty(Difficulty|string $difficulty): static
+    {
+        $this->difficulty = $difficulty instanceof Difficulty ? $difficulty : Difficulty::from($difficulty);
+
+        return $this;
     }
 
     public function getTranslations()

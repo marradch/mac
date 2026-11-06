@@ -3,7 +3,11 @@
 return [
     'slug' => 'resources',
     'show' => true,
-    'orderInList' => 30,
+    'order_in_list' => 30,
+    'show_on_homepage' => false,
+    'min_execution_min' => 10,
+    'max_execution_min' => 20,
+    'difficulty' => 'middle',
     'translations' => [
         'ru' => [
             'title' => 'Подбор ресурса',

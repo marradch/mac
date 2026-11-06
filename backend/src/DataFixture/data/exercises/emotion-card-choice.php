@@ -3,7 +3,11 @@
 return [
     'slug' => 'emotion-card-choice',
     'show' => true,
-    'orderInList' => 60,
+    'order_in_list' => 60,
+    'show_on_homepage' => false,
+    'min_execution_min' => 5,
+    'max_execution_min' => 10,
+    'difficulty' => 'easy',
     'translations' => [
         'ru' => [
             'title' => 'Эмоция и карта',
