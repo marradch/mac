@@ -27,6 +27,12 @@
       "description": "Choose exercises with metaphorical cards, explore your feelings, thoughts, and inner resources at a pace that feels comfortable for you.",
       "h1": "Self-discovery exercises",
       "main_seo_text": "Choose exercises with metaphorical cards, explore your feelings, thoughts, and inner resources at a pace that feels comfortable for you."
+    },
+    "topics": {
+      "title": "Topics for self-discovery",
+      "description": "Choose the topic that interests you and explore your thoughts, feelings, relationships, and desires through metaphorical associative cards.",
+      "h1": "Topics for self-discovery",
+      "main_seo_text": "Choose the topic that interests you and explore your thoughts, feelings, relationships, and desires through metaphorical associative cards."
     }
   },
   "home": {
@@ -53,6 +59,10 @@
     "topics": {
       "title": "Select Topic",
       "all_link": "All Topics"
+    },
+    "page": {
+      "title": "Topics for self-discovery",
+      "description": "Choose the topic that interests you and explore your thoughts, feelings, relationships, and desires through metaphorical associative cards."
     },
     "recommendations": {
       "title": "Recommendations",

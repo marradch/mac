@@ -4,11 +4,11 @@
   <section>
     <div class="flex justify-between mb-2 items-center">
       <h2 class="text-slate-600 text-lg font-bold">{{ t('home.topics.title') }}</h2>
-      <NuxtLink to="/" class="text-md text-primary hover:text-black font-semibold">
+      <NuxtLink to="/topics" class="text-md text-primary hover:text-black font-semibold">
         {{ t('home.topics.all_link') }}
       </NuxtLink>
     </div>
-    <TopicList />
+    <TopicList for-home />
   </section>
 
   <HomeMiniExercise />
