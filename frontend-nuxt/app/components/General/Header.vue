@@ -6,7 +6,7 @@
         <!-- БУРГЕР (mobile) -->
         <button
             ref="mobileButtonRef"
-            class="md:hidden text-white text-lg"
+            class="md:hidden text-white text-2xl"
             @click="mobileOpen = !mobileOpen"
         >
           {{ mobileOpen ? '✕' : '☰' }}
@@ -17,26 +17,34 @@
             to="/"
             class="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0"
         >
-          <img src="/logo.png" class="h-14 w-auto" />
+          <img src="/logo.png" class="h-16 w-auto" />
         </NuxtLink>
+
+        <!-- КНОПКА РЕГИСТРАЦИИ (mobile) -->
+        <!--<button
+          type="button"
+          @click="isRegModalOpen = !isRegModalOpen"
+          class="md:hidden rounded-lg bg-white px-3 py-2 text-md font-semibold text-primary shadow-sm"
+        >
+          {{ t('header.register') }}
+        </button>-->
 
         <!-- ДЕСКТОП МЕНЮ -->
         <div class="hidden md:flex justify-between items-center w-full ml-6">
-
           <div class="flex">
-            <NuxtLink to="/exercises" class="p-4 text-white hover:bg-primary-hover">
+            <NuxtLink to="/exercises" class="p-5 text-white hover:bg-primary-hover">
               {{ t('header.exercises') }}
             </NuxtLink>
 
-            <NuxtLink to="/decks" class="p-4 text-white hover:bg-primary-hover">
+            <NuxtLink to="/decks" class="p-5 text-white hover:bg-primary-hover">
               {{ t('header.decks') }}
             </NuxtLink>
 
-            <NuxtLink to="/about" class="p-4 text-white hover:bg-primary-hover">
+            <NuxtLink to="/about" class="p-5 text-white hover:bg-primary-hover">
               {{ t('header.about') }}
             </NuxtLink>
 
-            <NuxtLink to="/contacts" class="p-4 text-white hover:bg-primary-hover">
+            <NuxtLink to="/contacts" class="p-5 text-white hover:bg-primary-hover">
               {{ t('header.contacts') }}
             </NuxtLink>
           </div>
@@ -47,7 +55,7 @@
             <div class="relative">
               <button
                   @click.stop="localesOpen = !localesOpen"
-                  class="p-4 text-white hover:bg-primary-hover"
+                  class="p-5 text-white hover:bg-primary-hover"
               >
                 {{ currentLocale.toUpperCase() }} ▾
               </button>
@@ -68,9 +76,23 @@
               </div>
             </div>
 
-            <NuxtLink to="/login" class="p-4 text-white hover:bg-primary-hover">
+            <!-- КНОПКА ВХОДА (desktop) -->
+            <button
+              type="button"
+              @click="isLoginModalOpen = true"
+              class="p-5 text-white hover:bg-primary-hover"
+            >
               {{ t('header.login') }}
-            </NuxtLink>
+            </button>
+
+            <!-- КНОПКА РЕГИСТРАЦИИ (desktop) -->
+            <!--<button
+              type="button"
+              @click="isRegModalOpen = !isRegModalOpen"
+              class="rounded-lg bg-white px-4 py-2 text-md font-semibold text-primary shadow-sm transition hover:bg-gray-100"
+            >
+              {{ t('header.register') }}
+            </button>-->
           </div>
         </div>
 
@@ -78,7 +100,7 @@
         <div
             ref="mobileMenuRef"
             v-if="mobileOpen"
-            class="text-lg fixed top-12 left-0 right-0 w-full bg-primary md:hidden flex flex-col"
+            class="text-lg fixed top-14 left-0 right-0 w-full bg-primary md:hidden flex flex-col"
         >
           <NuxtLink to="/" @click="mobileOpen = false" class="p-4 text-white hover:bg-primary-hover">{{ t('header.exercises') }}</NuxtLink>
           <NuxtLink to="/decks" @click="mobileOpen = false" class="p-4 text-white hover:bg-primary-hover">{{ t('header.decks') }}</NuxtLink>
@@ -101,12 +123,30 @@
             </button>
           </div>
 
-          <NuxtLink to="/login" @click="mobileOpen = false" class="p-4 text-white">{{ t('header.login') }}</NuxtLink>
+          <button
+            type="button"
+            @click="isLoginModalOpen = true; mobileOpen = false"
+            class="p-4 text-left text-white"
+          >
+            {{ t('header.login') }}
+          </button>
         </div>
-
       </header>
     </div>
-  </div>  
+  </div>
+
+  <GeneralRegisterModal
+    :open="isRegModalOpen"
+    @close="isRegModalOpen = false"
+    @submit="handleRegisterSubmit"
+  />
+
+  <GeneralLoginModal
+    :open="isLoginModalOpen"
+    @close="isLoginModalOpen = false"
+    @submit="handleLoginSubmit"
+    @switch-to-register="openRegisterModalFromLogin"
+  />
 </template>
 
 <script setup lang="ts">
@@ -115,11 +155,26 @@ type LocaleCode = 'en' | 'uk' | 'ru'
 
 const localesOpen = ref<boolean>(false)
 const mobileOpen = ref<boolean>(false)
-const dropdownRef = ref<HTMLElement| null>(null)
+const isRegModalOpen = ref<boolean>(false)
+const isLoginModalOpen = ref<boolean>(false)
+const dropdownRef = ref<HTMLElement | null>(null)
 const currentLocale = locale
 
 const mobileMenuRef = ref<HTMLElement | null>(null)
 const mobileButtonRef = ref<HTMLElement | null>(null)
+
+const openRegisterModalFromLogin = () => {
+  isLoginModalOpen.value = false
+  isRegModalOpen.value = true
+}
+
+const handleRegisterSubmit = (payload: { name: string; email: string; password: string }) => {
+  isRegModalOpen.value = false
+}
+
+const handleLoginSubmit = (payload: { email: string; password: string }) => {
+  isLoginModalOpen.value = false
+}
 
 const handleClickOutside = (event: MouseEvent) => {
   const target = event.target
@@ -128,14 +183,12 @@ const handleClickOutside = (event: MouseEvent) => {
     return
   }
 
-  // Клик вне языкового dropdown
   if (dropdownRef.value && !dropdownRef.value.contains(target)) {
     localesOpen.value = false
   }
 
-  // Клик вне мобильного меню
   if (
-  mobileMenuRef.value &&
+    mobileMenuRef.value &&
     !mobileMenuRef.value.contains(target) &&
     !mobileButtonRef.value?.contains(target)
   ) {

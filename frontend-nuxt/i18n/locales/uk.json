@@ -4,7 +4,8 @@
     "decks": "Колоди",
     "about": "Про нас",
     "contacts": "Контакти",
-    "login": "Увійти"
+    "login": "Увійти",
+    "register": "Реєстрація"
   },
   "footer": {
     "legal": "Правова інформація",
@@ -174,6 +175,41 @@
       "easy": "Легке",
       "middle": "Середнє",
       "complex": "Складне"
+    }
+  },
+  "auth": {
+    "general": {
+      "email": "Email",
+      "password": "Пароль",
+      "emailPlaceholder": "Введіть ваш email",
+      "passwordPlaceholder": "Введіть пароль",
+      "errors": {
+        "emailRequired": "Email обов'язковий",
+        "emailInvalid": "Введіть коректний email",
+        "passwordRequired": "Пароль обов'язковий",
+        "passwordMin": "Мінімум 8 символів"
+      }
+    },
+    "login": {
+      "submit": "Увійти",
+      "noAccount": "Немає аккаунта?",
+      "registerLink": "Зареєструватися"
+    },
+    "register": {
+      "name": "Ім'я",
+      "email": "Email",
+      "password": "Пароль",
+      "confirmPassword": "Підтвердіть пароль",
+      "namePlaceholder": "Ваше ім'я",
+      "passwordPlaceholder": "Введіть пароль",
+      "confirmPasswordPlaceholder": "Повторіть пароль",
+      "submit": "Створити акаунт",
+      "errors": {
+        "nameRequired": "Ім'я обов'язкове",
+        "nameMin": "Мінімум 2 символи",
+        "confirmRequired": "Підтвердження пароля обов'язкове",
+        "confirmMismatch": "Паролі не співпадають"
+      }
     }
   }
 }

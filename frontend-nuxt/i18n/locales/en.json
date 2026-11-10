@@ -4,7 +4,8 @@
     "decks": "Decks",
     "about": "About",
     "contacts": "Contacts",
-    "login": "Login"
+    "login": "Login",
+    "register": "Register"
   },
   "footer": {
     "legal": "Legal information",
@@ -174,6 +175,38 @@
       "easy": "Easy",
       "middle": "Medium",
       "complex": "Complex"
+    }
+  },
+  "auth": {
+    "general": {
+      "email": "Email",
+      "password": "Password",
+      "emailPlaceholder": "Enter your email",
+      "passwordPlaceholder": "Enter password",
+      "errors": {
+        "emailRequired": "Email is required",
+        "emailInvalid": "Enter a valid email",
+        "passwordRequired": "Password is required",
+        "passwordMin": "Min 8 characters"
+      }
+    },
+    "login": {
+      "submit": "Login",
+      "noAccount": "No account?",
+      "registerLink": "Register"
+    },
+    "register": {
+      "name": "Name",
+      "confirmPassword": "Confirm password",
+      "namePlaceholder": "Your name",
+      "confirmPasswordPlaceholder": "Repeat password",
+      "submit": "Create account",
+      "errors": {
+        "nameRequired": "Name is required",
+        "nameMin": "Minimum 2 characters",
+        "confirmRequired": "Confirm password is required",
+        "confirmMismatch": "Passwords do not match"
+      }
     }
   }
 }

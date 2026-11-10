@@ -4,7 +4,8 @@
     "decks": "Колоды",
     "about": "О нас",
     "contacts": "Контакты",
-    "login": "Войти"
+    "login": "Войти",
+    "register": "Регистрация"
   },
   "footer": {
     "legal": "Правовая информация",
@@ -174,6 +175,41 @@
       "easy": "Лёгкое",
       "middle": "Среднее",
       "complex": "Сложное"
+    }
+  },
+  "auth": {
+    "general": {
+      "email": "Email",
+      "password": "Пароль",
+      "emailPlaceholder": "Введите ваш email",
+      "passwordPlaceholder": "Введите пароль",
+      "errors": {
+        "emailRequired": "Email обязателен",
+        "emailInvalid": "Введите корректный email",
+        "passwordRequired": "Пароль обязателен",
+        "passwordMin": "Минимум 8 символов"
+      }
+    },
+    "login": {
+      "submit": "Войти",
+      "noAccount": "Нет аккаунта?",
+      "registerLink": "Зарегистрироваться"
+    },
+    "register": {
+      "name": "Имя",
+      "email": "Email",
+      "password": "Пароль",
+      "confirmPassword": "Подтвердите пароль",
+      "namePlaceholder": "Ваше имя",
+      "passwordPlaceholder": "Введите пароль",
+      "confirmPasswordPlaceholder": "Повторите пароль",
+      "submit": "Создать аккаунт",
+      "errors": {
+        "nameRequired": "Имя обязательно",
+        "nameMin": "Минимум 2 символа",
+        "confirmRequired": "Подтверждение пароля обязательно",
+        "confirmMismatch": "Пароли не совпадают"
+      }
     }
   }
 }
