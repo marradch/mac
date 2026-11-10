@@ -26,7 +26,6 @@ useHead({
 })
 
 definePageMeta({
-  layout: 'payment',
-  layoutLgBreakpointIncrease: true
+  layout: 'payment'
 })
 </script>

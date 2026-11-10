@@ -1,5 +1,6 @@
 <template>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10"
+       :class="gridBigBreakPointClass">
     <ExerciseCard
       v-for="exercise in exercises"
       :key="exercise.slug"
@@ -26,5 +27,13 @@ const url = computed(() =>
 
 const { data: exercises, status, error } = await useFetch<ExerciseCard[]>(url, {
   baseURL: config.public.apiBase,
+})
+
+const gridBigBreakPointClass = computed(() => {
+  if (props.forHome) {
+    return 'lg:grid-cols-3'
+  } else {
+    return 'xl:grid-cols-3'
+  }
 })
 </script>
