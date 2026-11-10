@@ -80,7 +80,7 @@
             <button
               type="button"
               @click="isLoginModalOpen = true"
-              class="p-5 pe-0 text-white hover:bg-primary-hover text-md"
+              class="p-5 text-white hover:bg-primary-hover text-md"
             >
               {{ t('header.login') }}
             </button>
