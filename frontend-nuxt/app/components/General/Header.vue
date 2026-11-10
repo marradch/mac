@@ -32,19 +32,19 @@
         <!-- ДЕСКТОП МЕНЮ -->
         <div class="hidden md:flex justify-between items-center w-full ml-6">
           <div class="flex">
-            <NuxtLink to="/exercises" class="p-5 text-white hover:bg-primary-hover">
+            <NuxtLink to="/exercises" class="p-5 text-white hover:bg-primary-hover text-md">
               {{ t('header.exercises') }}
             </NuxtLink>
 
-            <NuxtLink to="/decks" class="p-5 text-white hover:bg-primary-hover">
+            <NuxtLink to="/decks" class="p-5 text-white hover:bg-primary-hover text-md">
               {{ t('header.decks') }}
             </NuxtLink>
 
-            <NuxtLink to="/about" class="p-5 text-white hover:bg-primary-hover">
+            <NuxtLink to="/about" class="p-5 text-white hover:bg-primary-hover text-md">
               {{ t('header.about') }}
             </NuxtLink>
 
-            <NuxtLink to="/contacts" class="p-5 text-white hover:bg-primary-hover">
+            <NuxtLink to="/contacts" class="p-5 text-white hover:bg-primary-hover text-md">
               {{ t('header.contacts') }}
             </NuxtLink>
           </div>
@@ -80,7 +80,7 @@
             <button
               type="button"
               @click="isLoginModalOpen = true"
-              class="p-5 text-white hover:bg-primary-hover"
+              class="p-5 pe-0 text-white hover:bg-primary-hover text-md"
             >
               {{ t('header.login') }}
             </button>
