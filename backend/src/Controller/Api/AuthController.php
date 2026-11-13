@@ -5,7 +5,6 @@ namespace App\Controller\Api;
 use App\DTO\Input\LoginUserDTO;
 use App\DTO\Input\RegisterUserDTO;
 use App\DTO\Output\LoginUserOutputDTO;
-use App\DTO\Output\RegisteredUserOutputDTO;
 use App\Service\AuthService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,10 +21,9 @@ final class AuthController extends AbstractController
     #[Route('/api/auth/register', 'api_auth_register', methods: ['POST'])]
     public function register(#[MapRequestPayload] RegisterUserDTO $dto): JsonResponse
     {
-        /** @var RegisteredUserOutputDTO $userOutputDTO */
-        $userOutputDTO = $this->authService->register($dto);
+        $this->authService->register($dto);
 
-        return $this->json($userOutputDTO, 201);
+        return $this->json(['status' =>'success'], 201);
     }
 
     #[Route('/api/auth/login', 'api_auth_login', methods: ['POST'])]

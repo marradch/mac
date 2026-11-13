@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use App\Exception\RetryableException;
+use App\Exception\UserAlreadyExistsException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ApiExceptionSubscriber implements EventSubscriberInterface
@@ -72,14 +73,19 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
                 'message' => $exception->getMessage(),
             ], 404);
             $event->setResponse($response);
-        }/*else {
+        } else if ($exception instanceof UserAlreadyExistsException) {
+            $response = new JsonResponse([
+                'status' => 'error',
+                'message' => $exception->getMessage(),
+            ], 409);
+            $event->setResponse($response);
+        } else {
             $response = new JsonResponse([
                 'status' => 'error',
                 'type' => 'internal_error',
                 'message' => 'Something went wrong',
             ], 500);
-        }*/
-
-        //$event->setResponse($response);
+            $event->setResponse($response);
+        }
     }
 }

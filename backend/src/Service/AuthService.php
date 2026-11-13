@@ -5,7 +5,6 @@ namespace App\Service;
 use App\DTO\Input\LoginUserDTO;
 use App\DTO\Input\RegisterUserDTO;
 use App\DTO\Output\LoginUserOutputDTO;
-use App\DTO\Output\RegisteredUserOutputDTO;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,6 +13,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Exception\UserAlreadyExistsException;
 
 final class AuthService
 {
@@ -25,16 +25,13 @@ final class AuthService
     ) {
     }
 
-    /**
-     * @return RegisteredUserOutputDTO
-     */
-    public function register(RegisterUserDTO $dto): RegisteredUserOutputDTO
+    public function register(RegisterUserDTO $dto): void
     {
         $name = $dto->name;
         $email = $dto->email;
 
         if ($this->userRepository->findOneBy(['email' => $email]) !== null) {
-            throw new ConflictHttpException('User with this email already exists');
+            throw new UserAlreadyExistsException();
         }
 
         $user = new User();
@@ -47,11 +44,9 @@ final class AuthService
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        return new RegisteredUserOutputDTO(
-            (int) $user->getId(),
-            $user->getName(),
-            $user->getEmail(),
-        );
+        if ($user->getId() === null) {
+            throw new \RuntimeException('User was not registered');
+        }
     }
 
     public function login(LoginUserDTO $dto): LoginUserOutputDTO
