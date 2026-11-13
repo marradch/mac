@@ -11,7 +11,7 @@
     <div class="flex flex-col sm:flex-row gap-3 items-center">
       <div class="text-start text-gray-600">{{$t('cards-number')}}</div>
       <div class="w-full sm:w-[100px]">
-        <select v-model.number="numberOfCards" class="w-full px-2 py-1 border rounded">
+        <select v-model.number="numberOfCards" class="w-full border border-gray-200 bg-white px-2 py-1 rounded-lg shadow-sm transition focus:border-gray-400 focus:outline-none focus:ring-0">
           <option value="1">1</option>
           <option value="3">3</option>
         </select>

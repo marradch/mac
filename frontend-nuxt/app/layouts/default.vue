@@ -1,10 +1,10 @@
 <template>
-  <div class="min-h-screen bg-white flex flex-col">
+  <div class="min-h-screen bg-slate-50 flex flex-col">
 
     <GeneralHeader />
 
     <!-- Основной контент с контейнером -->
-    <main class="flex-1 pt-9 md:pt-12">
+    <main class="flex-1 pt-20 md:pt-24">
       <div class="max-w-screen-2xl mx-auto px-4 md:px-8 xl:px-12">
         <slot />
       </div>

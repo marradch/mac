@@ -8,7 +8,7 @@
             v-model="query"
             :placeholder="$t('query_placeholder')"
             rows="1"
-            class="w-full min-h-[3cm] lg:min-h-[2cm] max-h-40 overflow-y-auto px-4 py-2 border rounded-lg resize-none shadow-sm"
+            class="w-full min-h-[3cm] lg:min-h-[2cm] max-h-40 overflow-y-auto border border-gray-200 bg-white px-4 py-2 rounded-lg shadow-sm resize-none transition focus:border-gray-400 focus:outline-none focus:ring-0"
         />
         <ExerciseLoadingAIButton 
           v-if="individual"
