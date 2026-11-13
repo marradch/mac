@@ -73,18 +73,12 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
                 'message' => $exception->getMessage(),
             ], 404);
             $event->setResponse($response);
-        } else if ($exception instanceof UserAlreadyExistsException) {
+        } else  {
             $response = new JsonResponse([
                 'status' => 'error',
+                'type' => $exception->getErrorCode(),
                 'message' => $exception->getMessage(),
-            ], 409);
-            $event->setResponse($response);
-        } else {
-            $response = new JsonResponse([
-                'status' => 'error',
-                'type' => 'internal_error',
-                'message' => 'Something went wrong',
-            ], 500);
+            ], $exception->getStatusCode());
             $event->setResponse($response);
         }
     }

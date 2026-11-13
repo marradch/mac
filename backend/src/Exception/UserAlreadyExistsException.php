@@ -18,6 +18,6 @@ class UserAlreadyExistsException extends RuntimeException
 
     public function getErrorCode(): string
     {
-        return 'USER_ALREADY_EXISTS';
+        return 'user_already_exists';
     }
 }
