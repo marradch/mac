@@ -10,7 +10,7 @@
       <component
         :is="getTopicIcon(topic.slug)"
         v-if="getTopicIcon(topic.slug)"
-        class="h-14 w-14 shrink-0"
+        class="h-11 w-11 shrink-0"
       />
 
       <span class="font-medium text-center">{{ topic.title }}</span>
