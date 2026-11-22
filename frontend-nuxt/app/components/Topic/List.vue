@@ -57,7 +57,12 @@ function getTopicIcon(slug: string) {
 }
 
 const topicHoverColors: Record<string, string> = {
+  'anxiety': 'bg-indigo-50 hover:bg-indigo-100',
+  'calling': 'bg-orange-50 hover:bg-orange-100',
   'finances': 'bg-emerald-50 hover:bg-emerald-100',
+  'decisions': 'bg-teal-50 hover:bg-teal-100',
+  'resources': 'bg-lime-50 hover:bg-lime-100',
+  'self-knowledge': 'bg-purple-50 hover:bg-purple-100',
   'self-esteem': 'bg-violet-50 hover:bg-violet-100',
   'relationships': 'bg-rose-50 hover:bg-rose-100',
   'card-of-the-day': 'bg-pink-50 hover:bg-pink-100',

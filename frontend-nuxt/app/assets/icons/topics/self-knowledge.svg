@@ -1,0 +1,33 @@
+
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="1 2 58 58" fill="none">
+  <g transform="rotate(-6 32 30)">
+    <!-- Страницы -->
+    <path d="M12 9 43 5.5Q46 5 46.5 8L50 46Q50.3 48 47.5 48.5L16 53Z"
+      fill="#E9D5FF"/>
+    <path d="M16 12 43 8.5Q45 8 45.5 10.5L49 45"
+      stroke="#C084FC" stroke-width="1.2" stroke-linecap="round"/>
+
+    <!-- Обложка -->
+    <path d="M10 7.5 41 4Q44 3.7 44.5 6.5L48 44Q48.3 46.5 45.5 47L14 51.5Q11.5 52 11 49Z"
+      fill="#A855F7" stroke="#7E22CE" stroke-width="1.3"/>
+
+    <!-- Блик -->
+    <path d="M14 11 40 8" stroke="#D8B4FE"
+      stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Иконка человека -->
+    <circle cx="29" cy="21" r="5.5" fill="#F3E8FF"/>
+    <path d="M19.5 39c.4-7 4-10.5 9.5-10.5S38.1 32 38.5 39v2l-19 2.7Z"
+      fill="#F3E8FF"/>
+
+    <!-- Закладка -->
+    <path d="M37 45.5 39.5 61 44 56.5 49 58.5 46 44"
+      fill="#FDBA74" stroke="#C2410C"
+      stroke-width="1.1" stroke-linejoin="round"/>
+
+    <!-- Корешок -->
+    <path d="M11 49.5 14 50.5" stroke="#7E22CE"
+      stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+</svg>

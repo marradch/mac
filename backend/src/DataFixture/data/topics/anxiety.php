@@ -4,7 +4,7 @@ return [
     'slug' => 'anxiety',
     'show_on_homepage' => false,
     'show' => true,
-    'homepage_order' => 0,
+    'homepage_order' => 70,
     'translations' => [
         'ru' => [
             'title' => 'Тревога',

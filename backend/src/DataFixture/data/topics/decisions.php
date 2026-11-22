@@ -4,7 +4,7 @@ return [
     'slug' => 'decisions',
     'show_on_homepage' => false,
     'show' => true,
-    'homepage_order' => 0,
+    'homepage_order' => 100,
     'translations' => [
         'ru' => [
             'title' => 'Решения',

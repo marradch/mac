@@ -4,7 +4,7 @@ return [
     'slug' => 'resources',
     'show_on_homepage' => false,
     'show' => true,
-    'homepage_order' => 0,
+    'homepage_order' => 90,
     'translations' => [
         'ru' => [
             'title' => 'Ресурсы',
