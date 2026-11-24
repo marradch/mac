@@ -135,13 +135,12 @@
     </div>
   </div>
 
-  <GeneralRegisterModal
+  <AuthRegisterModal
     :open="isRegModalOpen"
     @close="isRegModalOpen = false"
-    @submit="handleRegisterSubmit"
   />
 
-  <GeneralLoginModal
+  <AuthLoginModal
     :open="isLoginModalOpen"
     @close="isLoginModalOpen = false"
     @submit="handleLoginSubmit"
@@ -166,10 +165,6 @@ const mobileButtonRef = ref<HTMLElement | null>(null)
 const openRegisterModalFromLogin = () => {
   isLoginModalOpen.value = false
   isRegModalOpen.value = true
-}
-
-const handleRegisterSubmit = (payload: { name: string; email: string; password: string }) => {
-  isRegModalOpen.value = false
 }
 
 const handleLoginSubmit = (payload: { email: string; password: string }) => {

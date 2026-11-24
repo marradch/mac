@@ -204,11 +204,22 @@
       "passwordPlaceholder": "Введіть пароль",
       "confirmPasswordPlaceholder": "Повторіть пароль",
       "submit": "Створити акаунт",
+      "submitting": "Створюємо акаунт...",
+      "success": {
+        "greeting": "Ласкаво просимо, {name}!",
+        "subtitle": "Ви майже завершили реєстрацію",
+        "confirmation": "Вам надіслано лист на ",
+        "confirmationSuffix": " для підтвердження email.",
+        "instructions": "Відкрийте лист і дотримуйтесь інструкцій.",
+        "noEmail": "Лист не надійшов?",
+        "resend": "Надіслати ще раз"
+      },
       "errors": {
         "nameRequired": "Ім'я обов'язкове",
         "nameMin": "Мінімум 2 символи",
         "confirmRequired": "Підтвердження пароля обов'язкове",
-        "confirmMismatch": "Паролі не співпадають"
+        "confirmMismatch": "Паролі не співпадають",
+        "emailAlreadyExists": "Користувач із таким email уже існує"
       }
     }
   }

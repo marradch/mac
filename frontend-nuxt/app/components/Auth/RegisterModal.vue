@@ -11,7 +11,13 @@
       </h3>
     </template>
 
-    <form class="w-full" @submit="onSubmit">
+    <AuthRegistrationSuccess
+      v-if="registeredUser"
+      :name="registeredUser.name"
+      :email="registeredUser.email"
+    />
+
+    <form v-else class="w-full" @submit="onSubmit">
       <div class="space-y-4">
         <div>
           <label for="register-name" class="mb-1 block text-sm font-medium text-gray-700">
@@ -84,9 +90,10 @@
 
       <button
         type="submit"
-        class="mt-6 w-full rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-primary-hover"
+        :disabled="isSubmitting"
+        class="mt-6 w-full rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {{ $t('auth.register.submit') }}
+        {{ isSubmitting ? $t('auth.register.submitting') : $t('auth.register.submit') }}
       </button>
     </form>
   </GeneralBaseModal>
@@ -103,12 +110,12 @@ const props = defineProps<{
 
 const { t } = useI18n()
 
-const emit = defineEmits<{
-  (e: 'close'): void
-  (e: 'submit', value: { name: string; email: string; password: string }): void
-}>()
+const emit = defineEmits<{ (e: 'close'): void }>()
 
 const isSubmitted = ref(false)
+const isSubmitting = ref(false)
+const registeredUser = ref<{ name: string; email: string } | null>(null)
+const config = useRuntimeConfig()
 
 const schema = yup.object({
   name: yup.string().required(t('auth.register.errors.nameRequired')).min(2, t('auth.register.errors.nameMin')),
@@ -120,7 +127,7 @@ const schema = yup.object({
     .oneOf([yup.ref('password')], t('auth.register.errors.confirmMismatch')),
 })
 
-const { resetForm, validate } = useForm({
+const { resetForm, setErrors, validate } = useForm({
   validationSchema: schema,
   validateOnMount: false,
   initialValues: {
@@ -138,6 +145,8 @@ const { value: confirmPassword, errorMessage: confirmPasswordError } = useField<
 
 const resetRegistrationForm = () => {
   isSubmitted.value = false
+  isSubmitting.value = false
+  registeredUser.value = null
 
   resetForm({
     values: {
@@ -160,11 +169,36 @@ const onSubmit = async (event: Event) => {
     return
   }
 
-  emit('submit', {
-    name: name.value,
-    email: email.value,
-    password: password.value,
-  })
+  isSubmitting.value = true
+
+  try {
+    await $fetch('/auth/register', {
+      baseURL: config.public.apiBase,
+      method: 'POST',
+      body: {
+        name: name.value,
+        email: email.value,
+        password: password.value,
+      },
+    })
+
+    registeredUser.value = {
+      name: name.value,
+      email: email.value,
+    }
+  } catch (error: unknown) {
+    const fetchError = error as { statusCode?: number; data?: { errors?: Record<string, string>; type?: string; message?: string } }
+
+    if (fetchError.statusCode === 422 && fetchError.data?.errors) {
+      setErrors(fetchError.data.errors)
+    } else if (fetchError.statusCode === 409 && fetchError.data?.type === 'user_already_exists') {
+      setErrors({ email: t('auth.register.errors.emailAlreadyExists') })
+    } else {
+      console.error('Registration request failed', error)
+    }
+  } finally {
+    isSubmitting.value = false
+  }
 }
 
 watch(

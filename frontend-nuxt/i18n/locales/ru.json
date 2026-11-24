@@ -204,11 +204,22 @@
       "passwordPlaceholder": "Введите пароль",
       "confirmPasswordPlaceholder": "Повторите пароль",
       "submit": "Создать аккаунт",
+      "submitting": "Создаём аккаунт...",
+      "success": {
+        "greeting": "Добро пожаловать, {name}!",
+        "subtitle": "Вы почти завершили регистрацию",
+        "confirmation": "Вам отправлено письмо на ",
+        "confirmationSuffix": " для подтверждения вашего email.",
+        "instructions": "Откройте письмо и следуйте инструкциям.",
+        "noEmail": "Не пришло письмо?",
+        "resend": "Отправить ещё раз"
+      },
       "errors": {
         "nameRequired": "Имя обязательно",
         "nameMin": "Минимум 2 символа",
         "confirmRequired": "Подтверждение пароля обязательно",
-        "confirmMismatch": "Пароли не совпадают"
+        "confirmMismatch": "Пароли не совпадают",
+        "emailAlreadyExists": "Пользователь с таким email уже существует"
       }
     }
   }

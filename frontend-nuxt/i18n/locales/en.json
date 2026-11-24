@@ -201,11 +201,22 @@
       "namePlaceholder": "Your name",
       "confirmPasswordPlaceholder": "Repeat password",
       "submit": "Create account",
+      "submitting": "Creating account...",
+      "success": {
+        "greeting": "Welcome, {name}!",
+        "subtitle": "You have almost completed registration",
+        "confirmation": "We sent a confirmation email to ",
+        "confirmationSuffix": ".",
+        "instructions": "Open the email and follow the instructions.",
+        "noEmail": "Didn't receive the email?",
+        "resend": "Send again"
+      },
       "errors": {
         "nameRequired": "Name is required",
         "nameMin": "Minimum 2 characters",
         "confirmRequired": "Confirm password is required",
-        "confirmMismatch": "Passwords do not match"
+        "confirmMismatch": "Passwords do not match",
+        "emailAlreadyExists": "A user with this email already exists"
       }
     }
   }
